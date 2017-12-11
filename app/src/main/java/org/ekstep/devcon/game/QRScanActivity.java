@@ -14,6 +14,7 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
+import org.ekstep.devcon.QuestionDetailDialogFragment;
 import org.ekstep.devcon.R;
 
 import java.util.List;
