@@ -1,4 +1,4 @@
-package org.ekstep.devcon.model;
+package org.ekstep.devcon.game.models;
 
 /**
  * Created by Indraja Machani on 12/11/2017.

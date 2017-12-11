@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.google.gson.reflect.TypeToken;
 
-import org.ekstep.devcon.model.QuestionModel;
+import org.ekstep.devcon.game.models.QuestionModel;
 
 import java.io.IOException;
 import java.io.InputStream;

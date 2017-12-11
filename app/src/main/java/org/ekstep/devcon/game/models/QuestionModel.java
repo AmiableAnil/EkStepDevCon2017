@@ -1,4 +1,4 @@
-package org.ekstep.devcon.model;
+package org.ekstep.devcon.game.models;
 
 import java.util.List;
 

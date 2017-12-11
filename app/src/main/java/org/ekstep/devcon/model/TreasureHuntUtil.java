@@ -2,6 +2,7 @@ package org.ekstep.devcon.model;
 
 import android.content.Context;
 
+import org.ekstep.devcon.game.models.QuestionModel;
 import org.ekstep.devcon.util.GsonUtil;
 
 import java.io.IOException;
