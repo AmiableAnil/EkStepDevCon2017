@@ -170,8 +170,9 @@ public class QuestionDetailDialogFragment extends DialogFragment
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         mQuestionView.setVisibility(View.GONE);
-
-                        hintText.setText(mQuestionModel.getHint());
+                        if (mQuestionModel != null) {
+                            hintText.setText(mQuestionModel.getHint());
+                        }
                     }
                 });
     }
@@ -180,7 +181,7 @@ public class QuestionDetailDialogFragment extends DialogFragment
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(mQuestionId, BarcodeFormat.QR_CODE,
-                    200,200);
+                    200, 200);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             mQRImage.setImageBitmap(bitmap);
@@ -192,32 +193,34 @@ public class QuestionDetailDialogFragment extends DialogFragment
     }
 
     private void displayQuestion() {
-        mQuestionModel = TreasureHuntUtil.getQuestion(Integer.parseInt(mQuestionId));
-
-        if (mQuestionModel == null) {
+        QuestionModel question = TreasureHuntUtil.getQuestion();
+        if (question == null) {
             return;
         }
 
-        mQuestionText.setText(mQuestionModel.getQuestion());
-        List<Option> options = mQuestionModel.getOptions();
+        if (question.hashCode() == Integer.parseInt(mQuestionId)) {
+            mQuestionModel = question;
+            mQuestionText.setText(mQuestionModel.getQuestion());
+            List<Option> options = mQuestionModel.getOptions();
 
-        mOptionOne.setText(options.get(0).getOptionText());
-        mOptionTwo.setText(options.get(1).getOptionText());
-        mOptionThree.setText(options.get(2).getOptionText());
-        mOptionFour.setText(options.get(3).getOptionText());
-        mQuestionView.setVisibility(View.VISIBLE);
+            mOptionOne.setText(options.get(0).getOptionText());
+            mOptionTwo.setText(options.get(1).getOptionText());
+            mOptionThree.setText(options.get(2).getOptionText());
+            mOptionFour.setText(options.get(3).getOptionText());
+            mQuestionView.setVisibility(View.VISIBLE);
 
-        mLoaderView.animate()
-                .alpha(0f)
-                .setDuration(250)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mLoaderView.setVisibility(View.GONE);
+            mLoaderView.animate()
+                    .alpha(0f)
+                    .setDuration(250)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            mLoaderView.setVisibility(View.GONE);
 
-                    }
-                })
-                .start();
+                        }
+                    })
+                    .start();
+        }
     }
 }
