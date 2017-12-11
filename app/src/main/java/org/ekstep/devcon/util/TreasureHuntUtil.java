@@ -82,6 +82,6 @@ public class TreasureHuntUtil {
 //    }
 
     public static QuestionModel getQuestion() {
-        return sQuestionModelList.pop();
+        return sQuestionModelList.poll();
     }
 }
