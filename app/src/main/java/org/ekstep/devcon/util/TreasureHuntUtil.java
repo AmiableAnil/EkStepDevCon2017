@@ -2,6 +2,8 @@ package org.ekstep.devcon.util;
 
 import android.content.Context;
 
+import com.google.gson.reflect.TypeToken;
+
 import org.ekstep.devcon.model.QuestionModel;
 
 import java.io.IOException;
@@ -34,8 +36,10 @@ public class TreasureHuntUtil {
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
+            Type type = new TypeToken<Map<String, LinkedList<QuestionModel>>>() {
+             }.getType();
             Map<String, LinkedList<QuestionModel>> treasureMap = GsonUtil.fromJson(json,
-                    (Type) new LinkedList<>());
+                    type);
 
             String key = PreferenceUtil.getInstance().getStringValue(Constant.KEY_SET, null);
             if (key == null) {
