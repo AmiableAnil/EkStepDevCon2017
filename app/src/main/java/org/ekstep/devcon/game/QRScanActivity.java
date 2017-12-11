@@ -1,4 +1,4 @@
-package org.ekstep.devcon;
+package org.ekstep.devcon.game;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import com.google.zxing.client.android.BeepManager;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+
+import org.ekstep.devcon.R;
 
 import java.util.List;
 

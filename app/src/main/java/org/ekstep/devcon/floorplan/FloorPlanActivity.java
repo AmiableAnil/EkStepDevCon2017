@@ -1,4 +1,4 @@
-package org.ekstep.devcon;
+package org.ekstep.devcon.floorplan;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,13 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import org.ekstep.devcon.R;
+
 /**
  * Created by Sneha on 12/11/2017.
  */
 
 public class FloorPlanActivity extends AppCompatActivity {
-    String[] floorArray = new String[]{"GROUND FLOOR", "FIRST FLOOR",
-            "SECOND FLOOR", "THIRD FLOOR"};
+    String[] floorArray = new String[]{"FIRST FLOOR",
+            "SECOND FLOOR", "FOURTH FLOOR", "TREASURE HUNT"};
+    String[] subtitles = new String[]{"Adoption, Reliability, Mobility, Quality",
+            "Agility, Scalability", "Innovation", "Play the game!!"};
     RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
 
@@ -26,7 +30,7 @@ public class FloorPlanActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        FloorAdapter floorAdapter = new FloorAdapter(floorArray);
+        FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles);
         recyclerView.setAdapter(floorAdapter);
     }
 }

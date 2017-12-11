@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ekstep.devcon">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,13 +23,18 @@
         </activity>
 
         <activity
-            android:name=".FloorPlanActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name=".floorplan.FloorPlanActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".floorplan.FloorPlanDetailsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".game.QRScanActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".QRScanActivity" />
     </application>
 
 </manifest>
