@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -24,7 +25,11 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import org.ekstep.devcon.model.Option;
 import org.ekstep.devcon.model.QuestionModel;
+import org.ekstep.devcon.util.TreasureHuntUtil;
+
+import java.util.List;
 
 /**
  * @author vinayagasundar
@@ -47,6 +52,9 @@ public class QuestionDetailDialogFragment extends DialogFragment
 
     private View mLoaderView;
     private View mQuestionView;
+    private View mHintView;
+
+    private QuestionModel mQuestionModel;
 
     public static QuestionDetailDialogFragment newInstance(String questionId) {
         QuestionDetailDialogFragment fragment = new QuestionDetailDialogFragment();
@@ -103,29 +111,69 @@ public class QuestionDetailDialogFragment extends DialogFragment
 
         mQuestionView = view.findViewById(R.id.question_view);
         mLoaderView = view.findViewById(R.id.loader_view);
+        mHintView = view.findViewById(R.id.hint_view);
+
+        View mScanButton = view.findViewById(R.id.scan_qr_code);
+        mScanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         RadioGroup optionRadioGroup = view.findViewById(R.id.option_radio_group);
         optionRadioGroup.setOnCheckedChangeListener(this);
-
 
         initUI();
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+        int optionId = -1;
+
         switch (checkedId) {
             case R.id.option_one:
+                optionId = 1;
                 break;
 
             case R.id.option_two:
+                optionId = 2;
                 break;
 
             case R.id.option_three:
+                optionId = 3;
                 break;
 
             case R.id.option_four:
+                optionId = 4;
                 break;
         }
+
+        if (mQuestionModel.getAnswer() == optionId) {
+            showHint();
+        } else {
+            Toast.makeText(getActivity(), "Wrong Answer", Toast.LENGTH_SHORT).show();
+            group.clearCheck();
+        }
+    }
+
+    private void showHint() {
+        final TextView hintText = mHintView.findViewById(R.id.hint_text);
+
+        mHintView.setVisibility(View.VISIBLE);
+
+        mQuestionView.animate()
+                .setDuration(250)
+                .alpha(0f)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mQuestionView.setVisibility(View.GONE);
+
+                        hintText.setText(mQuestionModel.getHint());
+                    }
+                });
     }
 
     private void initUI() {
@@ -139,20 +187,25 @@ public class QuestionDetailDialogFragment extends DialogFragment
         } catch (WriterException e) {
             e.printStackTrace();
         }
+
+        displayQuestion();
     }
 
-    private void displayQuestion(QuestionModel questionModel) {
-        if (questionModel == null) {
+    private void displayQuestion() {
+        mQuestionModel = TreasureHuntUtil.getQuestion(Integer.parseInt(mQuestionId));
+
+        if (mQuestionModel == null) {
             return;
         }
 
-        mQuestionText.setText(questionModel.getQuestion());
-//        List<Options> options = questionModel.getOptions();
-//
-//        mOptionOne.setText(options.get(0).getOptionText());
-//        mOptionTwo.setText(options.get(1).getOptionText());
-//        mOptionThree.setText(options.get(2).getOptionText());
-//        mOptionFour.setText(options.get(3).getOptionText());
+        mQuestionText.setText(mQuestionModel.getQuestion());
+        List<Option> options = mQuestionModel.getOptions();
+
+        mOptionOne.setText(options.get(0).getOptionText());
+        mOptionTwo.setText(options.get(1).getOptionText());
+        mOptionThree.setText(options.get(2).getOptionText());
+        mOptionFour.setText(options.get(3).getOptionText());
+        mQuestionView.setVisibility(View.VISIBLE);
 
         mLoaderView.animate()
                 .alpha(0f)
@@ -162,6 +215,7 @@ public class QuestionDetailDialogFragment extends DialogFragment
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         mLoaderView.setVisibility(View.GONE);
+
                     }
                 })
                 .start();
