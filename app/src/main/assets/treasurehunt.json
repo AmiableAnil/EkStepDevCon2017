@@ -1,7 +1,6 @@
 {
   "set1": [
     {
-      "id": "set11",
       "question": "What is the color of sky?",
       "answer": 1,
       "options": [
@@ -25,7 +24,6 @@
       "hint": "It is in his place, some part of his name indicates the crazy"
     },
     {
-      "id": "set12",
       "question": "What is our national bird?",
       "answer": 2,
       "options": [
@@ -51,7 +49,6 @@
   ],
   "set2": [
     {
-      "id": "set21",
       "question": "Tripitakas are sacred books of",
       "answer": 1,
       "options": [
@@ -75,7 +72,6 @@
       "hint": "Hint of question 1 of set2"
     },
     {
-      "id": "set22",
       "question": "Which IIT institute will start 'Vastu Shastra' classes for architecture students?",
       "answer": 3,
       "options": [
@@ -101,7 +97,6 @@
   ],
   "set3": [
     {
-      "id": "set31",
       "question": "The gas used for artificial ripening of green fruit is",
       "answer": 1,
       "options": [
@@ -125,7 +120,6 @@
       "hint": "Hint of question 1 of set3"
     },
     {
-      "id": "set32",
       "question": "The members of the Rajya Sabha are elected by",
       "answer": 3,
       "options": [
