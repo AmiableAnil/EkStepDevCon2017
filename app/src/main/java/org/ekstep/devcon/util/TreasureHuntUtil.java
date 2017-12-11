@@ -15,13 +15,41 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by Indraja Machani on 12/11/2017.
  */
 
 public class TreasureHuntUtil {
-    private List<QuestionModel> questionModelList;
+    private static LinkedList<QuestionModel> sQuestionModelList;
+
+
+    public static void init(Context context) {
+        String json;
+        try {
+            InputStream is = context.getAssets().open("treasurehunt.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+            Map<String, LinkedList<QuestionModel>> treasureMap = GsonUtil.fromJson(json,
+                    (Type) new LinkedList<>());
+
+            // Add Preference check.
+
+            Set<String> keys = treasureMap.keySet();
+            int index = new Random().nextInt(keys.size());
+
+            String key = keys.toArray(new String[]{})[index];
+
+            sQuestionModelList = treasureMap.get(key);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public static String getJSONFromAsset(Context context) {
         String json = null;
@@ -58,9 +86,8 @@ public class TreasureHuntUtil {
         return valuesList.get(index);
     }
 
-    public static QuestionModel getQuestion(String jsonString, int questionId) {
-        LinkedList<QuestionModel> questionList = getRandomQuestionList(jsonString);
-        for (QuestionModel question : questionList) {
+    public static QuestionModel getQuestion(int questionId) {
+        for (QuestionModel question : sQuestionModelList) {
             if (question.hashCode() == questionId) {
                 return question;
             }
