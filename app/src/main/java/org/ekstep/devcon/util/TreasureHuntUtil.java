@@ -53,7 +53,7 @@ public class TreasureHuntUtil {
         }
     }
 
-     public static LinkedList<QuestionModel> getQuestions(String jsonString, String setKey) {
+    public static LinkedList<QuestionModel> getQuestions(String jsonString, String setKey) {
         Map<String, List<QuestionModel>> treasureMap = GsonUtil.fromJson(jsonString, (Type) new LinkedHashMap<>());
         return (LinkedList<QuestionModel>) treasureMap.get(setKey);
     }
@@ -72,12 +72,16 @@ public class TreasureHuntUtil {
         return valuesList.get(index);
     }
 
-    public static QuestionModel getQuestion(int questionId) {
-        for (QuestionModel question : sQuestionModelList) {
-            if (question.hashCode() == questionId) {
-                return question;
-            }
-        }
-        return null;
+//    public static QuestionModel getQuestion(int questionId) {
+//        for (QuestionModel question : sQuestionModelList) {
+//            if (question.hashCode() == questionId) {
+//                return question;
+//            }
+//        }
+//        return null;
+//    }
+
+    public static QuestionModel getQuestion() {
+        return sQuestionModelList.pop();
     }
 }
