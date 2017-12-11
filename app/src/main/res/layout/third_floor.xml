@@ -6,34 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <FrameLayout
-        android:id="@+id/mobility_layout"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
-        android:layout_below="@+id/toilet"
-        android:layout_above="@id/entry"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="30dp"
-        tools:ignore="RtlHardcoded">
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/mobility"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/stall_border"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:rotation="90"
-            android:text="AUDIO ROOM"/>
-
-    </FrameLayout>
-
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/toilet"
         android:layout_width="wrap_content"
@@ -45,34 +17,6 @@
         app:srcCompat="@drawable/toilet"
         tools:ignore="RtlHardcoded" />
 
-
-    <FrameLayout
-        android:id="@+id/quality_layout"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
-        android:layout_above="@+id/stall_3_layout"
-        android:layout_below="@+id/scalability_layout"
-        tools:ignore="RtlHardcoded">
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/quality"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/stall_border_agility_top"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:rotation="-90"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:text="AGILITY"/>
-
-    </FrameLayout>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/entry"
@@ -95,18 +39,12 @@
         android:layout_marginRight="5dp"
         android:layout_alignParentBottom="true">
 
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/stall_3"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@drawable/stall_border_agility_bottom"/>
-
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/scalability_layout"
+        android:id="@+id/innovation_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
@@ -117,9 +55,9 @@
         tools:ignore="RtlHardcoded">
 
         <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/scalability"
+            android:id="@+id/innovation"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:background="@drawable/stall_border_scalability"/>
 
         <android.support.v7.widget.AppCompatTextView
@@ -128,7 +66,34 @@
             android:layout_gravity="center"
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:text="SCALABILITY"/>
+            android:text="INNOVATION"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/open_area_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/toilet"
+        android:layout_below="@id/innovation_layout"
+        tools:ignore="RtlHardcoded">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/open_area"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/stall_border"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:text="OPEN AREA"/>
 
     </FrameLayout>
 
