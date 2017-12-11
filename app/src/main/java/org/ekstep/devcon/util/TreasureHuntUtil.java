@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 public class TreasureHuntUtil {
     private List<QuestionModel> questionModelList;
 
-    public static String loadJSONFromAsset(Context context) {
+    public static String getJSONFromAsset(Context context) {
         String json = null;
         try {
             InputStream is = context.getAssets().open("treasurehunt.json");
@@ -32,6 +33,11 @@ public class TreasureHuntUtil {
             return null;
         }
         return json;
+    }
+
+    public static LinkedList<QuestionModel> getQuestions(String jsonString, String setKey) {
+        Map<String, List<QuestionModel>> treasureMap = GsonUtil.fromJson(jsonString, (Type) new LinkedHashMap<>());
+        return (LinkedList<QuestionModel>) treasureMap.get(setKey);
     }
 
     public Map<String, List<QuestionModel>> getTreasureMap(String jsonString) {
