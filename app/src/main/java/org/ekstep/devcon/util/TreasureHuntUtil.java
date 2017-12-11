@@ -37,13 +37,15 @@ public class TreasureHuntUtil {
             Map<String, LinkedList<QuestionModel>> treasureMap = GsonUtil.fromJson(json,
                     (Type) new LinkedList<>());
 
-            // Add Preference check.
+            String key = PreferenceUtil.getInstance().getStringValue(Constant.KEY_SET, null);
+            if (key == null) {
+                Set<String> keys = treasureMap.keySet();
+                int index = new Random().nextInt(keys.size());
+                key = keys.toArray(new String[]{})[index];
+            }
 
-            Set<String> keys = treasureMap.keySet();
-            int index = new Random().nextInt(keys.size());
-
-            String key = keys.toArray(new String[]{})[index];
-
+            // add set key in prefs
+            PreferenceUtil.getInstance().setStringValue(Constant.KEY_SET, key);
             sQuestionModelList = treasureMap.get(key);
 
         } catch (IOException ex) {
@@ -51,23 +53,7 @@ public class TreasureHuntUtil {
         }
     }
 
-    public static String getJSONFromAsset(Context context) {
-        String json = null;
-        try {
-            InputStream is = context.getAssets().open("treasurehunt.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
-    public static LinkedList<QuestionModel> getQuestions(String jsonString, String setKey) {
+     public static LinkedList<QuestionModel> getQuestions(String jsonString, String setKey) {
         Map<String, List<QuestionModel>> treasureMap = GsonUtil.fromJson(jsonString, (Type) new LinkedHashMap<>());
         return (LinkedList<QuestionModel>) treasureMap.get(setKey);
     }
