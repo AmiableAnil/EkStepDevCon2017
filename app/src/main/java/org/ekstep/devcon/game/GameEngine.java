@@ -55,11 +55,20 @@ public class GameEngine {
 
     public QuestionModel nextQuestion(int hashCode) throws GameException {
         if (currentQuestion.hashCode() == hashCode) {
+            if (isLastQuestion()) return null;
             currentQuestion = questionList.poll();
             return currentQuestion;
         } else {
             throw new GameException("You have scanned a wrong QR code!! Please try with a valid QR code");
         }
+    }
+
+    public boolean isLastQuestion() {
+        return questionList.isEmpty();
+    }
+
+    public boolean isWinner() {
+        return isLastQuestion();
     }
 
     private Map<String, LinkedList<QuestionModel>> parseJson(Context context) throws IOException {
