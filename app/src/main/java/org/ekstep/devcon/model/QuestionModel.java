@@ -1,21 +1,20 @@
 package org.ekstep.devcon.model;
 
+import java.util.List;
+
 /**
  * Created by Indraja Machani on 12/11/2017.
  */
 
 public class QuestionModel {
-    private String id;
     private String question;
-    private String answer;
+    private int answer;
     private String hint;
+    private List<Option> options;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return question.hashCode();
     }
 
     public String getQuestion() {
@@ -26,11 +25,11 @@ public class QuestionModel {
         this.question = question;
     }
 
-    public String getAnswer() {
+    public int getAnswer() {
         return answer;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(int answer) {
         this.answer = answer;
     }
 
@@ -42,4 +41,11 @@ public class QuestionModel {
         this.hint = hint;
     }
 
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
+    }
 }
