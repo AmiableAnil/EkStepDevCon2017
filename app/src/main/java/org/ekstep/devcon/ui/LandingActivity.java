@@ -89,11 +89,15 @@ public class LandingActivity extends AppCompatActivity {
 //    }
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
-        if (fragment instanceof FloorPlanFragment) {
-            setFragment(new HomeFragment());
+        if (findViewById(R.id.fragment_container).getVisibility() == View.VISIBLE) {
+            finish();
         } else {
-            super.onBackPressed();
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+            if (fragment instanceof FloorPlanFragment) {
+                setFragment(new HomeFragment());
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 }
