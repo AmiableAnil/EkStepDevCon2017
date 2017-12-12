@@ -1,11 +1,13 @@
 package org.ekstep.devcon.game;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import org.ekstep.devcon.BuildConfig;
 import org.ekstep.devcon.game.models.QuestionModel;
 
 import java.io.IOException;
@@ -22,41 +24,53 @@ import java.util.Random;
 
 public class GameEngine {
 
+    private static final String TAG = "GameEngine";
+
     private static GameEngine engine;
 
     private LinkedList<QuestionModel> questionList;
     private QuestionModel currentQuestion;
 
-    private GameEngine() {
+    private OnGameInitiatedListener mCallback;
 
+    private GameEngine(Context context, OnGameInitiatedListener onGameInitiatedListener) {
+        init(context, onGameInitiatedListener);
     }
 
-    public static final GameEngine getEngine() {
+    public static GameEngine getEngine() {
         if (engine == null) {
-            engine = new GameEngine();
+            throw new RuntimeException("call init() first");
         }
         return engine;
     }
 
-    public void init(Context context, OnGameInitiatedListener onGameInitiatedListener) {
-        try {
-            Map<String, LinkedList<QuestionModel>> treasureMap = parseJson(context);
-            questionList = getRandomQuestionList(treasureMap);
+    public static void initGame(Context context, OnGameInitiatedListener onGameInitiatedListener) {
+        engine = new GameEngine(context, onGameInitiatedListener);
+    }
+
+    public boolean isCorrect(int answerId) {
+        if (currentQuestion.getAnswer() == answerId) {
             currentQuestion = questionList.poll();
-            onGameInitiatedListener.onGameInitiated();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+
+            if (currentQuestion == null) {
+                mCallback.gameCompleted();
+            } else {
+                if (BuildConfig.DEBUG) {
+                    Log.i(TAG, "isCorrect: " + currentQuestion.hashCode());
+                }
+
+                mCallback.nextHint(currentQuestion.getHint());
+            }
+
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public QuestionModel getCurrentQuestion() {
-        return currentQuestion;
-    }
-
-    public QuestionModel nextQuestion(int hashCode) throws GameException {
-        if (currentQuestion.hashCode() == hashCode) {
-            if (isLastQuestion()) return null;
-            currentQuestion = questionList.poll();
+    public QuestionModel verifyQR(String hashCode) throws GameException {
+        if (String.valueOf(currentQuestion.hashCode()).equals(hashCode)) {
+            mCallback.nextQuestion(currentQuestion);
             return currentQuestion;
         } else {
             throw new GameException("You have scanned a wrong QR code!! Please try with a valid QR code");
@@ -82,13 +96,26 @@ public class GameEngine {
 
     private LinkedList<QuestionModel> getRandomQuestionList(Map<String, LinkedList<QuestionModel>> treasureMap) {
         int r = new Random().nextInt(treasureMap.size());
-        Iterator iterator = treasureMap.keySet().iterator();
+        Iterator<String> iterator = treasureMap.keySet().iterator();
         int index = 0;
         while (iterator.hasNext()) {
             LinkedList<QuestionModel> list = treasureMap.get(iterator.next());
             if (index == r) return list;
-            index ++;
+            index++;
         }
         return null;
+    }
+
+    private void init(Context context, OnGameInitiatedListener onGameInitiatedListener) {
+        try {
+            mCallback = onGameInitiatedListener;
+            Map<String, LinkedList<QuestionModel>> treasureMap = parseJson(context);
+            questionList = getRandomQuestionList(treasureMap);
+            currentQuestion = questionList.poll();
+            mCallback.onGameInitiated();
+            mCallback.nextQuestion(currentQuestion);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
