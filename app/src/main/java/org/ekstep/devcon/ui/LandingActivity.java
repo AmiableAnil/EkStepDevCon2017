@@ -92,6 +92,8 @@ public class LandingActivity extends AppCompatActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment instanceof FloorPlanFragment) {
             setFragment(new HomeFragment());
+        } else {
+            super.onBackPressed();
         }
     }
 }
