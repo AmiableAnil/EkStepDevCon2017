@@ -45,6 +45,7 @@
             android:layout_below="@id/question_text"
             android:layout_margin="16dp"
             android:hint="@string/hint_answer"
+            android:inputType="text"
             android:padding="8dp" />
 
         <Button
