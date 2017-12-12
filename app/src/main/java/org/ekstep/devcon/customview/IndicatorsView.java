@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import org.ekstep.devcon.R;
 
@@ -53,6 +54,7 @@ public class IndicatorsView extends View implements ViewPager.OnPageChangeListen
     private float mCurrentPositionOffset;
     private float mCurrentPosition;
     private Rect mSelectedRect;
+    private TextView mfloorNumText;
 
     public IndicatorsView(Context context) {
         this(context, null);
@@ -320,7 +322,18 @@ public class IndicatorsView extends View implements ViewPager.OnPageChangeListen
     // Control
     public void setSelectedIndicator(int selectedIndicator) {
         mSelectedIndicator = selectedIndicator;
+        setFloorNumTextValue();
         invalidate();
+    }
+
+    private void setFloorNumTextValue() {
+        int floorNumValue;
+        if (mSelectedIndicator == 2) {
+            floorNumValue = mSelectedIndicator + 2;
+        } else {
+            floorNumValue = mSelectedIndicator + 1;
+        }
+        mfloorNumText.setText("Floor " + floorNumValue);
     }
 
     public void setViewPager(ViewPager viewPager) {
@@ -376,6 +389,11 @@ public class IndicatorsView extends View implements ViewPager.OnPageChangeListen
         mUnSelectedDrawable = drawable;
         convertDrawablesToBitmaps();
         invalidate();
+    }
+
+    public void setFloorNumText(TextView floorNumText) {
+        this.mfloorNumText = floorNumText;
+        setFloorNumTextValue();
     }
 
     // Click listener interface
