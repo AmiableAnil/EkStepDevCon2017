@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/mobility_layout"
         android:layout_width="100dp"
         android:layout_height="match_parent"
@@ -15,13 +15,10 @@
         android:layout_below="@+id/toilet"
         android:layout_above="@id/entry"
         android:layout_marginTop="60dp"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/color_mobility"
         tools:ignore="RtlHardcoded">
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/mobility"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/stall_border_mobility"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -30,9 +27,9 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:rotation="90"
-            android:text="MOBILITY"/>
+            android:text="@string/lbl_mobility"/>
 
-    </FrameLayout>
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/toilet"
@@ -46,7 +43,7 @@
         tools:ignore="RtlHardcoded" />
 
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/quality_layout"
         android:layout_width="100dp"
         android:layout_height="match_parent"
@@ -55,13 +52,10 @@
         android:layout_marginRight="5dp"
         android:layout_above="@+id/stall_3_layout"
         android:layout_below="@+id/innovation_layout"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/color_quality"
         tools:ignore="RtlHardcoded">
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/quality"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/stall_border_quality"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -70,9 +64,9 @@
             android:rotation="-90"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="QUALITY"/>
+            android:text="@string/lbl_quality"/>
 
-    </FrameLayout>
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/entry"
@@ -86,18 +80,15 @@
         tools:ignore="RtlHardcoded" />
 
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/stall_3_layout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="5dp"
-        android:layout_alignParentBottom="true">
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/stall_3"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@drawable/stall_border_adoption"/>
+        app:cardElevation="10dp"
+        app:cardCornerRadius="10dp"
+        android:layout_alignParentBottom="true"
+        app:cardBackgroundColor="#3D7CBF">
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -107,9 +98,9 @@
             android:textStyle="bold"
             android:text="ADOPTION"/>
 
-    </FrameLayout>
+    </android.support.v7.widget.CardView>
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/innovation_layout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -120,13 +111,10 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/toilet"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#EA486D"
         tools:ignore="RtlHardcoded">
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/innovation"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@drawable/stall_border_reliability"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -136,7 +124,7 @@
             android:textColor="@android:color/white"
             android:text="RELIABILITY"/>
 
-    </FrameLayout>
+    </android.support.v7.widget.CardView>
 
 
 </RelativeLayout>
