@@ -31,6 +31,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/ll_poweredby"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
@@ -98,11 +99,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:textSize="18sp"
-                android:textColor="@color/color_mobility"
-                android:text="floor"
+                android:layout_marginRight="15sp"
                 android:fontFamily="sans-serif-condensed"
-                android:layout_marginRight="15sp"/>
+                android:text="floor"
+                android:textColor="@color/color_mobility"
+                android:textSize="18sp" />
 
             <org.ekstep.devcon.customview.IndicatorsView
                 android:id="@+id/indicatorsView"

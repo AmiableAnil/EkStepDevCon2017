@@ -25,10 +25,12 @@ import org.ekstep.devcon.game.QRScanActivity;
  */
 
 public class HomeFragment extends Fragment {
-    String[] floorArray = new String[]{"FIRST FLOOR",
-            "SECOND FLOOR", "FOURTH FLOOR", "TREASURE HUNT"};
-    String[] subtitles = new String[]{"Adoption, Reliability, Mobility, Quality",
-            "Agility, Scalability", "Innovation", "Play the game!!"};
+    //    String[] floorArray = new String[]{"FIRST FLOOR",
+//            "SECOND FLOOR", "FOURTH FLOOR", "TREASURE HUNT"};
+    String[] floorArray = new String[]{"FLOOR PLAN", "TREASURE HUNT"};
+    String[] subtitles = new String[]{"All floor plans", "Play the game!!"};
+    //    String[] subtitles = new String[]{"Adoption, Reliability, Mobility, Quality",
+//            "Agility, Scalability", "Innovation", "Play the game!!"};
     RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
 
@@ -65,8 +67,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() != null) {
+        if (result != null) {
+            if (result.getContents() != null) {
                 if (getActivity() instanceof LandingActivity) {
                     int floor = -1;
 
