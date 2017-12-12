@@ -160,7 +160,7 @@ public class FloorPlanFragment extends Fragment {
         float pivotX = view.getPivotX() / 2f;
         float pivotY = view.getPivotY() / 2f;
         FloorDetailDialogFragment fragment = FloorDetailDialogFragment
-                .newInstance(title, "http://github.com/", colorValue, view.getRight(), view.getBottom());
+                .newInstance(title, getStallDescriptionUrl(stall), colorValue, view.getRight(), view.getBottom());
         fragment.show(getChildFragmentManager(), FloorDetailDialogFragment.class.toString());
     }
 
@@ -169,7 +169,7 @@ public class FloorPlanFragment extends Fragment {
         int colorValue = getColorForStall(stall);
 
         FloorDetailDialogFragment fragment = FloorDetailDialogFragment
-                .newInstance(title, "http://github.com/", colorValue, 0f, 0f);
+                .newInstance(title, getStallDescriptionUrl(stall), colorValue, 0f, 0f);
         fragment.show(getChildFragmentManager(), FloorDetailDialogFragment.class.toString());
     }
 
@@ -202,5 +202,15 @@ public class FloorPlanFragment extends Fragment {
 
         return ResourcesCompat.getColor(getResources(), colorResId,
                 getActivity().getTheme());
+    }
+
+    private String getStallDescriptionUrl(Stall stall) {
+        String url = "http://github.com/";
+        switch (stall) {
+            case MOBILITY:
+                url = "file:///android_asset/mobility/index.html";
+                break;
+        }
+        return url;
     }
 }
