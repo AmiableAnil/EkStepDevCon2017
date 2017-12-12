@@ -82,13 +82,13 @@ public class FloorPlanFragment extends Fragment {
     }
 
     private void setUpClickListener(View view, int id, final Stall stall, final int colorResId) {
-        View button = view.findViewById(id);
+        final View button = view.findViewById(id);
 
         if (button != null) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDetailDialog(v, stall, ResourcesCompat.getColor(getResources(), colorResId,
+                    showDetailDialog(button, stall, ResourcesCompat.getColor(getResources(), colorResId,
                             getActivity().getTheme()));
                 }
             });
@@ -98,8 +98,11 @@ public class FloorPlanFragment extends Fragment {
     private void showDetailDialog(View view, Stall stall, int colorValue) {
         Log.i(TAG, "showDetailDialog: " + stall);
         String title = stall.toString();
+
+        float pivotX = view.getPivotX() / 2f;
+        float pivotY = view.getPivotY() / 2f;
         FloorDetailDialogFragment fragment = FloorDetailDialogFragment
-                .newInstance(title, "http://github.com/", colorValue);
+                .newInstance(title, "http://github.com/", colorValue, view.getRight(), view.getBottom());
         fragment.show(getChildFragmentManager(), FloorDetailDialogFragment.class.toString());
     }
 }
