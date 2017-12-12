@@ -3,9 +3,9 @@ package org.ekstep.devcon.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.view.View;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.customview.IndicatorsView;
@@ -21,7 +21,7 @@ public class LandingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+//        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         setFragment(new HomeFragment());
     }
 
@@ -45,8 +45,8 @@ public class LandingActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(sectionsPagerAdapter);
 
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mIndicatorsView = findViewById(R.id.indicatorsView);
         mIndicatorsView.setViewPager(viewPager);

@@ -36,6 +36,7 @@
         android:layout_alignParentTop="true"/>
 
     <LinearLayout
+        android:id="@+id/ll_poweredby"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -67,40 +68,44 @@
 
     </LinearLayout>
 
-
-
-    <FrameLayout
-        android:layout_marginTop="?attr/actionBarSize"
+    <RelativeLayout
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/ll_poweredby"
         android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
         android:layout_height="match_parent">
 
+        <org.ekstep.devcon.customview.IndicatorsView
+            android:id="@+id/indicatorsView"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            app:indicatorSelectedSize="10dp"
+            app:indicatorSize="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:paddingBetweenIndicators="6dp" />
 
-    <android.support.v4.view.ViewPager
+
+        <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/indicatorsView"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toTopOf="@+id/indicatorsView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <org.ekstep.devcon.customview.IndicatorsView
-        android:id="@+id/indicatorsView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="3dp"
-        app:indicatorSelectedSize="10dp"
-        app:indicatorSize="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_alignParentBottom="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:paddingBetweenIndicators="6dp" />
 
-    </FrameLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

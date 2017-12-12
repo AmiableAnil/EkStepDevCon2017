@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,12 +83,12 @@ public class FloorPlanFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (mScreen == 0) {
+        if (mScreen == 1) {
             setUpClickListener(view, R.id.mobility_layout, Stall.MOBILITY, R.color.color_mobility);
             setUpClickListener(view, R.id.quality_layout, Stall.QUALITY, R.color.color_quality);
             setUpClickListener(view, R.id.stall_3_layout, Stall.ADOPTION, R.color.color_adoption);
             setUpClickListener(view, R.id.innovation_layout, Stall.RELIABILITY, R.color.color_reliability);
-        } else if (mScreen == 1) {
+        } else if (mScreen == 2) {
 //            setUpClickListener(view, R.id.mobility_layout, Stall.MOBILITY);
             setUpClickListener(view, R.id.quality, Stall.AGILITY, R.color.color_agility);
             setUpClickListener(view, R.id.stall_3, Stall.AGILITY, R.color.color_agility);
