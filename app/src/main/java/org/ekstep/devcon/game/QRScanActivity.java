@@ -9,10 +9,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import org.ekstep.devcon.R;
+import org.ekstep.devcon.customview.DonutProgress;
 import org.ekstep.devcon.game.models.QuestionModel;
 
 import java.util.List;
@@ -37,13 +39,16 @@ public class QRScanActivity extends AppCompatActivity
     private static final int REQUEST_CODE_CAMERA = 486;
 
     private DecoratedBarcodeView mBarcodeView;
-    private Button mSwitchFlashLightButton;
+    private ImageView mSwitchFlashLightButton;
+    private ImageView mHintView;
 
     private BeepManager mBeepManager;
 
     private GameEngine mGameEngine;
 
     private String mLastText;
+    private String mHint = null;
+    private boolean mIsTouchOn = false;
 
     private QuestionModel mQuestionModel;
 
@@ -87,9 +92,11 @@ public class QRScanActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_scan);
 
-        final TextView textTimer = findViewById(R.id.timer_view);
+        final DonutProgress donutProgress = findViewById(R.id.donut_progress);
+        donutProgress.setMax((int) (GameEngine.GAME_TIME / 1000));
 
         mBarcodeView = findViewById(R.id.barcode_scanner);
+        mHintView = findViewById(R.id.show_hint);
         mBarcodeView.setTorchListener(this);
 
         try {
@@ -97,19 +104,21 @@ public class QRScanActivity extends AppCompatActivity
                 @Override
                 public void onGameInitiated() {
 
-                }
+            }
 
-                @Override
-                public void nextHint(String hint) {
-                    questionDetailDialogFragment.dismiss();
-                    showHint(hint);
-                }
+            @Override
+            public void nextHint(String hint) {
+                questionDetailDialogFragment.dismiss();
+                showHint(hint);
+            }
 
-                @Override
-                public void nextQuestion(QuestionModel questionModel) {
-                    mQuestionModel = questionModel;
-                    showQuestionProgress();
-                }
+            @Override
+            public void nextQuestion(QuestionModel questionModel) {
+                mHint = null;
+                mHintView.setVisibility(View.GONE);
+                mQuestionModel = questionModel;
+                showQuestionProgress();
+            }
 
                 @Override
                 public void gameCompleted() {
@@ -123,11 +132,13 @@ public class QRScanActivity extends AppCompatActivity
                     questionDetailDialogFragment.dismiss();
                     Toast.makeText(QRScanActivity.this, "Time over, you can't play again!!", Toast.LENGTH_LONG)
                             .show();
+                    finish();
                 }
 
                 @Override
                 public void timeLapse(long timeRemainingInSeconds) {
-                    textTimer.setText(getFormattedTimerText((int) timeRemainingInSeconds));
+                    donutProgress.setDonut_progress(String.valueOf((int)(GameEngine.GAME_TIME / 1000) - timeRemainingInSeconds));
+                    donutProgress.setText(getFormattedTimerText((int) timeRemainingInSeconds));
                 }
             });
         } catch (GameException e) {
@@ -181,12 +192,14 @@ public class QRScanActivity extends AppCompatActivity
 
     @Override
     public void onTorchOn() {
-        mSwitchFlashLightButton.setText(R.string.turn_off_flashlight);
+        mSwitchFlashLightButton.setImageResource(R.drawable.ic_flash_on_white_24dp);
+        mIsTouchOn = true;
     }
 
     @Override
     public void onTorchOff() {
-        mSwitchFlashLightButton.setText(R.string.turn_on_flashlight);
+        mSwitchFlashLightButton.setImageResource(R.drawable.ic_flash_off_white_24dp);
+        mIsTouchOn = false;
     }
 
     /**
@@ -206,26 +219,13 @@ public class QRScanActivity extends AppCompatActivity
     }
 
     private void showHint(String hintText) {
-        final Dialog dialog = new Dialog(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_hint, null);
-
-        TextView questionText = view.findViewById(R.id.hint_text);
-        View button = view.findViewById(R.id.scan_qr_code);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        questionText.setText(hintText);
-
-        dialog.setContentView(view);
-        dialog.show();
+        mHint = hintText;
+        mHintView.setVisibility(View.VISIBLE);
+        displayHint();
     }
 
     public void switchFlashlight(View view) {
-        if (getString(R.string.turn_on_flashlight).equals(mSwitchFlashLightButton.getText())) {
+        if (!mIsTouchOn) {
             mBarcodeView.setTorchOn();
         } else {
             mBarcodeView.setTorchOff();
@@ -255,5 +255,31 @@ public class QRScanActivity extends AppCompatActivity
         mBarcodeView.resume();
     }
 
+    private void displayHint() {
+        if (TextUtils.isEmpty(mHint)) {
+            return;
+        }
 
+        final Dialog dialog = new Dialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_hint, null);
+
+        TextView questionText = view.findViewById(R.id.hint_text);
+        View button = view.findViewById(R.id.scan_qr_code);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        questionText.setText(mHint);
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+
+    public void showHint(View view) {
+        displayHint();
+    }
 }

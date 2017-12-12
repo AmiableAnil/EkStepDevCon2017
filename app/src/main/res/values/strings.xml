@@ -12,4 +12,8 @@
     <string name="lbl_mobility">MOBILITY</string>
     <string name="lbl_quality">QUALITY</string>
     <string name="title_activity_main3">Main3Activity</string>
+
+    <string name="hint_answer">Please enter answer</string>
+    <string name="button_submit">Submit</string>
+    <string name="scan_qr_button">Scan QR Code</string>
 </resources>

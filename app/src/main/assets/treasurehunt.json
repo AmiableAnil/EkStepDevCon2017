@@ -1,146 +1,49 @@
 {
   "set1": [
     {
-      "question": "What is the color of sky?",
-      "answer": 1,
-      "options": [
-        {
-          "id": 1,
-          "optionText": "Blue"
-        },
-        {
-          "id": 2,
-          "optionText": "Red"
-        },
-        {
-          "id": 3,
-          "optionText": "White"
-        },
-        {
-          "id": 4,
-          "optionText": "Yello"
-        }
-      ],
-      "hint": "It is in his place, some part of his name indicates the crazy"
+      "question": "What has one eye but cannot see?",
+      "answer": "Needle",
+      "hint": ""
     },
     {
-      "question": "What is our national bird?",
-      "answer": 2,
-      "options": [
-        {
-          "id": 1,
-          "optionText": "Crow"
-        },
-        {
-          "id": 2,
-          "optionText": "Peacock"
-        },
-        {
-          "id": 3,
-          "optionText": "Dove"
-        },
-        {
-          "id": 4,
-          "optionText": "Duck"
-        }
-      ],
-      "hint": "Hint of question 2 of set1"
-    }
-  ],
-  "set2": [
-    {
-      "question": "Tripitakas are sacred books of",
-      "answer": 1,
-      "options": [
-        {
-          "id": 1,
-          "optionText": "Buddhists"
-        },
-        {
-          "id": 2,
-          "optionText": "Hindus"
-        },
-        {
-          "id": 3,
-          "optionText": "Jains"
-        },
-        {
-          "id": 4,
-          "optionText": "None of the above"
-        }
-      ],
-      "hint": "Hint of question 1 of set2"
+      "question": "What can you catch but not throw?",
+      "answer": "Cold",
+      "hint": "1st floor Genie Booth"
     },
     {
-      "question": "Which IIT institute will start 'Vastu Shastra' classes for architecture students?",
-      "answer": 3,
-      "options": [
-        {
-          "id": 1,
-          "optionText": "IIT Indore"
-        },
-        {
-          "id": 2,
-          "optionText": "IIT Bombay"
-        },
-        {
-          "id": 3,
-          "optionText": "IIT Kharagpur"
-        },
-        {
-          "id": 4,
-          "optionText": "IIT Indore"
-        }
-      ],
-      "hint": "Hint of question 2 of set3"
-    }
-  ],
-  "set3": [
-    {
-      "question": "The gas used for artificial ripening of green fruit is",
-      "answer": 1,
-      "options": [
-        {
-          "id": 1,
-          "optionText": "ethylene"
-        },
-        {
-          "id": 2,
-          "optionText": "ethane"
-        },
-        {
-          "id": 3,
-          "optionText": "carbon dioxide"
-        },
-        {
-          "id": 4,
-          "optionText": "acetylene"
-        }
-      ],
-      "hint": "Hint of question 1 of set3"
+      "question": "If I have it, I don't share it. If I share it, I don't have it. What is it?",
+      "answer": "Secret",
+      "hint": "4th floor RnD Booth"
     },
     {
-      "question": "The members of the Rajya Sabha are elected by",
-      "answer": 3,
-      "options": [
-        {
-          "id": 1,
-          "optionText": "the people"
-        },
-        {
-          "id": 2,
-          "optionText": "Lok Sabha"
-        },
-        {
-          "id": 3,
-          "optionText": "elected members of the legislative assembly"
-        },
-        {
-          "id": 4,
-          "optionText": "elected members of the legislative council"
-        }
-      ],
-      "hint": "Hint of question 2 of set3"
+      "question": "The more I am present, the less you can see. Who am I?",
+      "answer": "Darkness",
+      "hint": "1st floor opensource Booth"
+    },
+    {
+      "question": "I don't have legs but I have hands. I can run but I can't walk. Who am I?",
+      "answer": "Clock",
+      "hint": "2nd floor Agility Booth"
+    },
+    {
+      "question": "I start with T and end with T and have T in me. Who am I?",
+      "answer": "Teapot",
+      "hint": "1st floor Devops Booth"
+    },
+    {
+      "question": "I have keys but no locks. I have space but no room. You can enter but can't go outside. What am I?",
+      "answer": "Keyboard",
+      "hint": "2nd floor Scalability Booth"
+    },
+    {
+      "question": "I am a fruit. I am tasty and provide lots of energy. You can find also me in a calendar. Who am I?",
+      "answer": "Dates",
+      "hint": "1st floor Quality"
+    },
+    {
+      "question": "There are three houses. One is red, one is blue, and one is white. If the red house is to the left of the house in the middle, and the blue house is to the right to the house in the middle, where is the white house?",
+      "answer": "America/ USA / Washington",
+      "hint": ""
     }
   ]
 }
