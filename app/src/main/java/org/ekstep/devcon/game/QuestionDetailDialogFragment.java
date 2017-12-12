@@ -6,12 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,6 +81,17 @@ public class QuestionDetailDialogFragment extends DialogFragment {
         mQuestionText = view.findViewById(R.id.question_text);
         mQuestionView = view.findViewById(R.id.question_view);
         mAnswerEditText = view.findViewById(R.id.answer_edit_text);
+
+        mAnswerEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    processAnswer();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         View submitView = view.findViewById(R.id.submit_answer);
         submitView.setOnClickListener(new View.OnClickListener() {
