@@ -1,12 +1,16 @@
 package org.ekstep.devcon.game;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
@@ -15,6 +19,7 @@ import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import org.ekstep.devcon.R;
+import org.ekstep.devcon.game.models.QuestionModel;
 
 import java.util.List;
 
@@ -22,19 +27,26 @@ import java.util.List;
  * @author vinayagasundar
  */
 
-public class QRScanActivity extends AppCompatActivity implements DecoratedBarcodeView.TorchListener {
+public class QRScanActivity extends AppCompatActivity
+        implements DecoratedBarcodeView.TorchListener {
+
+    private static final int REQUEST_CODE_CAMERA = 486;
 
     private DecoratedBarcodeView mBarcodeView;
     private Button mSwitchFlashLightButton;
 
     private BeepManager mBeepManager;
 
+    private GameEngine mGameEngine;
+
     private String mLastText;
+
+    private QuestionModel mQuestionModel;
 
     private BarcodeCallback mCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
-            if(result.getText() == null || result.getText().equals(mLastText)) {
+            if (result.getText() == null || result.getText().equals(mLastText)) {
                 // Prevent duplicate scans
                 return;
             }
@@ -42,14 +54,19 @@ public class QRScanActivity extends AppCompatActivity implements DecoratedBarcod
             mLastText = result.getText();
             mBeepManager.playBeepSoundAndVibrate();
 
-            showQuestionProgress();
+            try {
+                mGameEngine.verifyQR(mLastText);
+            } catch (GameException e) {
+                Toast.makeText(QRScanActivity.this, "Wrong QR Code",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override
         public void possibleResultPoints(List<ResultPoint> resultPoints) {
         }
     };
-
+    private QuestionDetailDialogFragment questionDetailDialogFragment;
 
 
     @Override
@@ -60,17 +77,50 @@ public class QRScanActivity extends AppCompatActivity implements DecoratedBarcod
         mBarcodeView = findViewById(R.id.barcode_scanner);
         mBarcodeView.setTorchListener(this);
 
-        mBarcodeView.decodeContinuous(mCallback);
+        GameEngine.initGame(this, new OnGameInitiatedListener() {
+            @Override
+            public void onGameInitiated() {
 
-        mBeepManager = new BeepManager(this);
+            }
 
-        mSwitchFlashLightButton = findViewById(R.id.switch_flashlight);
+            @Override
+            public void nextHint(String hint) {
+                questionDetailDialogFragment.dismiss();
+            }
 
-        // if the device does not have flashlight in its camera,
-        // then remove the switch flashlight button...
-        if (!hasFlash()) {
-            mSwitchFlashLightButton.setVisibility(View.GONE);
+            @Override
+            public void nextQuestion(QuestionModel questionModel) {
+                mQuestionModel = questionModel;
+                showQuestionProgress();
+            }
+
+            @Override
+            public void gameCompleted() {
+                questionDetailDialogFragment.dismiss();
+                Toast.makeText(QRScanActivity.this, "You're Winner", Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
+
+        mGameEngine = GameEngine.getEngine();
+        startQRScanning();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE_CAMERA) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startQRScanning();
+            } else {
+                Toast.makeText(this, "Camera Permission is request",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
+
     }
 
     @Override
@@ -117,12 +167,7 @@ public class QRScanActivity extends AppCompatActivity implements DecoratedBarcod
     }
 
     private void showQuestionProgress() {
-        if (TextUtils.isEmpty(mLastText)) {
-            return;
-        }
-
-        QuestionDetailDialogFragment questionDetailDialogFragment =
-                QuestionDetailDialogFragment.newInstance(mLastText);
+        questionDetailDialogFragment = QuestionDetailDialogFragment.newInstance(mQuestionModel);
         questionDetailDialogFragment.show(getSupportFragmentManager(),
                 QuestionDetailDialogFragment.class.toString());
     }
@@ -133,6 +178,29 @@ public class QRScanActivity extends AppCompatActivity implements DecoratedBarcod
         } else {
             mBarcodeView.setTorchOff();
         }
+    }
+
+    private void startQRScanning() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
+            return;
+        }
+
+        mBarcodeView.decodeContinuous(mCallback);
+
+        mBeepManager = new BeepManager(this);
+
+        mSwitchFlashLightButton = findViewById(R.id.switch_flashlight);
+
+        // if the device does not have flashlight in its camera,
+        // then remove the switch flashlight button...
+        if (!hasFlash()) {
+            mSwitchFlashLightButton.setVisibility(View.GONE);
+        }
+
+        mBarcodeView.resume();
     }
 
 

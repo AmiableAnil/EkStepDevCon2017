@@ -3,7 +3,6 @@ package org.ekstep.devcon.game;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,16 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
-
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.models.Option;
 import org.ekstep.devcon.game.models.QuestionModel;
-import org.ekstep.devcon.util.TreasureHuntUtil;
 
 import java.util.List;
 
@@ -57,11 +49,11 @@ public class QuestionDetailDialogFragment extends DialogFragment
 
     private QuestionModel mQuestionModel;
 
-    public static QuestionDetailDialogFragment newInstance(String questionId) {
+    public static QuestionDetailDialogFragment newInstance(QuestionModel questionModel) {
         QuestionDetailDialogFragment fragment = new QuestionDetailDialogFragment();
 
         Bundle args = new Bundle();
-        args.putString(BUNDLE_QUESTION_ID, questionId);
+        args.putParcelable(BUNDLE_QUESTION_ID, questionModel);
 
         fragment.setArguments(args);
         return fragment;
@@ -73,7 +65,7 @@ public class QuestionDetailDialogFragment extends DialogFragment
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mQuestionId = getArguments().getString(BUNDLE_QUESTION_ID, null);
+            mQuestionModel = getArguments().getParcelable(BUNDLE_QUESTION_ID);
         }
     }
 
@@ -132,6 +124,10 @@ public class QuestionDetailDialogFragment extends DialogFragment
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         int optionId = -1;
 
+        if (checkedId == optionId) {
+            return;
+        }
+
         switch (checkedId) {
             case R.id.option_one:
                 optionId = 1;
@@ -150,78 +146,44 @@ public class QuestionDetailDialogFragment extends DialogFragment
                 break;
         }
 
-        if (mQuestionModel.getAnswer() == optionId) {
-            showHint();
-        } else {
-            Toast.makeText(getActivity(), "Wrong Answer", Toast.LENGTH_SHORT).show();
+        boolean isCorrect = GameEngine.getEngine().isCorrect(optionId);
+
+        if (!isCorrect) {
             group.clearCheck();
+            Toast.makeText(getActivity(), "Wrong Answer", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void showHint() {
-        final TextView hintText = mHintView.findViewById(R.id.hint_text);
-
-        mHintView.setVisibility(View.VISIBLE);
-
-        mQuestionView.animate()
-                .setDuration(250)
-                .alpha(0f)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mQuestionView.setVisibility(View.GONE);
-                        if (mQuestionModel != null) {
-                            hintText.setText(mQuestionModel.getHint());
-                        }
-                    }
-                });
     }
 
     private void initUI() {
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(mQuestionId, BarcodeFormat.QR_CODE,
-                    200, 200);
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-            mQRImage.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-
         displayQuestion();
     }
 
     private void displayQuestion() {
-        QuestionModel question = TreasureHuntUtil.getQuestion();
+        QuestionModel question = mQuestionModel;
         if (question == null) {
             return;
         }
 
-        if (question.hashCode() == Integer.parseInt(mQuestionId)) {
-            mQuestionModel = question;
-            mQuestionText.setText(mQuestionModel.getQuestion());
-            List<Option> options = mQuestionModel.getOptions();
+        mQuestionText.setText(mQuestionModel.getQuestion());
+        List<Option> options = mQuestionModel.getOptions();
 
-            mOptionOne.setText(options.get(0).getOptionText());
-            mOptionTwo.setText(options.get(1).getOptionText());
-            mOptionThree.setText(options.get(2).getOptionText());
-            mOptionFour.setText(options.get(3).getOptionText());
-            mQuestionView.setVisibility(View.VISIBLE);
+        mOptionOne.setText(options.get(0).getOptionText());
+        mOptionTwo.setText(options.get(1).getOptionText());
+        mOptionThree.setText(options.get(2).getOptionText());
+        mOptionFour.setText(options.get(3).getOptionText());
+        mQuestionView.setVisibility(View.VISIBLE);
 
-            mLoaderView.animate()
-                    .alpha(0f)
-                    .setDuration(250)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            mLoaderView.setVisibility(View.GONE);
+        mLoaderView.animate()
+                .alpha(0f)
+                .setDuration(250)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mLoaderView.setVisibility(View.GONE);
 
-                        }
-                    })
-                    .start();
-        }
+                    }
+                })
+                .start();
     }
 }
