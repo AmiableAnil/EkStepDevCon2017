@@ -1,6 +1,7 @@
 package org.ekstep.devcon.game;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,8 +9,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.ResultPoint;
@@ -86,6 +89,7 @@ public class QRScanActivity extends AppCompatActivity
             @Override
             public void nextHint(String hint) {
                 questionDetailDialogFragment.dismiss();
+                showHint(hint);
             }
 
             @Override
@@ -170,6 +174,25 @@ public class QRScanActivity extends AppCompatActivity
         questionDetailDialogFragment = QuestionDetailDialogFragment.newInstance(mQuestionModel);
         questionDetailDialogFragment.show(getSupportFragmentManager(),
                 QuestionDetailDialogFragment.class.toString());
+    }
+
+    private void showHint(String hintText) {
+        final Dialog dialog = new Dialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_hint, null);
+
+        TextView questionText = view.findViewById(R.id.hint_text);
+        View button = view.findViewById(R.id.scan_qr_code);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        questionText.setText(hintText);
+
+        dialog.setContentView(view);
+        dialog.show();
     }
 
     public void switchFlashlight(View view) {
