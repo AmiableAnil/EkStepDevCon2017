@@ -1,51 +1,36 @@
 package org.ekstep.devcon.game;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.RadioButton;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ekstep.devcon.R;
-import org.ekstep.devcon.game.models.Option;
 import org.ekstep.devcon.game.models.QuestionModel;
-
-import java.util.List;
 
 /**
  * @author vinayagasundar
  */
 
-public class QuestionDetailDialogFragment extends DialogFragment
-        implements RadioGroup.OnCheckedChangeListener {
+public class QuestionDetailDialogFragment extends DialogFragment {
 
     private static final String BUNDLE_QUESTION_ID = "questionId";
 
-    private String mQuestionId;
-
-    private ImageView mQRImage;
-
     private TextView mQuestionText;
-    private RadioButton mOptionOne;
-    private RadioButton mOptionTwo;
-    private RadioButton mOptionThree;
-    private RadioButton mOptionFour;
+    private EditText mAnswerEditText;
 
-    private View mLoaderView;
     private View mQuestionView;
-    private View mHintView;
 
     private QuestionModel mQuestionModel;
 
@@ -82,8 +67,6 @@ public class QuestionDetailDialogFragment extends DialogFragment
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        //Set the dialog to immersive
-        dialog.getWindow().getDecorView().setSystemUiVisibility(getActivity().getWindow().getDecorView().getSystemUiVisibility());
         return dialog;
     }
 
@@ -92,66 +75,23 @@ public class QuestionDetailDialogFragment extends DialogFragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getDialog().getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT);
-
-        mQRImage = view.findViewById(R.id.qr_code_img);
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         mQuestionText = view.findViewById(R.id.question_text);
-        mOptionOne = view.findViewById(R.id.option_one);
-        mOptionTwo = view.findViewById(R.id.option_two);
-        mOptionThree = view.findViewById(R.id.option_three);
-        mOptionFour = view.findViewById(R.id.option_four);
-
         mQuestionView = view.findViewById(R.id.question_view);
-        mLoaderView = view.findViewById(R.id.loader_view);
-        mHintView = view.findViewById(R.id.hint_view);
+        mAnswerEditText = view.findViewById(R.id.answer_edit_text);
 
-        View mScanButton = view.findViewById(R.id.scan_qr_code);
-        mScanButton.setOnClickListener(new View.OnClickListener() {
+        View submitView = view.findViewById(R.id.submit_answer);
+        submitView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                processAnswer();
             }
         });
 
-        RadioGroup optionRadioGroup = view.findViewById(R.id.option_radio_group);
-        optionRadioGroup.setOnCheckedChangeListener(this);
+        setCancelable(false);
 
         initUI();
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        int optionId = -1;
-
-        if (checkedId == optionId) {
-            return;
-        }
-
-        switch (checkedId) {
-            case R.id.option_one:
-                optionId = 1;
-                break;
-
-            case R.id.option_two:
-                optionId = 2;
-                break;
-
-            case R.id.option_three:
-                optionId = 3;
-                break;
-
-            case R.id.option_four:
-                optionId = 4;
-                break;
-        }
-
-        boolean isCorrect = GameEngine.getEngine().isCorrect(optionId);
-
-        if (!isCorrect) {
-            group.clearCheck();
-            Toast.makeText(getActivity(), "Wrong Answer", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void initUI() {
@@ -165,25 +105,18 @@ public class QuestionDetailDialogFragment extends DialogFragment
         }
 
         mQuestionText.setText(mQuestionModel.getQuestion());
-        List<Option> options = mQuestionModel.getOptions();
 
-        mOptionOne.setText(options.get(0).getOptionText());
-        mOptionTwo.setText(options.get(1).getOptionText());
-        mOptionThree.setText(options.get(2).getOptionText());
-        mOptionFour.setText(options.get(3).getOptionText());
+
         mQuestionView.setVisibility(View.VISIBLE);
+    }
 
-        mLoaderView.animate()
-                .alpha(0f)
-                .setDuration(250)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mLoaderView.setVisibility(View.GONE);
+    private void processAnswer() {
+        String answer = mAnswerEditText.getText().toString();
 
-                    }
-                })
-                .start();
+        if (!TextUtils.isEmpty(answer)) {
+            // Check the answer here
+        } else {
+            mAnswerEditText.setError("Please answer the question");
+        }
     }
 }
