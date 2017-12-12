@@ -20,7 +20,7 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+//        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -35,27 +35,27 @@ public class LandingActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void setTitle(String title) {
-        getSupportActionBar().setTitle(title);
+//        getSupportActionBar().setTitle(title);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        else return false;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        getSupportActionBar().setHomeButtonEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == android.R.id.home) {
+//            onBackPressed();
+//            return true;
+//        }
+//        else return false;
+//    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        getSupportActionBar().setHomeButtonEnabled(false);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//    }
 }

@@ -5,25 +5,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <!--<android.support.v7.widget.AppCompatImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:srcCompat="@drawable/footer"-->
+            <!--android:scaleType="fitStart"/>-->
 
-    </android.support.design.widget.AppBarLayout>
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+            <!--app:titleTextColor="@android:color/white"-->
+            <!--app:titleTextAppearance="@style/Toolbar.TitleText"/>-->
+
+    <!--</RelativeLayout>-->
+
 
     <FrameLayout
         android:id="@+id/fragment_container"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:text="Powered by: "
+            />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            app:srcCompat="@drawable/batman"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginLeft="5dp"
+            android:textSize="10sp"
+            android:text="EkStep Mobility"
+            />
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>

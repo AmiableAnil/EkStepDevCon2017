@@ -4,18 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<android.support.v7.widget.AppCompatImageView-->
-        <!--android:id="@+id/header"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:scaleType="fitStart"-->
-        <!--app:srcCompat="@drawable/header" />-->
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/header"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitStart"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_floor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="130dp"
+        android:layout_alignParentTop="true"/>
 
     <!--<android.support.v7.widget.AppCompatImageView-->
         <!--android:id="@+id/footer"-->
