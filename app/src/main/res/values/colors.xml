@@ -7,4 +7,31 @@
     <color name="first_color">#80DEEA</color>
     <color name="second_color">#E6EE9C</color>
     <color name="third_color">#FFAB91</color>
+
+    <color name="nav_item_icon_tint_color">#333</color>
+    <color name="white">#ffffff</color>
+    <color name="nav_item_text_color">#333</color>
+
+    <color name="expanded_color">#3490C1</color>
+    <color name="light_blue">#d9e8ef</color>
+
+    <!--Button colors-->
+    <color name="button_stroke_color">#f1f1f1</color>
+    <color name="button_text_color">#878787</color>
+    <color name="button_pressed_color">#e1e1e1</color>
+    <color name="merun">#AB0535</color>
+    <color name="dark_grey">#415A68</color>
+    <color name="dark_black">#ff333333</color>
+    <color name="light_white">#F9F9F9</color>
+    <color name="green">#3FC478</color>
+    <color name="black">#000000</color>
+    <color name="baby_pink">#f8f1fa</color>
+    <color name="grey">#a9a8a8</color>
+    <color name="light_gray">#fff5f5f5</color>
+
+    <!--country code picker-->
+    <color name="defaultContentColor">@android:color/black</color>
+
+    <color name="bluish_green">#4DB6AC</color>
+
 </resources>
