@@ -28,7 +28,8 @@ public class HomeFragment extends Fragment {
     //    String[] floorArray = new String[]{"FIRST FLOOR",
 //            "SECOND FLOOR", "FOURTH FLOOR", "TREASURE HUNT"};
     String[] floorArray = new String[]{"FLOOR PLAN", "TREASURE HUNT"};
-    String[] subtitles = new String[]{"All floor plans", "Play the game!!"};
+    String[] subtitles = new String[]{"Find your way!!", "Solve the puzzle and find the hidden treasure!!"};
+    int[] icons = {R.drawable.map, R.drawable.treasure};
     //    String[] subtitles = new String[]{"Adoption, Reliability, Mobility, Quality",
 //            "Agility, Scalability", "Innovation", "Play the game!!"};
     RecyclerView.LayoutManager layoutManager;
@@ -49,7 +50,7 @@ public class HomeFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles);
+        FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles, icons);
         recyclerView.setAdapter(floorAdapter);
 
         View scanQRCode = view.findViewById(R.id.scan_qr_code);
@@ -103,10 +104,12 @@ public class HomeFragment extends Fragment {
     class FloorAdapter extends RecyclerView.Adapter<FloorAdapter.FloorViewHolder> {
         private String[] titles;
         private String[] subTitles;
+        private int[] icons;
 
-        public FloorAdapter(String[] titles, String[] subTitles) {
+        public FloorAdapter(String[] titles, String[] subTitles, int[] icons) {
             this.titles = titles;
             this.subTitles = subTitles;
+            this.icons = icons;
         }
 
         @Override
@@ -123,15 +126,11 @@ public class HomeFragment extends Fragment {
         public void onBindViewHolder(final FloorAdapter.FloorViewHolder holder, final int position) {
             holder.floorName.setText(titles[position]);
             holder.subTitle.setText(subTitles[position]);
-            if (position == 3) {
-                holder.treasureIcon.setVisibility(View.VISIBLE);
-            } else {
-                holder.treasureIcon.setVisibility(View.GONE);
-            }
+            holder.treasureIcon.setImageResource(icons[position]);
             holder.cv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (position == 3) {
+                    if (position == 1) {
                         Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
                         holder.cv.getContext().startActivity(intent);
                     } else {
