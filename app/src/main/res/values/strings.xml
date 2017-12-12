@@ -15,4 +15,5 @@
 
     <string name="hint_answer">Please enter answer</string>
     <string name="button_submit">Submit</string>
+    <string name="scan_qr_button">Scan QR Code</string>
 </resources>

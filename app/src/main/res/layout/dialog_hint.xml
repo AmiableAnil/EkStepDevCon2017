@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:padding="8dp">
+
+    <FrameLayout
+        android:id="@+id/question_icon_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:minHeight="30dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_info_white_24dp" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/hint_text"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@id/question_icon_layout"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        tools:text="Hint of question 2 of set1" />
 
     <Button
         android:id="@+id/scan_qr_code"
-        android:layout_width="match_parent"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/hint_text"
         android:layout_centerHorizontal="true"
-        android:text="Scan QR Code" />
+        android:text="@string/scan_qr_button"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

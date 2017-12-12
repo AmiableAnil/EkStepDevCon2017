@@ -3,51 +3,47 @@
     {
       "question": "What has one eye but cannot see?",
       "answer": "Needle",
-      "hint": "It is in his place, some part of his name indicates the crazy"
+      "hint": ""
     },
     {
       "question": "What can you catch but not throw?",
       "answer": "Cold",
-      "hint": "Hint of question 2 of set1"
+      "hint": "1st floor Genie Booth"
+    },
+    {
+      "question": "If I have it, I don't share it. If I share it, I don't have it. What is it?",
+      "answer": "Secret",
+      "hint": "4th floor RnD Booth"
+    },
+    {
+      "question": "The more I am present, the less you can see. Who am I?",
+      "answer": "Darkness",
+      "hint": "1st floor opensource Booth"
+    },
+    {
+      "question": "I don't have legs but I have hands. I can run but I can't walk. Who am I?",
+      "answer": "Clock",
+      "hint": "2nd floor Agility Booth"
+    },
+    {
+      "question": "I start with T and end with T and have T in me. Who am I?",
+      "answer": "Teapot",
+      "hint": "1st floor Devops Booth"
+    },
+    {
+      "question": "I have keys but no locks. I have space but no room. You can enter but can't go outside. What am I?",
+      "answer": "Keyboard",
+      "hint": "2nd floor Scalability Booth"
+    },
+    {
+      "question": "I am a fruit. I am tasty and provide lots of energy. You can find also me in a calendar. Who am I?",
+      "answer": "Dates",
+      "hint": "1st floor Quality"
     },
     {
       "question": "There are three houses. One is red, one is blue, and one is white. If the red house is to the left of the house in the middle, and the blue house is to the right to the house in the middle, where is the white house?",
       "answer": "America/ USA / Washington",
-      "hint": "Hint of question 2 of set1"
-    }
-  ],
-  "set2": [
-    {
-      "question": "What has one eye but cannot see?",
-      "answer": "Needle",
-      "hint": "It is in his place, some part of his name indicates the crazy"
-    },
-    {
-      "question": "What can you catch but not throw?",
-      "answer": "Cold",
-      "hint": "Hint of question 2 of set1"
-    },
-    {
-      "question": "There are three houses. One is red, one is blue, and one is white. If the red house is to the left of the house in the middle, and the blue house is to the right to the house in the middle, where is the white house?",
-      "answer": "America/ USA / Washington",
-      "hint": "Hint of question 2 of set1"
-    }
-  ],
-  "set3": [
-    {
-      "question": "What has one eye but cannot see?",
-      "answer": "Needle",
-      "hint": "It is in his place, some part of his name indicates the crazy"
-    },
-    {
-      "question": "What can you catch but not throw?",
-      "answer": "Cold",
-      "hint": "Hint of question 2 of set1"
-    },
-    {
-      "question": "There are three houses. One is red, one is blue, and one is white. If the red house is to the left of the house in the middle, and the blue house is to the right to the house in the middle, where is the white house?",
-      "answer": "America/ USA / Washington",
-      "hint": "Hint of question 2 of set1"
+      "hint": ""
     }
   ]
 }
