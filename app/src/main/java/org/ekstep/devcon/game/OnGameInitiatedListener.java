@@ -16,4 +16,8 @@ public interface OnGameInitiatedListener {
 
     void gameCompleted();
 
+    void timeFinished();
+
+    void timeLapse(long timeRemainingInSeconds);
+
 }

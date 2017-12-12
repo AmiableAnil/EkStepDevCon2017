@@ -1,6 +1,7 @@
 package org.ekstep.devcon.game;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -71,40 +72,68 @@ public class QRScanActivity extends AppCompatActivity
     };
     private QuestionDetailDialogFragment questionDetailDialogFragment;
 
+    private static final int GAME_TIME = 30;
+
+
+    private String getFormattedTimerText(int timeRemainingInSecs) {
+        int minutes = timeRemainingInSecs / 60;
+        int seconds = timeRemainingInSecs % 60;
+        @SuppressLint("DefaultLocale") String str = String.format("%02d:%02d", minutes, seconds);
+        return str;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_scan);
 
+        final TextView textTimer = findViewById(R.id.timer_view);
+
         mBarcodeView = findViewById(R.id.barcode_scanner);
         mBarcodeView.setTorchListener(this);
 
-        GameEngine.initGame(this, new OnGameInitiatedListener() {
-            @Override
-            public void onGameInitiated() {
+        try {
+            GameEngine.initGame(this, new OnGameInitiatedListener() {
+                @Override
+                public void onGameInitiated() {
 
-            }
+                }
 
-            @Override
-            public void nextHint(String hint) {
-                questionDetailDialogFragment.dismiss();
-                showHint(hint);
-            }
+                @Override
+                public void nextHint(String hint) {
+                    questionDetailDialogFragment.dismiss();
+                    showHint(hint);
+                }
 
-            @Override
-            public void nextQuestion(QuestionModel questionModel) {
-                mQuestionModel = questionModel;
-                showQuestionProgress();
-            }
+                @Override
+                public void nextQuestion(QuestionModel questionModel) {
+                    mQuestionModel = questionModel;
+                    showQuestionProgress();
+                }
 
-            @Override
-            public void gameCompleted() {
-                questionDetailDialogFragment.dismiss();
-                Toast.makeText(QRScanActivity.this, "You're Winner", Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
+                @Override
+                public void gameCompleted() {
+                    questionDetailDialogFragment.dismiss();
+                    Toast.makeText(QRScanActivity.this, "You're Winner", Toast.LENGTH_LONG)
+                            .show();
+                }
+
+                @Override
+                public void timeFinished() {
+                    questionDetailDialogFragment.dismiss();
+                    Toast.makeText(QRScanActivity.this, "Time over, you can't play again!!", Toast.LENGTH_LONG)
+                            .show();
+                }
+
+                @Override
+                public void timeLapse(long timeRemainingInSeconds) {
+                    textTimer.setText(getFormattedTimerText((int) timeRemainingInSeconds));
+                }
+            });
+        } catch (GameException e) {
+            Toast.makeText(QRScanActivity.this, e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
 
         mGameEngine = GameEngine.getEngine();
         startQRScanning();

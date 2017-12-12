@@ -1,6 +1,7 @@
 package org.ekstep.devcon.game;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -24,6 +25,8 @@ import java.util.Random;
 
 public class GameEngine {
 
+    private static final long GAME_TIME = 15 * 60 * 1000; // 10 minutes
+
     private static final String TAG = "GameEngine";
 
     private static GameEngine engine;
@@ -33,8 +36,11 @@ public class GameEngine {
 
     private OnGameInitiatedListener mCallback;
 
+    private boolean timeOver;
+
     private GameEngine(Context context, OnGameInitiatedListener onGameInitiatedListener) {
         init(context, onGameInitiatedListener);
+        initGameTimer();
     }
 
     public static GameEngine getEngine() {
@@ -44,8 +50,24 @@ public class GameEngine {
         return engine;
     }
 
-    public static void initGame(Context context, OnGameInitiatedListener onGameInitiatedListener) {
+    private void initGameTimer() {
+        new CountDownTimer(GAME_TIME, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                mCallback.timeLapse(millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                mCallback.timeFinished();
+                timeOver = true;
+            }
+
+        }.start();
+    }
+
+    public static void initGame(Context context, OnGameInitiatedListener onGameInitiatedListener) throws GameException {
         engine = new GameEngine(context, onGameInitiatedListener);
+        if (engine.timeOver) throw new GameException("Time over!! You can't play the game again!!");
     }
 
     public boolean isCorrect(int answerId) {
