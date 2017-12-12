@@ -1,4 +1,4 @@
-package org.ekstep.devcon;
+package org.ekstep.devcon.ui;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -18,6 +18,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.ekstep.devcon.R;
 
 /**
  * @author vinayagasundar

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.ekstep.devcon.FloorDetailDialogFragment;
 import org.ekstep.devcon.R;
 
 /**
