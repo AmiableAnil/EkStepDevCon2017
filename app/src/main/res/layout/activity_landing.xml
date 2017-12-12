@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white">
 
     <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
 
-        <!--<android.support.v7.widget.AppCompatImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:srcCompat="@drawable/footer"-->
-            <!--android:scaleType="fitStart"/>-->
+    <!--<android.support.v7.widget.AppCompatImageView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:srcCompat="@drawable/footer"-->
+    <!--android:scaleType="fitStart"/>-->
 
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--android:id="@+id/toolbar"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-            <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
-            <!--app:titleTextColor="@android:color/white"-->
-            <!--app:titleTextAppearance="@style/Toolbar.TitleText"/>-->
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+    <!--app:titleTextColor="@android:color/white"-->
+    <!--app:titleTextAppearance="@style/Toolbar.TitleText"/>-->
 
     <!--</RelativeLayout>-->
 
@@ -33,76 +33,106 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:id="@+id/ll_poweredby"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="10sp"
             android:text="Powered by: "
-            />
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            app:srcCompat="@drawable/batman"/>
+            app:srcCompat="@drawable/batman" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:layout_marginLeft="5dp"
-            android:textSize="10sp"
             android:text="EkStep Mobility"
-            />
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_floor_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_poweredby"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/ll_poweredby"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="match_parent">
+        android:layout_marginBottom="10dp">
 
-        <org.ekstep.devcon.customview.IndicatorsView
-            android:id="@+id/indicatorsView"
-            android:layout_alignParentTop="true"
+        <RelativeLayout
+            android:id="@+id/rl_indicatorview_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp"
-            app:indicatorSelectedSize="10dp"
-            app:indicatorSize="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:paddingBetweenIndicators="6dp" />
+            android:padding="10dp">
 
+            <ImageView
+                android:id="@+id/iv_backbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_action_arrow_back" />
+
+            <TextView
+                android:id="@+id/tv_floor_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"
+                android:textColor="@color/color_mobility"
+                android:text="floor"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginRight="15sp"/>
+
+            <org.ekstep.devcon.customview.IndicatorsView
+                android:id="@+id/indicatorsView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp"
+                app:indicatorSelectedSize="10dp"
+                app:indicatorSize="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:paddingBetweenIndicators="6dp" />
+
+        </RelativeLayout>
 
         <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/indicatorsView"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@+id/indicatorsView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_indicatorview_top"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toTopOf="@+id/rl_indicatorview_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </RelativeLayout>

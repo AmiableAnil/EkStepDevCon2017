@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.customview.IndicatorsView;
@@ -26,8 +27,7 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void setFragment(Fragment fragment) {
-        findViewById(R.id.container).setVisibility(View.GONE);
-        findViewById(R.id.indicatorsView).setVisibility(View.GONE);
+        findViewById(R.id.rl_floor_viewpager).setVisibility(View.GONE);
         findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 
         getSupportFragmentManager().beginTransaction()
@@ -37,24 +37,33 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void setFloorFragment() {
-        findViewById(R.id.container).setVisibility(View.VISIBLE);
-        findViewById(R.id.indicatorsView).setVisibility(View.VISIBLE);
+        findViewById(R.id.rl_floor_viewpager).setVisibility(View.VISIBLE);
         findViewById(R.id.fragment_container).setVisibility(View.GONE);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
                 getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(sectionsPagerAdapter);
 
+        TextView floorNumTv = (TextView) findViewById(R.id.tv_floor_num);
 //        getSupportActionBar().setHomeButtonEnabled(true);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mIndicatorsView = findViewById(R.id.indicatorsView);
         mIndicatorsView.setViewPager(viewPager);
+        mIndicatorsView.setFloorNumText(floorNumTv);
         mIndicatorsView.setSmoothTransition(true);
         mIndicatorsView.setIndicatorsClickChangePage(true);
         mIndicatorsView.setIndicatorsClickListener(new IndicatorsView.OnIndicatorClickListener() {
             @Override
             public void onClick(int indicatorNumber) {
+            }
+        });
+
+        // back button
+        findViewById(R.id.iv_backbutton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
@@ -63,7 +72,7 @@ public class LandingActivity extends AppCompatActivity {
 //        getSupportActionBar().setTitle(title);
     }
 
-//    @Override
+    //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        if (item.getItemId() == android.R.id.home) {
 //            onBackPressed();
@@ -78,4 +87,11 @@ public class LandingActivity extends AppCompatActivity {
 //        getSupportActionBar().setHomeButtonEnabled(false);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 //    }
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if (fragment instanceof FloorPlanFragment) {
+            setFragment(new HomeFragment());
+        }
+    }
 }
