@@ -32,6 +32,7 @@ public class FloorPlanFragment extends Fragment {
     }
 
     private int mScreen = 0;
+    private Stall mStall = null;
 
 //    private CategoryFragmentInteractionListener mListener;
 
@@ -45,7 +46,33 @@ public class FloorPlanFragment extends Fragment {
 
         if (bundle != null) {
             mScreen = bundle.getInt(Constant.BUNDLE_KEY_SCREEN_NUM, 1);
+            mStall = getStall(bundle.getString(Constant.BUNDLE_KEY_STALL_NAME, null));
         }
+    }
+
+    private Stall getStall(String stallName) {
+        if (stallName == null) {
+            return null;
+        }
+
+        switch (stallName) {
+            case "RELIABILITY":
+                return Stall.RELIABILITY;
+            case "MOBILITY":
+                return Stall.MOBILITY;
+            case "QUALITY":
+                return Stall.QUALITY;
+            case "ADOPTION":
+                return Stall.ADOPTION;
+            case "SCALABILITY":
+                return Stall.SCALABILITY;
+            case "AGILITY":
+                return Stall.AGILITY;
+            case "INNOVATION":
+                return Stall.INNOVATION;
+        }
+
+        return null;
     }
 
     /**
@@ -56,6 +83,15 @@ public class FloorPlanFragment extends Fragment {
         FloorPlanFragment fragment = new FloorPlanFragment();
         Bundle args = new Bundle();
         args.putInt(Constant.BUNDLE_KEY_SCREEN_NUM, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static FloorPlanFragment newInstance(int sectionNumber, String stall) {
+        FloorPlanFragment fragment = new FloorPlanFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constant.BUNDLE_KEY_SCREEN_NUM, sectionNumber);
+        args.putString(Constant.BUNDLE_KEY_STALL_NAME, stall);
         fragment.setArguments(args);
         return fragment;
     }
@@ -97,6 +133,10 @@ public class FloorPlanFragment extends Fragment {
             setUpClickListener(view, R.id.innovation_layout, Stall.INNOVATION, R.color.color_innovation);
         }
 
+        if (mStall != null) {
+            showDetailDialog(mStall);
+        }
+
     }
 
     private void setUpClickListener(View view, int id, final Stall stall, final int colorResId) {
@@ -122,5 +162,45 @@ public class FloorPlanFragment extends Fragment {
         FloorDetailDialogFragment fragment = FloorDetailDialogFragment
                 .newInstance(title, "http://github.com/", colorValue, view.getRight(), view.getBottom());
         fragment.show(getChildFragmentManager(), FloorDetailDialogFragment.class.toString());
+    }
+
+    private void showDetailDialog(Stall stall) {
+        String title = stall.toString();
+        int colorValue = getColorForStall(stall);
+
+        FloorDetailDialogFragment fragment = FloorDetailDialogFragment
+                .newInstance(title, "http://github.com/", colorValue, 0f, 0f);
+        fragment.show(getChildFragmentManager(), FloorDetailDialogFragment.class.toString());
+    }
+
+    private int getColorForStall(Stall stall) {
+        int colorResId = -1;
+
+        switch (stall) {
+            case RELIABILITY:
+                colorResId = R.color.color_reliability;
+                break;
+            case MOBILITY:
+                colorResId = R.color.color_mobility;
+                break;
+            case QUALITY:
+                colorResId = R.color.color_quality;
+                break;
+            case ADOPTION:
+                colorResId = R.color.color_adoption;
+                break;
+            case SCALABILITY:
+                colorResId = R.color.color_scalibility;
+                break;
+            case AGILITY:
+                colorResId = R.color.color_agility;
+                break;
+            case INNOVATION:
+                colorResId = R.color.color_innovation;
+                break;
+        }
+
+        return ResourcesCompat.getColor(getResources(), colorResId,
+                getActivity().getTheme());
     }
 }

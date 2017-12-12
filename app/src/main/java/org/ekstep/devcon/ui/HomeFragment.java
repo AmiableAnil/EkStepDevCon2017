@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
 
@@ -46,6 +49,53 @@ public class HomeFragment extends Fragment {
 
         FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles);
         recyclerView.setAdapter(floorAdapter);
+
+        View scanQRCode = view.findViewById(R.id.scan_qr_code);
+        scanQRCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator intentIntegrator = IntentIntegrator
+                        .forSupportFragment(HomeFragment.this);
+                intentIntegrator.initiateScan();
+            }
+        });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() != null) {
+                if (getActivity() instanceof LandingActivity) {
+                    int floor = -1;
+
+                    switch (result.getContents()) {
+                        case "RELIABILITY":
+                        case "MOBILITY":
+                        case "QUALITY":
+                        case "ADOPTION":
+                            floor = 1;
+                            break;
+                        case "SCALABILITY":
+                        case "AGILITY":
+                            floor = 2;
+                            break;
+                        case "INNOVATION":
+                            floor = 3;
+                            break;
+                    }
+
+                    if (floor > -1) {
+                        ((LandingActivity) getActivity()).setFragment(FloorPlanFragment
+                                .newInstance(floor, result.getContents()));
+                    }
+                }
+
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     class FloorAdapter extends RecyclerView.Adapter<FloorAdapter.FloorViewHolder> {
