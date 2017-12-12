@@ -103,7 +103,7 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/innovation_layout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -114,13 +114,10 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/toilet"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#C6C781"
         tools:ignore="RtlHardcoded">
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/innovation"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@drawable/stall_border_scalability"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -130,7 +127,7 @@
             android:textColor="@android:color/white"
             android:text="SCALABILITY"/>
 
-    </FrameLayout>
+    </android.support.v7.widget.CardView>
 
 
 </RelativeLayout>

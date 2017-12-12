@@ -7,4 +7,6 @@
     <color name="first_color">#80DEEA</color>
     <color name="second_color">#E6EE9C</color>
     <color name="third_color">#FFAB91</color>
+    <color name="color_mobility">#8772B3</color>
+    <color name="color_quality">#419B92</color>
 </resources>
