@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +39,14 @@ public class QRScanActivity extends AppCompatActivity
 
     private DecoratedBarcodeView mBarcodeView;
     private ImageView mSwitchFlashLightButton;
+    private ImageView mHintView;
 
     private BeepManager mBeepManager;
 
     private GameEngine mGameEngine;
 
     private String mLastText;
+    private String mHint = null;
     private boolean mIsTouchOn = false;
 
     private QuestionModel mQuestionModel;
@@ -80,6 +83,7 @@ public class QRScanActivity extends AppCompatActivity
         setContentView(R.layout.activity_qr_scan);
 
         mBarcodeView = findViewById(R.id.barcode_scanner);
+        mHintView = findViewById(R.id.show_hint);
         mBarcodeView.setTorchListener(this);
 
         GameEngine.initGame(this, new OnGameInitiatedListener() {
@@ -96,6 +100,8 @@ public class QRScanActivity extends AppCompatActivity
 
             @Override
             public void nextQuestion(QuestionModel questionModel) {
+                mHint = null;
+                mHintView.setVisibility(View.GONE);
                 mQuestionModel = questionModel;
                 showQuestionProgress();
             }
@@ -181,22 +187,9 @@ public class QRScanActivity extends AppCompatActivity
     }
 
     private void showHint(String hintText) {
-        final Dialog dialog = new Dialog(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_hint, null);
-
-        TextView questionText = view.findViewById(R.id.hint_text);
-        View button = view.findViewById(R.id.scan_qr_code);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        questionText.setText(hintText);
-
-        dialog.setContentView(view);
-        dialog.show();
+        mHint = hintText;
+        mHintView.setVisibility(View.VISIBLE);
+        displayHint();
     }
 
     public void switchFlashlight(View view) {
@@ -230,5 +223,31 @@ public class QRScanActivity extends AppCompatActivity
         mBarcodeView.resume();
     }
 
+    private void displayHint() {
+        if (TextUtils.isEmpty(mHint)) {
+            return;
+        }
 
+        final Dialog dialog = new Dialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_hint, null);
+
+        TextView questionText = view.findViewById(R.id.hint_text);
+        View button = view.findViewById(R.id.scan_qr_code);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        questionText.setText(mHint);
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+
+    public void showHint(View view) {
+        displayHint();
+    }
 }

@@ -15,10 +15,22 @@
         android:layout_height="32dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:onClick="switchFlashlight"
         android:background="#88000000"
+        android:onClick="switchFlashlight"
+        android:padding="8dp"
         android:text="@string/turn_on_flashlight"
         app:srcCompat="@drawable/ic_flash_on_white_24dp" />
+
+    <ImageView
+        android:id="@+id/show_hint"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/switch_flashlight"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#88000000"
+        android:onClick="showHint"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_info_white_24dp" />
 
 </RelativeLayout>
