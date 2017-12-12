@@ -1,5 +1,7 @@
 package org.ekstep.devcon.ui;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.net.http.SslError;
@@ -30,13 +32,17 @@ public class FloorDetailDialogFragment extends DialogFragment {
     private static final String BUNDLE_TITLE = "title";
     private static final String BUNDLE_WEB_URL = "web_url";
     private static final String BUNDLE_COLOR = "color";
+    private static final String BUNDLE_X = "x";
+    private static final String BUNDLE_Y = "Y";
 
     private String mTitle;
     private String mWebUrl;
     private int mColorValue;
+    private float mX;
+    private float mY;
 
 
-    public static FloorDetailDialogFragment newInstance(String title, String webUrl, int color) {
+    public static FloorDetailDialogFragment newInstance(String title, String webUrl, int color, float x, float y) {
         FloorDetailDialogFragment fragment = new FloorDetailDialogFragment();
 
         Bundle args = new Bundle();
@@ -44,6 +50,8 @@ public class FloorDetailDialogFragment extends DialogFragment {
         args.putString(BUNDLE_TITLE, title);
         args.putString(BUNDLE_WEB_URL, webUrl);
         args.putInt(BUNDLE_COLOR, color);
+        args.putFloat(BUNDLE_X, x);
+        args.putFloat(BUNDLE_Y, y);
 
         fragment.setArguments(args);
 
@@ -59,6 +67,8 @@ public class FloorDetailDialogFragment extends DialogFragment {
             mTitle = getArguments().getString(BUNDLE_TITLE);
             mWebUrl = getArguments().getString(BUNDLE_WEB_URL);
             mColorValue = getArguments().getInt(BUNDLE_COLOR);
+            mX = getArguments().getFloat(BUNDLE_X);
+            mY = getArguments().getFloat(BUNDLE_Y);
         }
     }
 
@@ -136,5 +146,29 @@ public class FloorDetailDialogFragment extends DialogFragment {
             }
         });
         webView.loadUrl(mWebUrl);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        final View decorView = getDialog()
+                .getWindow()
+                .getDecorView();
+
+        decorView.setPivotX(mX);
+        decorView.setPivotY(mY);
+
+        PropertyValuesHolder pvhPivotX = PropertyValuesHolder.ofFloat("pivotX", mX);
+        PropertyValuesHolder pvhPivotY = PropertyValuesHolder.ofFloat("pivotY", mY);
+
+        ObjectAnimator scaleDown = ObjectAnimator.ofPropertyValuesHolder(decorView,
+                pvhPivotX,
+                pvhPivotY,
+                PropertyValuesHolder.ofFloat("scaleX", 0.0f, 1.0f),
+                PropertyValuesHolder.ofFloat("scaleY", 0.0f, 1.0f),
+                PropertyValuesHolder.ofFloat("alpha", 0.0f, 1.0f));
+        scaleDown.setDuration(750);
+        scaleDown.start();
     }
 }
