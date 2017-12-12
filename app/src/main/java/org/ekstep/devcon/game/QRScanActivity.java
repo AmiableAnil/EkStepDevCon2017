@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +37,14 @@ public class QRScanActivity extends AppCompatActivity
     private static final int REQUEST_CODE_CAMERA = 486;
 
     private DecoratedBarcodeView mBarcodeView;
-    private Button mSwitchFlashLightButton;
+    private ImageView mSwitchFlashLightButton;
 
     private BeepManager mBeepManager;
 
     private GameEngine mGameEngine;
 
     private String mLastText;
+    private boolean mIsTouchOn = false;
 
     private QuestionModel mQuestionModel;
 
@@ -152,12 +154,14 @@ public class QRScanActivity extends AppCompatActivity
 
     @Override
     public void onTorchOn() {
-        mSwitchFlashLightButton.setText(R.string.turn_off_flashlight);
+        mSwitchFlashLightButton.setImageResource(R.drawable.ic_flash_on_white_24dp);
+        mIsTouchOn = true;
     }
 
     @Override
     public void onTorchOff() {
-        mSwitchFlashLightButton.setText(R.string.turn_on_flashlight);
+        mSwitchFlashLightButton.setImageResource(R.drawable.ic_flash_off_white_24dp);
+        mIsTouchOn = false;
     }
 
     /**
@@ -196,7 +200,7 @@ public class QRScanActivity extends AppCompatActivity
     }
 
     public void switchFlashlight(View view) {
-        if (getString(R.string.turn_on_flashlight).equals(mSwitchFlashLightButton.getText())) {
+        if (!mIsTouchOn) {
             mBarcodeView.setTorchOn();
         } else {
             mBarcodeView.setTorchOff();

@@ -115,6 +115,12 @@ public class QuestionDetailDialogFragment extends DialogFragment {
 
         if (!TextUtils.isEmpty(answer)) {
             // Check the answer here
+            boolean isCorrect = GameEngine.getEngine().isCorrect(answer);
+
+            if (!isCorrect) {
+                mAnswerEditText.setText(null);
+                Toast.makeText(getActivity(), "Wrong Answer", Toast.LENGTH_SHORT).show();
+            }
         } else {
             mAnswerEditText.setError("Please answer the question");
         }

@@ -48,8 +48,8 @@ public class GameEngine {
         engine = new GameEngine(context, onGameInitiatedListener);
     }
 
-    public boolean isCorrect(int answerId) {
-        if (currentQuestion.getAnswer() == answerId) {
+    public boolean isCorrect(String answer) {
+        if (currentQuestion.getAnswer().toLowerCase().contains(answer.toLowerCase())) {
             currentQuestion = questionList.poll();
 
             if (currentQuestion == null) {
@@ -69,7 +69,7 @@ public class GameEngine {
     }
 
     public QuestionModel verifyQR(String hashCode) throws GameException {
-        if (String.valueOf(currentQuestion.hashCode()).equals(hashCode)) {
+        if (String.valueOf(currentQuestion.getQuestion()).equals(hashCode)) {
             mCallback.nextQuestion(currentQuestion);
             return currentQuestion;
         } else {
@@ -79,10 +79,6 @@ public class GameEngine {
 
     public boolean isLastQuestion() {
         return questionList.isEmpty();
-    }
-
-    public boolean isWinner() {
-        return isLastQuestion();
     }
 
     private Map<String, LinkedList<QuestionModel>> parseJson(Context context) throws IOException {

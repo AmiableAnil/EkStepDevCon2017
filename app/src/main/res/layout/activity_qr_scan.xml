@@ -9,13 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <Button
+    <ImageView
         android:id="@+id/switch_flashlight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
         android:onClick="switchFlashlight"
-        android:text="@string/turn_on_flashlight" />
+        android:background="#88000000"
+        android:text="@string/turn_on_flashlight"
+        app:srcCompat="@drawable/ic_flash_on_white_24dp" />
 
 </RelativeLayout>

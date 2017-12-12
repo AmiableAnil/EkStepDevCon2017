@@ -3,35 +3,55 @@ package org.ekstep.devcon.game.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 /**
  * Created by Indraja Machani on 12/11/2017.
  */
 
 public class QuestionModel implements Parcelable {
     private String question;
-    private int answer;
+    private String answer;
     private String hint;
-    private List<Option> options;
 
     public QuestionModel() {
 
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getHint() {
+        return hint;
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
+    }
+
     protected QuestionModel(Parcel in) {
+
         question = in.readString();
-        answer = in.readInt();
+        answer = in.readString();
         hint = in.readString();
-        options = in.createTypedArrayList(Option.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(question);
-        dest.writeInt(answer);
+        dest.writeString(answer);
         dest.writeString(hint);
-        dest.writeTypedList(options);
     }
 
     @Override
@@ -51,40 +71,5 @@ public class QuestionModel implements Parcelable {
         }
     };
 
-    @Override
-    public int hashCode() {
-        return question.hashCode();
-    }
 
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public int getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(int answer) {
-        this.answer = answer;
-    }
-
-    public String getHint() {
-        return hint;
-    }
-
-    public void setHint(String hint) {
-        this.hint = hint;
-    }
-
-    public List<Option> getOptions() {
-        return options;
-    }
-
-    public void setOptions(List<Option> options) {
-        this.options = options;
-    }
 }
