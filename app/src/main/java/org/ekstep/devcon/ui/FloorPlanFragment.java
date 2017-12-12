@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.ekstep.devcon.R;
+import org.ekstep.devcon.util.Constant;
 
 /**
  * Created by Sneha on 12/12/2017.
@@ -32,21 +33,38 @@ public class FloorPlanFragment extends Fragment {
 
     private int mScreen = 0;
 
+//    private CategoryFragmentInteractionListener mListener;
+
+    public FloorPlanFragment() {
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Bundle bundle = getArguments();
 
         if (bundle != null) {
-            mScreen = bundle.getInt("screen", 0);
+            mScreen = bundle.getInt(Constant.BUNDLE_KEY_SCREEN_NUM, 1);
         }
+    }
+
+    /**
+     * Returns a new instance of this fragment for the given section
+     * number.
+     */
+    public static FloorPlanFragment newInstance(int sectionNumber) {
+        FloorPlanFragment fragment = new FloorPlanFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constant.BUNDLE_KEY_SCREEN_NUM, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private int layoutId(int floor) {
         switch (floor) {
-            case 0:
-                return R.layout.first_floor;
             case 1:
+                return R.layout.first_floor;
+            case 2:
                 return R.layout.second_floor;
             default:
                 return R.layout.third_floor;
@@ -65,12 +83,12 @@ public class FloorPlanFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (mScreen == 0) {
+        if (mScreen == 1) {
             setUpClickListener(view, R.id.mobility_layout, Stall.MOBILITY, R.color.color_mobility);
             setUpClickListener(view, R.id.quality_layout, Stall.QUALITY, R.color.color_quality);
             setUpClickListener(view, R.id.stall_3_layout, Stall.ADOPTION, R.color.color_adoption);
             setUpClickListener(view, R.id.innovation_layout, Stall.RELIABILITY, R.color.color_reliability);
-        } else if (mScreen == 1) {
+        } else if (mScreen == 2) {
 //            setUpClickListener(view, R.id.mobility_layout, Stall.MOBILITY);
             setUpClickListener(view, R.id.quality, Stall.AGILITY, R.color.color_agility);
             setUpClickListener(view, R.id.stall_3, Stall.AGILITY, R.color.color_agility);

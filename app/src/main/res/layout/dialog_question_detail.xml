@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80DEEA">
+    android:background="#6c8ebe">
 
     <RelativeLayout
         android:id="@+id/question_view"
@@ -23,6 +23,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="15dp"
+            android:background="#f5d6cd"
             android:fontFamily="sans-serif"
             android:gravity="center_vertical"
             android:maxLines="5"
@@ -42,7 +43,9 @@
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="25dp"
+            android:padding="6dp"
+            android:background="#f5d6cd">
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -64,24 +67,31 @@
                         android:id="@+id/option_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_18"
                         tools:text="Option One" />
 
                     <RadioButton
                         android:id="@+id/option_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="@dimen/sp_18"
                         tools:text="Option One" />
 
                     <RadioButton
                         android:id="@+id/option_three"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="@dimen/sp_18"
                         tools:text="Option One" />
 
                     <RadioButton
                         android:id="@+id/option_four"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_18"
                         tools:text="Option One" />
                 </RadioGroup>
             </ScrollView>
