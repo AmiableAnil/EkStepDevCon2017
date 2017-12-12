@@ -3,11 +3,9 @@ package org.ekstep.devcon.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.customview.IndicatorsView;
@@ -62,21 +60,22 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void setTitle(String title) {
-        getSupportActionBar().setTitle(title);
+//        getSupportActionBar().setTitle(title);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        } else return false;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        getSupportActionBar().setHomeButtonEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == android.R.id.home) {
+//            onBackPressed();
+//            return true;
+//        }
+//        else return false;
+//    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        getSupportActionBar().setHomeButtonEnabled(false);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//    }
 }
