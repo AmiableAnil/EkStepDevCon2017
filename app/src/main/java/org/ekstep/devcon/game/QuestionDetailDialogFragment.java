@@ -3,7 +3,6 @@ package org.ekstep.devcon.game;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,16 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
-
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.models.Option;
 import org.ekstep.devcon.game.models.QuestionModel;
-import org.ekstep.devcon.util.TreasureHuntUtil;
 
 import java.util.List;
 
