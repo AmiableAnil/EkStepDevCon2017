@@ -33,5 +33,11 @@
     <color name="defaultContentColor">@android:color/black</color>
 
     <color name="bluish_green">#4DB6AC</color>
+    <color name="color_adoption">#3D7CBF</color>
+    <color name="color_agility">#F4A57A</color>
+    <color name="color_mobility">#8772B3</color>
+    <color name="color_quality">#419B92</color>
+    <color name="color_reliability">#EA486D</color>
+    <color name="color_scalibility">#C6C781</color>
 
 </resources>

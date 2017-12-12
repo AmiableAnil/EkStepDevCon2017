@@ -1,13 +1,12 @@
-package org.ekstep.devcon.floorplan;
+package org.ekstep.devcon.ui;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import org.ekstep.devcon.R;
 
@@ -15,7 +14,7 @@ import org.ekstep.devcon.R;
  * Created by Sneha on 12/12/2017.
  */
 
-public class FloorPlanDetailsFragment extends Fragment {
+public class FloorPlanFragment extends Fragment {
 
     private int mScreen = 0;
 

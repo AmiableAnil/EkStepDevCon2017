@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ekstep.devcon">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".EkstepDevConApp"
@@ -22,17 +22,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".floorplan.FloorPlanActivity"
+            android:name=".ui.LandingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.FloorPlanDetailsActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".floorplan.FloorPlanDetailsActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".game.QRScanActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".game.QRScanActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
