@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_floor_plan, container, false);
         initViews(rootView);
-        ((LandingActivity)getActivity()).setTitle("WELCOME");
+        ((LandingActivity) getActivity()).setTitle("WELCOME");
         return rootView;
     }
 
@@ -83,13 +83,7 @@ public class HomeFragment extends Fragment {
                         Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
                         holder.cv.getContext().startActivity(intent);
                     } else {
-                        FloorPlanFragment floorPlanDetailFragment = new FloorPlanFragment();
-
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("screen", position);
-                        floorPlanDetailFragment.setArguments(bundle);
-
-                        ((LandingActivity)getActivity()).setFragment(floorPlanDetailFragment);
+                        ((LandingActivity) getActivity()).setFloorFragment();
                     }
                 }
             });
