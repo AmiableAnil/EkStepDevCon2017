@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -195,6 +196,9 @@ public class HomeFragment extends Fragment {
                 .setPosition(mConfetti.getX() + mConfetti.getWidth() / 2,
                         mConfetti.getY() + mConfetti.getHeight() / 3)
                 .stream(300, 5000L);
+
+        MediaPlayer mPlayer = MediaPlayer.create(getActivity(), R.raw.clap);
+        mPlayer.start();
     }
 
 
