@@ -23,6 +23,16 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.models.QuestionModel;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.devcon.util.Constant;
+import org.ekstep.devcon.util.PreferenceUtil;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @author vinayagasundar
@@ -39,6 +49,7 @@ public class QuestionDetailDialogFragment extends DialogFragment {
     private LottieAnimationView mDoneAnimationView;
 
     private QuestionModel mQuestionModel;
+    private String setValue;
 
     public static QuestionDetailDialogFragment newInstance(QuestionModel questionModel) {
         QuestionDetailDialogFragment fragment = new QuestionDetailDialogFragment();
@@ -58,6 +69,10 @@ public class QuestionDetailDialogFragment extends DialogFragment {
         if (getArguments() != null) {
             mQuestionModel = getArguments().getParcelable(BUNDLE_QUESTION_ID);
         }
+
+        setValue = PreferenceUtil.getInstance().getStringValue(Constant.KEY_SET_VALUE, null);
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("QuestionDialog", ImpressionType.VIEW,
+                null, setValue, "question"));
     }
 
     @Nullable
@@ -148,6 +163,15 @@ public class QuestionDetailDialogFragment extends DialogFragment {
         } else {
             mAnswerEditText.setError("Please answer the question");
         }
+
+        Map<String, String> valueMap = new HashMap<>();
+        valueMap.put(Constant.KEY_SET_VALUE, setValue);
+        valueMap.put(Constant.QUESTION, mQuestionModel.getQuestion());
+        valueMap.put(Constant.GIVEN_ANSWER, answer);
+        valueMap.put(Constant.EXPECTED_ANSWER, mQuestionModel.getAnswer());
+
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "QuestionDialog", "Submit", valueMap));
+
     }
 
 
