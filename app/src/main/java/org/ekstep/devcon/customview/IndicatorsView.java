@@ -336,7 +336,7 @@ public class IndicatorsView extends View implements ViewPager.OnPageChangeListen
             floorNumValue = mSelectedIndicator + 1;
         }
         mfloorNumText.setText("Floor " + floorNumValue);
-        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("Floor-" + floorNumValue, ImpressionType.VIEW, null));
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("Floor-" + floorNumValue, ImpressionType.VIEW, "Paginate"));
     }
 
     public void setViewPager(ViewPager viewPager) {
