@@ -103,6 +103,13 @@ public class TelemetryBuilder {
         return interact;
     }
 
+    public static Telemetry buildInteractEvent(InteractionType type, String subType, String pageId, Map<String, Object> value, String id) {
+        List valuesList = new ArrayList();
+        valuesList.add(value);
+        Interact interact = new Interact.Builder().interactionType(type).subType(subType).pageId(pageId).resourceId(id).values(valuesList).build();
+        return interact;
+    }
+
     public static Telemetry buildInteractEvent(InteractionType type, String subType, String pageId, String id, Map<String, String> value) {
         List valuesList = new ArrayList();
         valuesList.add(value);
