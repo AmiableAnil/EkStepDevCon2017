@@ -159,7 +159,7 @@ public class QRScanActivity extends AppCompatActivity
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startQRScanning();
             } else {
-                Toast.makeText(this, "Camera Permission is request",
+                Toast.makeText(this, "Camera Permission is required",
                         Toast.LENGTH_SHORT).show();
                 finish();
             }
