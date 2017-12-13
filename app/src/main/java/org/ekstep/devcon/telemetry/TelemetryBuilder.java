@@ -91,7 +91,7 @@ public class TelemetryBuilder {
 
         End end = new End.Builder()
                 .duration(timeInSeconds)
-                .pageid("Genie-Home")
+                .pageid("Home")
                 .type("app")
                 .build();
 
