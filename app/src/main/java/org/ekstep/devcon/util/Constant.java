@@ -6,7 +6,7 @@ package org.ekstep.devcon.util;
 
 public interface Constant {
     String PREFS_EKSTEP_DEVCONAPP = "prefs_ekstep_devconapp";
-    String KEY_SET = "key_set";
+    String KEY_SET_VALUE = "key_set";
     String BUNDLE_KEY_SCREEN_NUM = "screen_number";
     String BUNDLE_KEY_STALL_NAME = "stall_name";
 
@@ -19,4 +19,7 @@ public interface Constant {
     String SYNC_MODE_FORCED = "forced";
     String SYNC_TYPE_DEFAULT = "default";
     String DEFAULT_SYNC_TYPE_AND_INTERVAL = "{\"default\":{\"syncInterval\":5, \"mode\":\"auto\"},\"0\":{\"syncInterval\":5, \"mode\":\"forced\"}}";
+    String QUESTION = "que";
+    String EXPECTED_ANSWER = "expectedAnswer";
+    String GIVEN_ANSWER = "givenAnswer";
 }
