@@ -6,13 +6,13 @@
 
 
     <!--<android.support.v7.widget.AppCompatImageView-->
-        <!--android:id="@+id/splash"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/splash_height"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--android:scaleType="fitXY"-->
-        <!--app:srcCompat="@drawable/splash" />-->
+    <!--android:id="@+id/splash"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/splash_height"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:scaleType="fitXY"-->
+    <!--app:srcCompat="@drawable/splash" />-->
 
     <RelativeLayout
         android:id="@+id/logo"
@@ -50,8 +50,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:visibility="visible"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="200dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/device_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scan_qr_code"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:textIsSelectable="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/scan_qr_code"
