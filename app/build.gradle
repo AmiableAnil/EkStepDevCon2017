@@ -10,12 +10,30 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "org.ekstep.devcon"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        buildConfigField 'String', 'TELEMETRY_BASE_URL', '"https://dev.ekstep.in/api/data/v3"'
+        buildConfigField 'String', 'LANGUAGE_PLATFORM_BASE_URL', '"https://dev.ekstep.in/api/language/v3"'
+        buildConfigField 'String', 'TERMS_BASE_URL', '"https://dev.ekstep.in/api/domain/v3"'
+        buildConfigField 'String', 'CONFIG_BASE_URL', '"https://dev.ekstep.in/api/meta/v3"'
+        buildConfigField 'String', 'SEARCH_BASE_URL', '"https://dev.ekstep.in/api/composite/v3"'
+        buildConfigField 'String', 'CONTENT_LISTING_BASE_URL', '"https://dev.ekstep.in/api/data/v3"'
+        buildConfigField 'String', 'CONTENT_BASE_URL', '"https://dev.ekstep.in/api/content/v3"'
+        buildConfigField 'String', 'APIGATEWAY_BASE_URL', '"https://dev.ekstep.in/api/api-manager/v1"'
+        buildConfigField 'String', 'PRODUCER_ID', '"treasurehunt"'
+        buildConfigField 'String', 'CHANNEL_ID', '"in.ekstep"'
+        buildConfigField 'String', 'LOG_LEVEL', '"INFO"'
+        buildConfigField 'String', 'PROFILE_CONFIG', '"org.ekstep.genie.base.ProfileConfig"'
+        buildConfigField 'String', 'PLAYER_CONFIG', '"org.ekstep.genie.util.geniesdk.PlayerConfig"'
+        buildConfigField 'int', 'MAX_COMPATIBILITY_LEVEL', "3"
+        buildConfigField 'String', 'MOBILE_APP_CONSUMER', '"mobile_device"'
+        buildConfigField 'String', 'MOBILE_APP_KEY', '"genie-6.4"'
+        buildConfigField 'String', 'MOBILE_APP_SECRET', '"11179b7553f942fa9edb8791406b0dd6"'
+        buildConfigField 'String', 'ENVIRONMENT', '"Genie"'
     }
     buildTypes {
         release {
@@ -46,4 +64,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     // Gson
     compile "com.google.code.gson:gson:2.8.1"
+    //Genie Sdk modules
+    compile "org.ekstep.genieservices:genie-providers:1.0.509"
+    compile "org.ekstep.genieservices:genie-integration:1.0.509"
 }
