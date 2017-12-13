@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@color/colorPrimary">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_view"
@@ -42,6 +43,8 @@
             android:layout_below="@id/question_icon_layout"
             android:gravity="center"
             android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             tools:text="Take away my first letter, and I still sound the same. Take away my last letter, I still sound the same. Even take away my letter in the middle, I will still sound the same. I am a five letter word. What am I?" />
 
 
@@ -53,7 +56,10 @@
             android:layout_margin="16dp"
             android:hint="@string/hint_answer"
             android:inputType="text"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:theme="@style/MyEditText"
+            android:textColorHint="@color/white" />
 
         <Button
             android:id="@+id/submit_answer"
@@ -61,9 +67,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/answer_edit_text"
             android:layout_centerHorizontal="true"
-            android:background="@color/colorPrimary"
+            android:background="@color/white"
             android:text="@string/button_submit"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorPrimary" />
 
 
     </RelativeLayout>

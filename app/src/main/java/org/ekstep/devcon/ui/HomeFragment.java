@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +30,10 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
+import org.ekstep.devcon.util.PreferenceUtil;
 import org.ekstep.devcon.telemetry.ImpressionType;
 import org.ekstep.devcon.telemetry.TelemetryBuilder;
 import org.ekstep.devcon.telemetry.TelemetryHandler;
@@ -43,6 +48,8 @@ import nl.dionsegijn.konfetti.models.Size;
  */
 
 public class HomeFragment extends Fragment {
+    public static final String GAME_OVER = "gameOver";
+    public static final String GAME_WINNER = "gameWinner";
 
     private static boolean animationShown = false;//hacky way!!
 
@@ -59,6 +66,9 @@ public class HomeFragment extends Fragment {
     private AppCompatImageView headerView;
     private KonfettiView mConfetti;
 
+    private boolean mIsGameOver = false;
+    private boolean mIsGameWinner = false;
+
     private BroadcastReceiver mWinner = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -66,6 +76,10 @@ public class HomeFragment extends Fragment {
                 floorArray[1] = "WINNER";
                 subtitles[1] = "Congratzzz you won the game....!";
                 recyclerView.getAdapter().notifyDataSetChanged();
+                mIsGameOver = true;
+                mIsGameWinner = true;
+                PreferenceUtil.getInstance().setBooleanValue(GAME_OVER, true);
+                PreferenceUtil.getInstance().setBooleanValue(GAME_WINNER, true);
                 showConfetti();
             }
         }
@@ -101,6 +115,15 @@ public class HomeFragment extends Fragment {
 
         FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles, icons);
         recyclerView.setAdapter(floorAdapter);
+
+        mIsGameOver = PreferenceUtil.getInstance().getBooleanValue(GAME_OVER, false);
+        mIsGameWinner = PreferenceUtil.getInstance().getBooleanValue(GAME_WINNER, false);
+
+        if (mIsGameWinner) {
+            floorArray[1] = "WINNER";
+            subtitles[1] = "Congratzzz you won the game....!";
+        }
+
 
         scanQRCodeView = view.findViewById(R.id.scan_qr_code);
         scanQRCodeView.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +202,9 @@ public class HomeFragment extends Fragment {
                 .setPosition(mConfetti.getX() + mConfetti.getWidth() / 2,
                         mConfetti.getY() + mConfetti.getHeight() / 3)
                 .stream(300, 5000L);
+
+        MediaPlayer mPlayer = MediaPlayer.create(getActivity(), R.raw.clap);
+        mPlayer.start();
     }
 
 
@@ -248,9 +274,12 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (position == 1) {
-                        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "TreasureHunt"));
-                        Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
-                        holder.cv.getContext().startActivity(intent);
+                        if (!mIsGameOver) {
+                            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "DevCon"));
+
+                            Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
+                            holder.cv.getContext().startActivity(intent);
+                        }
                     } else {
                         TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "FloorPlan"));
                         ((LandingActivity) getActivity()).setFloorFragment();
