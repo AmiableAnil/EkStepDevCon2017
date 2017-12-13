@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +19,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -24,6 +30,10 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
+import org.ekstep.devcon.util.PreferenceUtil;
 import org.ekstep.devcon.telemetry.ImpressionType;
 import org.ekstep.devcon.telemetry.TelemetryBuilder;
 import org.ekstep.devcon.telemetry.TelemetryHandler;
@@ -38,14 +48,23 @@ import nl.dionsegijn.konfetti.models.Size;
  */
 
 public class HomeFragment extends Fragment {
+    public static final String GAME_OVER = "gameOver";
+    public static final String GAME_WINNER = "gameWinner";
     String[] floorArray = new String[]{"FLOOR PLAN", "TREASURE HUNT"};
     String[] subtitles = new String[]{"Find your way!!", "Solve the puzzle and find the hidden treasure!!"};
     int[] icons = {R.drawable.map, R.drawable.treasure};
 
     public static final String WINNER_ACTION = "org.ekstep.WINNER";
 
+    RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private RelativeLayout logoLayout;
+    private View scanQRCodeView;
+    private AppCompatImageView headerView;
     private KonfettiView mConfetti;
+
+    private boolean mIsGameOver = false;
+    private boolean mIsGameWinner = false;
 
     private BroadcastReceiver mWinner = new BroadcastReceiver() {
         @Override
@@ -54,6 +73,10 @@ public class HomeFragment extends Fragment {
                 floorArray[1] = "WINNER";
                 subtitles[1] = "Congratzzz you won the game....!";
                 recyclerView.getAdapter().notifyDataSetChanged();
+                mIsGameOver = true;
+                mIsGameWinner = true;
+                PreferenceUtil.getInstance().setBooleanValue(GAME_OVER, true);
+                PreferenceUtil.getInstance().setBooleanValue(GAME_WINNER, true);
                 showConfetti();
             }
         }
@@ -82,14 +105,25 @@ public class HomeFragment extends Fragment {
     private void initViews(View view) {
         recyclerView = view.findViewById(R.id.rv_floor);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        logoLayout = view.findViewById(R.id.logo);
+        headerView = view.findViewById(R.id.header);
 
         FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles, icons);
         recyclerView.setAdapter(floorAdapter);
 
-        View scanQRCode = view.findViewById(R.id.scan_qr_code);
-        scanQRCode.setOnClickListener(new View.OnClickListener() {
+        mIsGameOver = PreferenceUtil.getInstance().getBooleanValue(GAME_OVER, false);
+        mIsGameWinner = PreferenceUtil.getInstance().getBooleanValue(GAME_WINNER, false);
+
+        if (mIsGameWinner) {
+            floorArray[1] = "WINNER";
+            subtitles[1] = "Congratzzz you won the game....!";
+        }
+
+
+        scanQRCodeView = view.findViewById(R.id.scan_qr_code);
+        scanQRCodeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "QRCode"));
@@ -100,6 +134,54 @@ public class HomeFragment extends Fragment {
         });
 
         mConfetti = view.findViewById(R.id.viewKonfetti);
+
+        initSplashAnim();
+    }
+
+    private void initSplashAnim() {
+        Animation splashAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_splash_bkg);
+        splashAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+//                logoLayout.setVisibility(View.VISIBLE);
+//                logoLayout.setAnimation(getLogoAnim());
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        headerView.setAnimation(splashAnim);
+    }
+
+    @NonNull
+    private Animation getLogoAnim() {
+        final Animation logoAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_from_bottom);
+        logoAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                recyclerView.setVisibility(View.VISIBLE);
+                scanQRCodeView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        return logoAnim;
+
     }
 
     private void showConfetti() {
@@ -114,6 +196,9 @@ public class HomeFragment extends Fragment {
                 .setPosition(mConfetti.getX() + mConfetti.getWidth() / 2,
                         mConfetti.getY() + mConfetti.getHeight() / 3)
                 .stream(300, 5000L);
+
+        MediaPlayer mPlayer = MediaPlayer.create(getActivity(), R.raw.clap);
+        mPlayer.start();
     }
 
 
@@ -183,9 +268,12 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (position == 1) {
-                        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "TreasureHunt"));
-                        Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
-                        holder.cv.getContext().startActivity(intent);
+                        if (!mIsGameOver) {
+                            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "DevCon"));
+
+                            Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
+                            holder.cv.getContext().startActivity(intent);
+                        }
                     } else {
                         TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "FloorPlan"));
                         ((LandingActivity) getActivity()).setFloorFragment();
