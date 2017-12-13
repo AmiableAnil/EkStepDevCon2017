@@ -6,10 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.customview.IndicatorsView;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
 
 /**
  * Created by Sneha on 12/11/2017.
@@ -17,19 +21,28 @@ import org.ekstep.devcon.customview.IndicatorsView;
 
 public class LandingActivity extends AppCompatActivity {
     private IndicatorsView mIndicatorsView;
+    private RelativeLayout viewPagerLayout;
+    private FrameLayout fragmentContainer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
+        fragmentContainer = findViewById(R.id.fragment_container);
+        viewPagerLayout = findViewById(R.id.rl_floor_viewpager);
+        mIndicatorsView = findViewById(R.id.indicatorsView);
+
 //        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        setFragment(new HomeFragment());
+        replaceFragment(new HomeFragment());
     }
 
     public void setFragment(Fragment fragment) {
-        findViewById(R.id.rl_floor_viewpager).setVisibility(View.GONE);
-        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+        viewPagerLayout.setVisibility(View.GONE);
+        fragmentContainer.setVisibility(View.VISIBLE);
+        replaceFragment(fragment);
+    }
 
+    private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
@@ -37,8 +50,8 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     public void setFloorFragment() {
-        findViewById(R.id.rl_floor_viewpager).setVisibility(View.VISIBLE);
-        findViewById(R.id.fragment_container).setVisibility(View.GONE);
+        viewPagerLayout.setVisibility(View.VISIBLE);
+        fragmentContainer.setVisibility(View.GONE);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
                 getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.container);
@@ -48,7 +61,7 @@ public class LandingActivity extends AppCompatActivity {
 //        getSupportActionBar().setHomeButtonEnabled(true);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mIndicatorsView = findViewById(R.id.indicatorsView);
+
         mIndicatorsView.setViewPager(viewPager);
         mIndicatorsView.setFloorNumText(floorNumTv);
         mIndicatorsView.setSmoothTransition(true);
@@ -89,7 +102,8 @@ public class LandingActivity extends AppCompatActivity {
 //    }
     @Override
     public void onBackPressed() {
-        if (findViewById(R.id.fragment_container).getVisibility() == View.VISIBLE) {
+        if (fragmentContainer.getVisibility() == View.VISIBLE) {
+            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildEndEvent());
             finish();
         } else {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);

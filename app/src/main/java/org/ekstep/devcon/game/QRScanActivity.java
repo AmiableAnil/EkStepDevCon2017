@@ -26,6 +26,9 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.customview.DonutProgress;
 import org.ekstep.devcon.game.models.QuestionModel;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
 import org.ekstep.devcon.ui.HomeFragment;
 
 import java.util.List;
@@ -38,22 +41,16 @@ public class QRScanActivity extends AppCompatActivity
         implements DecoratedBarcodeView.TorchListener {
 
     private static final int REQUEST_CODE_CAMERA = 486;
-
+    private static final int GAME_TIME = 30;
     private DecoratedBarcodeView mBarcodeView;
     private ImageView mSwitchFlashLightButton;
-
     private View mHintContainerView;
-
     private BeepManager mBeepManager;
-
     private GameEngine mGameEngine;
-
     private String mLastText;
     private String mHint = null;
     private boolean mIsTouchOn = false;
-
     private QuestionModel mQuestionModel;
-
     private BarcodeCallback mCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
@@ -78,9 +75,6 @@ public class QRScanActivity extends AppCompatActivity
         }
     };
     private QuestionDetailDialogFragment questionDetailDialogFragment;
-
-    private static final int GAME_TIME = 30;
-
 
     private String getFormattedTimerText(int timeRemainingInSecs) {
         int minutes = timeRemainingInSecs / 60;
@@ -129,6 +123,9 @@ public class QRScanActivity extends AppCompatActivity
                     Intent intent = new Intent(HomeFragment.WINNER_ACTION);
                     LocalBroadcastManager.getInstance(QRScanActivity.this).sendBroadcast(intent);
 
+                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("GameCompleted-Winner",
+                            ImpressionType.VIEW, null));
+
                     finish();
                 }
 
@@ -137,6 +134,9 @@ public class QRScanActivity extends AppCompatActivity
                     questionDetailDialogFragment.dismiss();
                     Toast.makeText(QRScanActivity.this, "Time over, you can't play again!!", Toast.LENGTH_LONG)
                             .show();
+                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("GameCompleted-TimeOver",
+                            ImpressionType.VIEW, null));
+
                     finish();
                 }
 

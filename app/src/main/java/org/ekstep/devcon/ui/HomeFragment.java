@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +18,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -24,7 +29,14 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
 import org.ekstep.devcon.util.PreferenceUtil;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
 
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
@@ -43,7 +55,11 @@ public class HomeFragment extends Fragment {
 
     public static final String WINNER_ACTION = "org.ekstep.WINNER";
 
+    RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private RelativeLayout logoLayout;
+    private View scanQRCodeView;
+    private AppCompatImageView headerView;
     private KonfettiView mConfetti;
 
     private boolean mIsGameOver = false;
@@ -70,6 +86,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_floor_plan, container, false);
         initViews(rootView);
+
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("Home", ImpressionType.VIEW, null));
+
         ((LandingActivity) getActivity()).setTitle("WELCOME");
         return rootView;
     }
@@ -85,8 +104,10 @@ public class HomeFragment extends Fragment {
     private void initViews(View view) {
         recyclerView = view.findViewById(R.id.rv_floor);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        logoLayout = view.findViewById(R.id.logo);
+        headerView = view.findViewById(R.id.header);
 
         FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles, icons);
         recyclerView.setAdapter(floorAdapter);
@@ -99,10 +120,12 @@ public class HomeFragment extends Fragment {
             subtitles[1] = "Congratzzz you won the game....!";
         }
 
-        View scanQRCode = view.findViewById(R.id.scan_qr_code);
-        scanQRCode.setOnClickListener(new View.OnClickListener() {
+
+        scanQRCodeView = view.findViewById(R.id.scan_qr_code);
+        scanQRCodeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "QRCode"));
                 IntentIntegrator intentIntegrator = IntentIntegrator
                         .forSupportFragment(HomeFragment.this);
                 intentIntegrator.initiateScan();
@@ -110,6 +133,54 @@ public class HomeFragment extends Fragment {
         });
 
         mConfetti = view.findViewById(R.id.viewKonfetti);
+
+        initSplashAnim();
+    }
+
+    private void initSplashAnim() {
+        Animation splashAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_splash_bkg);
+        splashAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+//                logoLayout.setVisibility(View.VISIBLE);
+//                logoLayout.setAnimation(getLogoAnim());
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        headerView.setAnimation(splashAnim);
+    }
+
+    @NonNull
+    private Animation getLogoAnim() {
+        final Animation logoAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_from_bottom);
+        logoAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                recyclerView.setVisibility(View.VISIBLE);
+                scanQRCodeView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        return logoAnim;
+
     }
 
     private void showConfetti() {
@@ -194,10 +265,13 @@ public class HomeFragment extends Fragment {
                 public void onClick(View view) {
                     if (position == 1) {
                         if (!mIsGameOver) {
+                            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "TreasureHunt"));
+
                             Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
                             holder.cv.getContext().startActivity(intent);
                         }
                     } else {
+                        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "FloorPlan"));
                         ((LandingActivity) getActivity()).setFloorFragment();
                     }
                 }

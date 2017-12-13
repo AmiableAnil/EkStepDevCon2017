@@ -52,10 +52,6 @@
             android:textSize="10sp"
             android:textStyle="bold" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            app:srcCompat="@drawable/batman" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,12 +71,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:visibility="gone"
         android:layout_marginBottom="10dp">
 
         <RelativeLayout
             android:id="@+id/rl_indicatorview_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
             android:gravity="center_vertical"
             android:padding="10dp">
 
@@ -89,8 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:padding="10dp"
+                android:layout_marginLeft="1dp"
                 android:src="@drawable/ic_action_arrow_back" />
 
             <TextView
@@ -108,14 +104,15 @@
             <org.ekstep.devcon.customview.IndicatorsView
                 android:id="@+id/indicatorsView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="15dp"
+                android:padding="1dp"
+                android:layout_centerInParent="true"
                 app:indicatorSelectedSize="10dp"
                 app:indicatorSize="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
