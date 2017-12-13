@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,19 +24,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.ekstep.devcon.EkstepDevConApp;
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
-import org.ekstep.devcon.telemetry.TelemetryBuilder;
-import org.ekstep.devcon.telemetry.TelemetryHandler;
-import org.ekstep.genieservices.commons.bean.enums.InteractionType;
-import org.ekstep.devcon.util.PreferenceUtil;
 import org.ekstep.devcon.telemetry.ImpressionType;
 import org.ekstep.devcon.telemetry.TelemetryBuilder;
 import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.devcon.util.PreferenceUtil;
+import org.ekstep.genieservices.commons.IDeviceInfo;
 import org.ekstep.genieservices.commons.bean.enums.InteractionType;
 
 import nl.dionsegijn.konfetti.KonfettiView;
@@ -50,15 +50,11 @@ import nl.dionsegijn.konfetti.models.Size;
 public class HomeFragment extends Fragment {
     public static final String GAME_OVER = "gameOver";
     public static final String GAME_WINNER = "gameWinner";
-
+    public static final String WINNER_ACTION = "org.ekstep.WINNER";
     private static boolean animationShown = false;//hacky way!!
-
     String[] floorArray = new String[]{"FLOOR PLAN", "TREASURE HUNT"};
     String[] subtitles = new String[]{"Find your way!!", "Solve the puzzle and find the hidden treasure!!"};
     int[] icons = {R.drawable.map, R.drawable.treasure};
-
-    public static final String WINNER_ACTION = "org.ekstep.WINNER";
-
     RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private RelativeLayout logoLayout;
@@ -68,6 +64,10 @@ public class HomeFragment extends Fragment {
 
     private boolean mIsGameOver = false;
     private boolean mIsGameWinner = false;
+
+    private int mCount = 1;
+    private Toast mToast = null;
+    private TextView deviceIdText;
 
     private BroadcastReceiver mWinner = new BroadcastReceiver() {
         @Override
@@ -112,6 +112,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         logoLayout = view.findViewById(R.id.logo);
         headerView = view.findViewById(R.id.header);
+        deviceIdText = view.findViewById(R.id.device_id);
 
         FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles, icons);
         recyclerView.setAdapter(floorAdapter);
@@ -124,6 +125,12 @@ public class HomeFragment extends Fragment {
             subtitles[1] = "Congratzzz you won the game....!";
         }
 
+        logoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayDeviceId();
+            }
+        });
 
         scanQRCodeView = view.findViewById(R.id.scan_qr_code);
         scanQRCodeView.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +148,24 @@ public class HomeFragment extends Fragment {
         if (!animationShown) {
             animationShown = true;
             initSplashAnim();
+        }
+    }
+
+    private void displayDeviceId() {
+        IDeviceInfo deviceInfo = EkstepDevConApp.getGenieSdkInstance().getDeviceInfo();
+        String deviceId = deviceInfo.getDeviceID();
+        String navigateStepsMsg = "You are " + (5 - mCount) + " steps away";
+
+        if (mCount == 5) {
+            deviceIdText.setText(deviceId);
+        } else {
+            if (mToast == null) {
+                mToast = Toast.makeText(getActivity(), navigateStepsMsg, Toast.LENGTH_SHORT);
+            } else {
+                mToast.setText(navigateStepsMsg);
+            }
+            mToast.show();
+            mCount++;
         }
     }
 
