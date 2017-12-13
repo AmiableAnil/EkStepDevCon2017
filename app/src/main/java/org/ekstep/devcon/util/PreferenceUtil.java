@@ -10,7 +10,6 @@ import java.util.Set;
 
 /**
  * Preference Util class to store the value in preference.
- *
  */
 public class PreferenceUtil {
 
@@ -23,7 +22,6 @@ public class PreferenceUtil {
      * SharedPreferences object.
      */
     private SharedPreferences mSharedPrefs;
-
     /**
      * Preference editor object.
      */
@@ -62,6 +60,20 @@ public class PreferenceUtil {
         }
         return mInstance;
     }
+
+    /**
+     * Get game First Launch time.
+     *
+     * @return
+     */
+    public static long getGameFirstLaunchTime() {
+        return getInstance().getLongValue(Constant.GAME_FIRST_LAUNCH_TIME, -1);
+    }
+
+    public static void setGameFirstLaunchTime(long gameFirstLaunchTime) {
+        getInstance().setLongValue(Constant.GAME_FIRST_LAUNCH_TIME, gameFirstLaunchTime);
+    }
+
 
     /**
      * clear all the data from preferences..
