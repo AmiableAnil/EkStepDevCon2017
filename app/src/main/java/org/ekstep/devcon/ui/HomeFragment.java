@@ -24,6 +24,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
+import org.ekstep.devcon.util.PreferenceUtil;
 
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
@@ -34,6 +35,8 @@ import nl.dionsegijn.konfetti.models.Size;
  */
 
 public class HomeFragment extends Fragment {
+    public static final String GAME_OVER = "gameOver";
+    public static final String GAME_WINNER = "gameWinner";
     String[] floorArray = new String[]{"FLOOR PLAN", "TREASURE HUNT"};
     String[] subtitles = new String[]{"Find your way!!", "Solve the puzzle and find the hidden treasure!!"};
     int[] icons = {R.drawable.map, R.drawable.treasure};
@@ -43,6 +46,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private KonfettiView mConfetti;
 
+    private boolean mIsGameOver = false;
+    private boolean mIsGameWinner = false;
+
     private BroadcastReceiver mWinner = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -50,6 +56,10 @@ public class HomeFragment extends Fragment {
                 floorArray[1] = "WINNER";
                 subtitles[1] = "Congratzzz you won the game....!";
                 recyclerView.getAdapter().notifyDataSetChanged();
+                mIsGameOver = true;
+                mIsGameWinner = true;
+                PreferenceUtil.getInstance().setBooleanValue(GAME_OVER, true);
+                PreferenceUtil.getInstance().setBooleanValue(GAME_WINNER, true);
                 showConfetti();
             }
         }
@@ -80,6 +90,14 @@ public class HomeFragment extends Fragment {
 
         FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles, icons);
         recyclerView.setAdapter(floorAdapter);
+
+        mIsGameOver = PreferenceUtil.getInstance().getBooleanValue(GAME_OVER, false);
+        mIsGameWinner = PreferenceUtil.getInstance().getBooleanValue(GAME_WINNER, false);
+
+        if (mIsGameWinner) {
+            floorArray[1] = "WINNER";
+            subtitles[1] = "Congratzzz you won the game....!";
+        }
 
         View scanQRCode = view.findViewById(R.id.scan_qr_code);
         scanQRCode.setOnClickListener(new View.OnClickListener() {
@@ -175,8 +193,10 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (position == 1) {
-                        Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
-                        holder.cv.getContext().startActivity(intent);
+                        if (!mIsGameOver) {
+                            Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
+                            holder.cv.getContext().startActivity(intent);
+                        }
                     } else {
                         ((LandingActivity) getActivity()).setFloorFragment();
                     }
