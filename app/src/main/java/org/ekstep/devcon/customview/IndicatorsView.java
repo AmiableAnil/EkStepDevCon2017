@@ -17,6 +17,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.ekstep.devcon.R;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
 
 /**
  * Created on 12/12/2017.
@@ -63,6 +66,25 @@ public class IndicatorsView extends View implements ViewPager.OnPageChangeListen
     public IndicatorsView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
+    }
+
+    // Helper
+    public static Bitmap drawableToBitmap(Drawable drawable, int size) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        if (size < 1) {
+            size = 1;
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 
     private void init(Context context, @Nullable AttributeSet attrs) {
@@ -299,26 +321,6 @@ public class IndicatorsView extends View implements ViewPager.OnPageChangeListen
         }
     }
 
-    // Helper
-    public static Bitmap drawableToBitmap(Drawable drawable, int size) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        if (size < 1) {
-            size = 1;
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
-
     // Control
     public void setSelectedIndicator(int selectedIndicator) {
         mSelectedIndicator = selectedIndicator;
@@ -334,6 +336,7 @@ public class IndicatorsView extends View implements ViewPager.OnPageChangeListen
             floorNumValue = mSelectedIndicator + 1;
         }
         mfloorNumText.setText("Floor " + floorNumValue);
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("Floor-" + floorNumValue, ImpressionType.VIEW, "Paginate"));
     }
 
     public void setViewPager(ViewPager viewPager) {

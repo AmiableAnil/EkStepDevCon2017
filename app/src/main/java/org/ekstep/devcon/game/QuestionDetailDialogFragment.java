@@ -1,6 +1,7 @@
 package org.ekstep.devcon.game;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,13 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.models.QuestionModel;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.devcon.util.Constant;
+import org.ekstep.devcon.util.PreferenceUtil;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @author vinayagasundar
@@ -32,8 +46,10 @@ public class QuestionDetailDialogFragment extends DialogFragment {
     private EditText mAnswerEditText;
 
     private View mQuestionView;
+    private LottieAnimationView mDoneAnimationView;
 
     private QuestionModel mQuestionModel;
+    private String setValue;
 
     public static QuestionDetailDialogFragment newInstance(QuestionModel questionModel) {
         QuestionDetailDialogFragment fragment = new QuestionDetailDialogFragment();
@@ -53,6 +69,10 @@ public class QuestionDetailDialogFragment extends DialogFragment {
         if (getArguments() != null) {
             mQuestionModel = getArguments().getParcelable(BUNDLE_QUESTION_ID);
         }
+
+        setValue = PreferenceUtil.getInstance().getStringValue(Constant.KEY_SET_VALUE, null);
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("QuestionDialog", ImpressionType.VIEW,
+                null, setValue, "question"));
     }
 
     @Nullable
@@ -82,6 +102,8 @@ public class QuestionDetailDialogFragment extends DialogFragment {
         mQuestionView = view.findViewById(R.id.question_view);
         mAnswerEditText = view.findViewById(R.id.answer_edit_text);
 
+        mDoneAnimationView = view.findViewById(R.id.animation_view);
+
         mAnswerEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -104,6 +126,7 @@ public class QuestionDetailDialogFragment extends DialogFragment {
         setCancelable(false);
 
         initUI();
+        showKeyBoard();
     }
 
     private void initUI() {
@@ -132,9 +155,40 @@ public class QuestionDetailDialogFragment extends DialogFragment {
             if (!isCorrect) {
                 mAnswerEditText.setText(null);
                 Toast.makeText(getActivity(), "Wrong Answer", Toast.LENGTH_SHORT).show();
+            } else {
+                hideKeyBoard();
+                mQuestionView.setVisibility(View.INVISIBLE);
+                mDoneAnimationView.playAnimation();
             }
         } else {
             mAnswerEditText.setError("Please answer the question");
         }
+
+        Map<String, String> valueMap = new HashMap<>();
+        valueMap.put(Constant.KEY_SET_VALUE, setValue);
+        valueMap.put(Constant.QUESTION, mQuestionModel.getQuestion());
+        valueMap.put(Constant.GIVEN_ANSWER, answer);
+        valueMap.put(Constant.EXPECTED_ANSWER, mQuestionModel.getAnswer());
+
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "QuestionDialog", "Submit", valueMap));
+
+    }
+
+
+    public void showKeyBoard() {
+        InputMethodManager mgr = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        // only will trigger it if no physical keyboard is open
+        mgr.showSoftInput(mAnswerEditText, InputMethodManager.SHOW_IMPLICIT);
+
+        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
+                .showSoftInput(mAnswerEditText, 0);
+
+    }
+
+    public void hideKeyBoard() {
+        InputMethodManager mgr = (InputMethodManager)
+                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(mAnswerEditText.getWindowToken(), 0);
     }
 }

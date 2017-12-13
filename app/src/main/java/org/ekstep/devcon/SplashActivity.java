@@ -11,6 +11,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
 import org.ekstep.devcon.ui.LandingActivity;
 import org.ekstep.devcon.util.PreferenceUtil;
 
@@ -27,6 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         PreferenceUtil.setGameFirstLaunchTime(System.currentTimeMillis());
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildStartEvent(getApplicationContext()));
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -46,8 +49,8 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        }
-    },2000);
+            }
+        }, 2000);
 
-}
+    }
 }

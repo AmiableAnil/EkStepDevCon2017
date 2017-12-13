@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.customview.IndicatorsView;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
 
 /**
  * Created by Sneha on 12/11/2017.
@@ -101,6 +103,7 @@ public class LandingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (fragmentContainer.getVisibility() == View.VISIBLE) {
+            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildEndEvent());
             finish();
         } else {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);

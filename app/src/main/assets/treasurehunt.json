@@ -13,36 +13,224 @@
     {
       "question": "If I have it, I don't share it. If I share it, I don't have it. What is it?",
       "answer": "Secret",
-      "hint": "4th floor RnD Booth"
+      "hint": "I'm situated at the top peak, where people translate an idea into a good service/product"
     },
     {
       "question": "The more I am present, the less you can see. Who am I?",
       "answer": "Darkness",
-      "hint": "1st floor opensource Booth"
+      "hint": "Get me from the team, who freely distributes to the community of coders"
     },
     {
       "question": "I don't have legs but I have hands. I can run but I can't walk. Who am I?",
       "answer": "Clock",
-      "hint": "2nd floor Agility Booth"
+      "hint": "Find me in the stall, who has a property of water and fit in any shape and space in an effective manner"
     },
     {
       "question": "I start with T and end with T and have T in me. Who am I?",
       "answer": "Teapot",
-      "hint": "1st floor Devops Booth"
+      "hint": "Stall where trust worthy pireates reside"
     },
     {
       "question": "I have keys but no locks. I have space but no room. You can enter but can't go outside. What am I?",
       "answer": "Keyboard",
-      "hint": "2nd floor Scalability Booth"
+      "hint": "Search me with people, who can accomodate and handle growing amount of work"
     },
     {
       "question": "I am a fruit. I am tasty and provide lots of energy. You can find also me in a calendar. Who am I?",
       "answer": "Dates",
-      "hint": "1st floor Quality"
+      "hint": "Search me with the people, who ensure that you are building the product right"
     },
     {
       "question": "There are three houses. One is red, one is blue, and one is white. If the red house is to the left of the house in the middle, and the blue house is to the right to the house in the middle, where is the white house?",
       "answer": "America/ USA / Washington",
+      "hint": ""
+    }
+  ],
+  "set2": [
+    {
+      "question": "What has one eye but cannot see?",
+      "answer": "Needle",
+      "hint": ""
+    },
+    {
+      "question": "What can you hold in your left hand but not in tour right hand?",
+      "answer": "Your right hand/right",
+      "hint": "1st floor Genie Booth"
+    },
+    {
+      "question": "What kind of tree can you carry in your hand?",
+      "answer": "Palm",
+      "hint": "Find me in the stall, who has a property of water and fit in any shape and space in an effective manner"
+    },
+    {
+      "question": "How many seconds are there in a year?",
+      "answer": "12/Twelve",
+      "hint": "I'm situated at the top peak, where people translate an idea into a good service/product"
+    },
+    {
+      "question": "What goes up and down without moving?",
+      "answer": "Stairs",
+      "hint": "Search me with the people, who ensure that you are building the product right"
+    },
+    {
+      "question": "You can drop me from the tallest building and I’ll be fine, but if you drop me in water I die. What am I?",
+      "answer": "Paper",
+      "hint": "Stall where trust worthy pireates reside"
+    },
+    {
+      "question": "I have keys but no locks. I have space but no room. You can enter but can't go outside. What am I?",
+      "answer": "Keyboard",
+      "hint": "Search me with people, who can accomodate and handle growing amount of work"
+    },
+    {
+      "question": "I don't have legs but I have hands. I can run but I can't walk. Who am I?",
+      "answer": "Clock",
+      "hint": "Get me from the team, who freely distributes to the community of coders"
+    },
+    {
+      "question": "A man wanted to encrypt his password but he needed to do it in a way so that he could remember it. He had to use seven characters consisting of letters and numbers only (no symbols like ! or <). In order to remember it, he wrote down “You force heaven to be empty.” What is his password?",
+      "answer": "u472bmt",
+      "hint": ""
+    }
+  ],
+  "set3": [
+    {
+      "question": "What can you catch but not throw?",
+      "answer": "Cold",
+      "hint": ""
+    },
+    {
+      "question": "What belongs to you but  most of the times  is used more by others?",
+      "answer": "Name",
+      "hint": "1st floor Genie Booth"
+    },
+    {
+      "question": "I start with T and end with T and have T in me. Who am I?",
+      "answer": "Teapot",
+      "hint": "Search me with the people, who ensure that you are building the product right"
+    },
+    {
+      "question": "The more I am present, the less you can see. Who am I?",
+      "answer": "Darkness",
+      "hint": "Search me with people, who can accomodate and handle growing amount of work"
+    },
+    {
+      "question": "What is it that's always coming but never arrives??",
+      "answer": "Tomorrow",
+      "hint": "Stall where trust worthy pireates reside"
+    },
+    {
+      "question": "I start with T and end with T and have T in me. Who am I?",
+      "answer": "Teapot",
+      "hint": "I'm situated at the top peak, where people translate an idea into a good service/product"
+    },
+    {
+      "question": "I have keys but no locks. I have space but no room. You can enter but can't go outside. What am I?",
+      "answer": "Keyboard",
+      "hint": "Find me in the stall, who has a property of water and fit in any shape and space in an effective manner"
+    },
+    {
+      "question": "I’m light as a feather, yet the strongest man can’t hold me for more than 5 minutes. What am I?",
+      "answer": "Breath",
+      "hint": "Get me from the team, who freely distributes to the community of coders"
+    },
+    {
+      "question": "Math time. If you are cold where do you go to become hot?",
+      "answer": "Corner",
+      "hint": ""
+    }
+  ],
+  "set4": [
+    {
+      "question": "What can you catch but not throw?",
+      "answer": "Cold",
+      "hint": ""
+    },
+    {
+      "question": "If I have it, I don’t share it. If I share it, I don’t have it. What is it?",
+      "answer": "Secret",
+      "hint": "1st floor Genie Booth"
+    },
+    {
+      "question": "I start with T and end with T and have T in me. Who am I?",
+      "answer": "Teapot",
+      "hint": "Search me with people, who can accomodate and handle growing amount of work"
+    },
+    {
+      "question": "The more I am present, the less you can see. Who am I?",
+      "answer": "Darkness",
+      "hint": "Get me from the team, who freely distributes to the community of coders"
+    },
+    {
+      "question": "I don't have legs but I have hands. I can run but I can't walk. Who am I?",
+      "answer": "Clock",
+      "hint": "I'm situated at the top peak, where people translate an idea into a good service/product"
+    },
+    {
+      "question": "I start with T and end with T and have T in me. Who am I?",
+      "answer": "Teapot",
+      "hint": "Search me with the people, who ensure that you are building the product right"
+    },
+    {
+      "question": "I have keys but no locks. I have space but no room. You can enter but can't go outside. What am I?",
+      "answer": "Keyboard",
+      "hint": "Stall where trust worthy pireates reside"
+    },
+    {
+      "question": "You answer me, although I never ask you questions. What am I?",
+      "answer": "Telephone/Mobile",
+      "hint": "Find me in the stall, who has a property of water and fit in any shape and space in an effective manner"
+    },
+    {
+      "question": "Who makes it has no need of it,  Who buys it has no use for it, Who uses it can neither see nor feel it, What is it?",
+      "answer": "Coffin",
+      "hint": ""
+    }
+  ],
+  "set5": [
+    {
+      "question": "What goes up and down without moving?",
+      "answer": "Stairs",
+      "hint": ""
+    },
+    {
+      "question": "What belongs to you but  most of the times  is used more by others?",
+      "answer": "Name",
+      "hint": "1st floor Genie Booth"
+    },
+    {
+      "question": "What can you hold in your left hand but not in tour right hand",
+      "answer": "Right hand",
+      "hint": "Find me in the stall, who has a property of water and fit in any shape and space in an effective manner"
+    },
+    {
+      "question": "The more I am present, the less you can see. Who am I?",
+      "answer": "Darkness",
+      "hint": "Get me from the team, who freely distributes to the community of coders"
+    },
+    {
+      "question": "I don't have legs but I have hands. I can run but I can't walk. Who am I?",
+      "answer": "Clock",
+      "hint": "Search me with people, who can accomodate and handle growing amount of work"
+    },
+    {
+      "question": "I start with T and end with T and have T in me. Who am I?",
+      "answer": "Teapot",
+      "hint": "Stall where trust worthy pireates reside"
+    },
+    {
+      "question": "If a blue house is made out of blue bricks, a yellow house is made out of yellow bricks and a pink house is made out of pink bricks, what is a green house made of?",
+      "answer": "Glass",
+      "hint": "Search me with the people, who ensure that you are building the product right"
+    },
+    {
+      "question": "Forward I am heavy, but backward I am not. What am I??",
+      "answer": "Ton",
+      "hint": "I'm situated at the top peak, where people translate an idea into a good service/product"
+    },
+    {
+      "question": "Take away my first letter, and I still sound the same. Take away my last letter, I still sound the same. Even take away my letter in the middle, I will still sound the same. I am a five letter word. What am I?",
+      "answer": "Empty",
       "hint": ""
     }
   ]

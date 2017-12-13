@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="google_api_key">AIzaSyBJH1rD_Sl92mcQ6q3xsfM1nBa1yRatjuQ</string>
+    <!--<string name="google_api_key">AIzaSyAh77M65BtTP3ldhiV344v1B6RYwMKoplw</string>-->
     <string name="elevation_api_url">https://maps.googleapis.com/maps/api/elevation/json?locations=39.7391536,-104.9847034&amp;key=</string>
 </resources>

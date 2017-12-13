@@ -2,16 +2,16 @@ package org.ekstep.devcon.game;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +26,10 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.customview.DonutProgress;
 import org.ekstep.devcon.game.models.QuestionModel;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.devcon.ui.HomeFragment;
 
 import java.util.List;
 
@@ -37,21 +41,16 @@ public class QRScanActivity extends AppCompatActivity
         implements DecoratedBarcodeView.TorchListener {
 
     private static final int REQUEST_CODE_CAMERA = 486;
-
+    private static final int GAME_TIME = 30;
     private DecoratedBarcodeView mBarcodeView;
     private ImageView mSwitchFlashLightButton;
-    private ImageView mHintView;
-
+    private View mHintContainerView;
     private BeepManager mBeepManager;
-
     private GameEngine mGameEngine;
-
     private String mLastText;
     private String mHint = null;
     private boolean mIsTouchOn = false;
-
     private QuestionModel mQuestionModel;
-
     private BarcodeCallback mCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
@@ -77,9 +76,6 @@ public class QRScanActivity extends AppCompatActivity
     };
     private QuestionDetailDialogFragment questionDetailDialogFragment;
 
-    private static final int GAME_TIME = 30;
-
-
     private String getFormattedTimerText(int timeRemainingInSecs) {
         int minutes = timeRemainingInSecs / 60;
         int seconds = timeRemainingInSecs % 60;
@@ -96,7 +92,8 @@ public class QRScanActivity extends AppCompatActivity
         donutProgress.setMax((int) (GameEngine.GAME_TIME / 1000));
 
         mBarcodeView = findViewById(R.id.barcode_scanner);
-        mHintView = findViewById(R.id.show_hint);
+
+        mHintContainerView = findViewById(R.id.hint_view);
         mBarcodeView.setTorchListener(this);
 
         try {
@@ -104,27 +101,32 @@ public class QRScanActivity extends AppCompatActivity
                 @Override
                 public void onGameInitiated() {
 
-            }
+                }
 
-            @Override
-            public void nextHint(String hint) {
-                questionDetailDialogFragment.dismiss();
-                showHint(hint);
-            }
+                @Override
+                public void nextHint(String hint) {
+                    questionDetailDialogFragment.dismiss();
+                    showHint(hint);
+                }
 
-            @Override
-            public void nextQuestion(QuestionModel questionModel) {
-                mHint = null;
-                mHintView.setVisibility(View.GONE);
-                mQuestionModel = questionModel;
-                showQuestionProgress();
-            }
+                @Override
+                public void nextQuestion(QuestionModel questionModel) {
+                    mHint = null;
+                    mHintContainerView.setVisibility(View.GONE);
+                    mQuestionModel = questionModel;
+                    showQuestionProgress();
+                }
 
                 @Override
                 public void gameCompleted() {
                     questionDetailDialogFragment.dismiss();
-                    Toast.makeText(QRScanActivity.this, "You're Winner", Toast.LENGTH_LONG)
-                            .show();
+                    Intent intent = new Intent(HomeFragment.WINNER_ACTION);
+                    LocalBroadcastManager.getInstance(QRScanActivity.this).sendBroadcast(intent);
+
+                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("GameCompleted-Winner",
+                            ImpressionType.VIEW, null));
+
+                    finish();
                 }
 
                 @Override
@@ -132,12 +134,15 @@ public class QRScanActivity extends AppCompatActivity
                     questionDetailDialogFragment.dismiss();
                     Toast.makeText(QRScanActivity.this, "Time over, you can't play again!!", Toast.LENGTH_LONG)
                             .show();
+                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("GameCompleted-TimeOver",
+                            ImpressionType.VIEW, null));
+
                     finish();
                 }
 
                 @Override
                 public void timeLapse(long timeRemainingInSeconds) {
-                    donutProgress.setDonut_progress(String.valueOf((int)(GameEngine.GAME_TIME / 1000) - timeRemainingInSeconds));
+                    donutProgress.setDonut_progress(String.valueOf((int) (GameEngine.GAME_TIME / 1000) - timeRemainingInSeconds));
                     donutProgress.setText(getFormattedTimerText((int) timeRemainingInSeconds));
                 }
             });
@@ -220,7 +225,7 @@ public class QRScanActivity extends AppCompatActivity
 
     private void showHint(String hintText) {
         mHint = hintText;
-        mHintView.setVisibility(View.VISIBLE);
+//        mHintView.setVisibility(View.VISIBLE);
         displayHint();
     }
 
@@ -260,22 +265,10 @@ public class QRScanActivity extends AppCompatActivity
             return;
         }
 
-        final Dialog dialog = new Dialog(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_hint, null);
+        mHintContainerView.setVisibility(View.VISIBLE);
 
-        TextView questionText = view.findViewById(R.id.hint_text);
-        View button = view.findViewById(R.id.scan_qr_code);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
+        TextView questionText = mHintContainerView.findViewById(R.id.hint_text);
         questionText.setText(mHint);
-
-        dialog.setContentView(view);
-        dialog.show();
     }
 
 

@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "998552466808",
+    "firebase_url": "https://ekstepdevcon2017.firebaseio.com",
+    "project_id": "ekstepdevcon2017",
+    "storage_bucket": "ekstepdevcon2017.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998552466808:android:630b0f04a910036c",
+        "android_client_info": {
+          "package_name": "org.ekstep.devcon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998552466808-bjq43ev5q9duku870gg1albs07dgld3h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.ekstep.devcon",
+            "certificate_hash": "7b0af726f6018399bbb1721f0e7e1b4b01595d81"
+          }
+        },
+        {
+          "client_id": "998552466808-kibc99vf6rn8odj5rippirpq8mom40ho.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.ekstep.devcon",
+            "certificate_hash": "e314c2ef1e8f1b4b312908089d942498ac624deb"
+          }
+        },
+        {
+          "client_id": "998552466808-6i8tvf36ir4t6pqm7fa4m8f9pe8nf0r4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnlI833jQLWaLfB8fflzJRcM3aUz6rrKE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998552466808-6i8tvf36ir4t6pqm7fa4m8f9pe8nf0r4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

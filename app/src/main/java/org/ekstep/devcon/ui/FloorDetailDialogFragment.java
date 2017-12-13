@@ -22,6 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ekstep.devcon.R;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
 
 /**
  * @author vinayagasundar
@@ -98,6 +101,7 @@ public class FloorDetailDialogFragment extends DialogFragment {
         getDialog().getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);
 
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent(mTitle, ImpressionType.DETAIL,null));
 
         View closeIcon = view.findViewById(R.id.close_icon);
         TextView title = view.findViewById(R.id.title);

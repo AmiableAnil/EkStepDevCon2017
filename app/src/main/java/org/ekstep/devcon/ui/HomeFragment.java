@@ -1,12 +1,17 @@
 package org.ekstep.devcon.ui;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,32 +29,63 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
+
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 
 /**
  * Created by Sneha on 12/12/2017.
  */
 
 public class HomeFragment extends Fragment {
-    //    String[] floorArray = new String[]{"FIRST FLOOR",
-//            "SECOND FLOOR", "FOURTH FLOOR", "TREASURE HUNT"};
     String[] floorArray = new String[]{"FLOOR PLAN", "TREASURE HUNT"};
     String[] subtitles = new String[]{"Find your way!!", "Solve the puzzle and find the hidden treasure!!"};
     int[] icons = {R.drawable.map, R.drawable.treasure};
-    //    String[] subtitles = new String[]{"Adoption, Reliability, Mobility, Quality",
-//            "Agility, Scalability", "Innovation", "Play the game!!"};
+
+    public static final String WINNER_ACTION = "org.ekstep.WINNER";
+
     RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private RelativeLayout logoLayout;
     private View scanQRCodeView;
     private AppCompatImageView headerView;
+    private KonfettiView mConfetti;
+
+    private BroadcastReceiver mWinner = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals(WINNER_ACTION)) {
+                floorArray[1] = "WINNER";
+                subtitles[1] = "Congratzzz you won the game....!";
+                recyclerView.getAdapter().notifyDataSetChanged();
+                showConfetti();
+            }
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_floor_plan, container, false);
         initViews(rootView);
+
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("Home", ImpressionType.VIEW, null));
+
         ((LandingActivity) getActivity()).setTitle("WELCOME");
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mWinner,
+                new IntentFilter(WINNER_ACTION));
     }
 
     private void initViews(View view) {
@@ -67,11 +103,14 @@ public class HomeFragment extends Fragment {
         scanQRCodeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "QRCode"));
                 IntentIntegrator intentIntegrator = IntentIntegrator
                         .forSupportFragment(HomeFragment.this);
                 intentIntegrator.initiateScan();
             }
         });
+
+        mConfetti = view.findViewById(R.id.viewKonfetti);
 
         initSplashAnim();
     }
@@ -119,6 +158,21 @@ public class HomeFragment extends Fragment {
             }
         });
         return logoAnim;
+
+    }
+
+    private void showConfetti() {
+        mConfetti.build()
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(new Size(12, 5f), new Size(16, 6f))
+                .setPosition(mConfetti.getX() + mConfetti.getWidth() / 2,
+                        mConfetti.getY() + mConfetti.getHeight() / 3)
+                .stream(300, 5000L);
     }
 
 
@@ -188,9 +242,11 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (position == 1) {
+                        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "TreasureHunt"));
                         Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
                         holder.cv.getContext().startActivity(intent);
                     } else {
+                        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "FloorPlan"));
                         ((LandingActivity) getActivity()).setFloorFragment();
                     }
                 }

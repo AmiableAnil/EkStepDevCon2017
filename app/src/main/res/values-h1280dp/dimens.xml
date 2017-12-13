@@ -1,4 +1,4 @@
 <resources>
     <dimen name="splash_height">1280dp</dimen>
-    <dimen name="header_margin_top">-1030dp</dimen>
+    <dimen name="header_margin_top">-1100dp</dimen>
 </resources>

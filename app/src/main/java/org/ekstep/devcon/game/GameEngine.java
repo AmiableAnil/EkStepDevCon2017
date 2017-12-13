@@ -2,14 +2,15 @@ package org.ekstep.devcon.game;
 
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.util.Log;
+import android.os.Handler;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.ekstep.devcon.BuildConfig;
 import org.ekstep.devcon.game.models.QuestionModel;
+import org.ekstep.devcon.util.Constant;
+import org.ekstep.devcon.util.PreferenceUtil;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -50,6 +51,11 @@ public class GameEngine {
         return engine;
     }
 
+    public static void initGame(Context context, OnGameInitiatedListener onGameInitiatedListener) throws GameException {
+        engine = new GameEngine(context, onGameInitiatedListener);
+        if (engine.timeOver) throw new GameException("Time over!! You can't play the game again!!");
+    }
+
     private void initGameTimer() {
         new CountDownTimer(GAME_TIME, 1000) {
 
@@ -65,23 +71,37 @@ public class GameEngine {
         }.start();
     }
 
-    public static void initGame(Context context, OnGameInitiatedListener onGameInitiatedListener) throws GameException {
-        engine = new GameEngine(context, onGameInitiatedListener);
-        if (engine.timeOver) throw new GameException("Time over!! You can't play the game again!!");
-    }
-
     public boolean isCorrect(String answer) {
-        if (currentQuestion.getAnswer().toLowerCase().trim().contains(answer.toLowerCase())) {
+        String[] answerArray;
+
+        if (currentQuestion.getAnswer().contains("/")) {
+            answerArray = currentQuestion.getAnswer().split("/");
+        } else {
+            answerArray = new String[1];
+            answerArray[0] = currentQuestion.getAnswer();
+        }
+
+        boolean isCorrect = false;
+
+        for (String ans : answerArray) {
+            if (ans.trim().equalsIgnoreCase(answer.trim())) {
+                isCorrect = true;
+                break;
+            }
+        }
+
+        if (isCorrect) {
             currentQuestion = questionList.poll();
 
             if (currentQuestion == null) {
                 mCallback.gameCompleted();
             } else {
-                if (BuildConfig.DEBUG) {
-                    Log.i(TAG, "isCorrect: " + currentQuestion.hashCode());
-                }
-
-                mCallback.nextHint(currentQuestion.getHint());
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCallback.nextHint(currentQuestion.getHint());
+                    }
+                }, 3000);
             }
 
             return true;
@@ -117,7 +137,9 @@ public class GameEngine {
         Iterator<String> iterator = treasureMap.keySet().iterator();
         int index = 0;
         while (iterator.hasNext()) {
-            LinkedList<QuestionModel> list = treasureMap.get(iterator.next());
+            String key = iterator.next();
+            LinkedList<QuestionModel> list = treasureMap.get(key);
+            PreferenceUtil.getInstance().setStringValue(Constant.KEY_SET_VALUE, key);
             if (index == r) return list;
             index++;
         }

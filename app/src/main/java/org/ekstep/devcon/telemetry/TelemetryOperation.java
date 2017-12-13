@@ -123,13 +123,13 @@ public class TelemetryOperation {
     private static void autoSync(String stageId) {
         if (canSync(EkstepDevConApp.getGenieSdkInstance().getConnectionInfo())) {
 
-            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, "AutoSync-Initiated", stageId));
+            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, "AutoSync-Initiated", stageId, null));
             EkstepDevConApp.getSyncService().sync(new IResponseHandler<SyncStat>() {
                 @Override
                 public void onSuccess(GenieResponse<SyncStat> genieResponse) {
                     mIsSyncInProgress = false;
 
-                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.OTHER, "AutoSync-Success", "TreasureHunt-TelemetrySync", getFileSizeMap(genieResponse.getResult())));
+                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.OTHER, "AutoSync-Success", "TreasureHunt-TelemetrySync", getFileSizeMap(genieResponse.getResult()), null));
                 }
 
                 @Override
@@ -142,13 +142,13 @@ public class TelemetryOperation {
 
     private static void manualSync() {
 
-        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, "ManualSync-Initiated", "TreasureHunt-TelemetrySync"));
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, "ManualSync-Initiated", "TreasureHunt-TelemetrySync", null));
         EkstepDevConApp.getGenieAsyncService().getSyncService().sync(new IResponseHandler<SyncStat>() {
             @Override
             public void onSuccess(GenieResponse<SyncStat> genieResponse) {
                 mIsSyncInProgress = false;
 
-                TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.OTHER, "ManualSync-Success", "TreasureHunt-TelemetrySync", getFileSizeMap(genieResponse.getResult())));
+                TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.OTHER, "ManualSync-Success", "TreasureHunt-TelemetrySync", getFileSizeMap(genieResponse.getResult()), null));
             }
 
             @Override
