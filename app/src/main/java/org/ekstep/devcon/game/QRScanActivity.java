@@ -106,6 +106,7 @@ public class QRScanActivity extends AppCompatActivity
                 @Override
                 public void nextHint(String hint) {
                     questionDetailDialogFragment.dismiss();
+                    mBarcodeView.resume();
                     showHint(hint);
                 }
 
@@ -114,6 +115,7 @@ public class QRScanActivity extends AppCompatActivity
                     mHint = null;
                     mHintContainerView.setVisibility(View.GONE);
                     mQuestionModel = questionModel;
+                    mBarcodeView.pause();
                     showQuestionProgress();
                 }
 
