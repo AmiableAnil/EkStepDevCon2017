@@ -30,6 +30,7 @@ import org.ekstep.devcon.telemetry.ImpressionType;
 import org.ekstep.devcon.telemetry.TelemetryBuilder;
 import org.ekstep.devcon.telemetry.TelemetryHandler;
 import org.ekstep.devcon.ui.HomeFragment;
+import org.ekstep.devcon.util.PreferenceUtil;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ import java.util.List;
  */
 
 public class QRScanActivity extends AppCompatActivity
-        implements DecoratedBarcodeView.TorchListener {
+        implements DecoratedBarcodeView.TorchListener, RulesDialogFragment.Callback {
 
     private static final int REQUEST_CODE_CAMERA = 486;
     private static final int GAME_TIME = 30;
@@ -74,7 +75,9 @@ public class QRScanActivity extends AppCompatActivity
         public void possibleResultPoints(List<ResultPoint> resultPoints) {
         }
     };
+
     private QuestionDetailDialogFragment questionDetailDialogFragment;
+    private DonutProgress donutProgress;
 
     private String getFormattedTimerText(int timeRemainingInSecs) {
         int minutes = timeRemainingInSecs / 60;
@@ -88,7 +91,7 @@ public class QRScanActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_scan);
 
-        final DonutProgress donutProgress = findViewById(R.id.donut_progress);
+        donutProgress = findViewById(R.id.donut_progress);
         donutProgress.setMax((int) (GameEngine.GAME_TIME / 1000));
 
         mBarcodeView = findViewById(R.id.barcode_scanner);
@@ -96,6 +99,23 @@ public class QRScanActivity extends AppCompatActivity
         mHintContainerView = findViewById(R.id.hint_view);
         mBarcodeView.setTorchListener(this);
 
+
+        boolean isRuleAccepted = PreferenceUtil.getInstance()
+                .getBooleanValue(RulesDialogFragment.USER_RULES, false);
+
+        if (isRuleAccepted) {
+            initGameEngine();
+        } else {
+            RulesDialogFragment rulesDialogFragment = new RulesDialogFragment();
+            rulesDialogFragment.show(getSupportFragmentManager(),
+                    RulesDialogFragment.class.toString());
+        }
+
+
+        startQRScanning();
+    }
+
+    private void initGameEngine() {
         try {
             GameEngine.initGame(this, new OnGameInitiatedListener() {
                 @Override
@@ -154,7 +174,6 @@ public class QRScanActivity extends AppCompatActivity
         }
 
         mGameEngine = GameEngine.getEngine();
-        startQRScanning();
     }
 
     @Override
@@ -177,13 +196,13 @@ public class QRScanActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mBarcodeView.resume();
+//        mBarcodeView.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mBarcodeView.pause();
+//        mBarcodeView.pause();
     }
 
     @Override
@@ -207,6 +226,16 @@ public class QRScanActivity extends AppCompatActivity
     public void onTorchOff() {
         mSwitchFlashLightButton.setImageResource(R.drawable.ic_flash_off_white_24dp);
         mIsTouchOn = false;
+    }
+
+    @Override
+    public void onAgree() {
+        initGameEngine();
+    }
+
+    @Override
+    public void onDisAgree() {
+        finish();
     }
 
     /**
@@ -259,7 +288,7 @@ public class QRScanActivity extends AppCompatActivity
             mSwitchFlashLightButton.setVisibility(View.GONE);
         }
 
-        mBarcodeView.resume();
+//        mBarcodeView.resume();
     }
 
     private void displayHint() {
