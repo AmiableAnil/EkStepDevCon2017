@@ -2,6 +2,7 @@ package org.ekstep.devcon.game;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -81,7 +82,12 @@ public class GameEngine {
                     Log.i(TAG, "isCorrect: " + currentQuestion.hashCode());
                 }
 
-                mCallback.nextHint(currentQuestion.getHint());
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCallback.nextHint(currentQuestion.getHint());
+                    }
+                }, 3000);
             }
 
             return true;

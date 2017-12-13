@@ -6,6 +6,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:lottie_fileName="done.json" />
+
 
     <RelativeLayout
         android:id="@+id/question_view"

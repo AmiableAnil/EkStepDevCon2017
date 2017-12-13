@@ -2,6 +2,7 @@ package org.ekstep.devcon.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,10 @@ import com.google.zxing.integration.android.IntentResult;
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
 
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
+
 /**
  * Created by Sneha on 12/12/2017.
  */
@@ -34,6 +39,7 @@ public class HomeFragment extends Fragment {
 //            "Agility, Scalability", "Innovation", "Play the game!!"};
     RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private KonfettiView mConfetti;
 
     @Nullable
     @Override
@@ -62,6 +68,23 @@ public class HomeFragment extends Fragment {
                 intentIntegrator.initiateScan();
             }
         });
+
+        mConfetti = view.findViewById(R.id.viewKonfetti);
+        showConfetti();
+    }
+
+    private void showConfetti() {
+        mConfetti.build()
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(new Size(12, 5f), new Size(16, 6f))
+                .setPosition(mConfetti.getX() + mConfetti.getWidth() / 2,
+                        mConfetti.getY() + mConfetti.getHeight() / 3)
+                .stream(300, 5000L);
     }
 
 
