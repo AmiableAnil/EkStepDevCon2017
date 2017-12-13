@@ -43,6 +43,9 @@ import nl.dionsegijn.konfetti.models.Size;
  */
 
 public class HomeFragment extends Fragment {
+
+    private static boolean animationShown = false;//hacky way!!
+
     String[] floorArray = new String[]{"FLOOR PLAN", "TREASURE HUNT"};
     String[] subtitles = new String[]{"Find your way!!", "Solve the puzzle and find the hidden treasure!!"};
     int[] icons = {R.drawable.map, R.drawable.treasure};
@@ -112,7 +115,10 @@ public class HomeFragment extends Fragment {
 
         mConfetti = view.findViewById(R.id.viewKonfetti);
 
-        initSplashAnim();
+        if (!animationShown) {
+            animationShown = true;
+            initSplashAnim();
+        }
     }
 
     private void initSplashAnim() {
