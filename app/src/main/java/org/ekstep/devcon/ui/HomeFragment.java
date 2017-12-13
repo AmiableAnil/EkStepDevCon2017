@@ -269,7 +269,7 @@ public class HomeFragment extends Fragment {
                 public void onClick(View view) {
                     if (position == 1) {
                         if (!mIsGameOver) {
-                            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "TreasureHunt"));
+                            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "DevCon"));
 
                             Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
                             holder.cv.getContext().startActivity(intent);

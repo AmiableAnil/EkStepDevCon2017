@@ -107,7 +107,7 @@ public class TelemetryOperation {
                         if (Constant.SYNC_MODE_FORCED.equalsIgnoreCase(mSyncType)) {
                             manualSync();
                         } else {
-                            autoSync("TreasureHunt-TelemetrySync");
+                            autoSync("DevCon-TelemetrySync");
                         }
                     }
                 }
@@ -129,7 +129,7 @@ public class TelemetryOperation {
                 public void onSuccess(GenieResponse<SyncStat> genieResponse) {
                     mIsSyncInProgress = false;
 
-                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.OTHER, "AutoSync-Success", "TreasureHunt-TelemetrySync", getFileSizeMap(genieResponse.getResult()), null));
+                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.OTHER, "AutoSync-Success", "DevCon-TelemetrySync", getFileSizeMap(genieResponse.getResult()), null));
                 }
 
                 @Override
@@ -142,13 +142,13 @@ public class TelemetryOperation {
 
     private static void manualSync() {
 
-        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, "ManualSync-Initiated", "TreasureHunt-TelemetrySync", null));
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, "ManualSync-Initiated", "DevCon-TelemetrySync", null));
         EkstepDevConApp.getGenieAsyncService().getSyncService().sync(new IResponseHandler<SyncStat>() {
             @Override
             public void onSuccess(GenieResponse<SyncStat> genieResponse) {
                 mIsSyncInProgress = false;
 
-                TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.OTHER, "ManualSync-Success", "TreasureHunt-TelemetrySync", getFileSizeMap(genieResponse.getResult()), null));
+                TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.OTHER, "ManualSync-Success", "DevCon-TelemetrySync", getFileSizeMap(genieResponse.getResult()), null));
             }
 
             @Override
