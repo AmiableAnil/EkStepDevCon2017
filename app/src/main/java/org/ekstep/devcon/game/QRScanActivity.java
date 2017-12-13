@@ -2,16 +2,16 @@ package org.ekstep.devcon.game;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +26,7 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.customview.DonutProgress;
 import org.ekstep.devcon.game.models.QuestionModel;
+import org.ekstep.devcon.ui.HomeFragment;
 
 import java.util.List;
 
@@ -106,28 +107,29 @@ public class QRScanActivity extends AppCompatActivity
                 @Override
                 public void onGameInitiated() {
 
-            }
+                }
 
-            @Override
-            public void nextHint(String hint) {
-                questionDetailDialogFragment.dismiss();
-                showHint(hint);
-            }
+                @Override
+                public void nextHint(String hint) {
+                    questionDetailDialogFragment.dismiss();
+                    showHint(hint);
+                }
 
-            @Override
-            public void nextQuestion(QuestionModel questionModel) {
-                mHint = null;
-//                mHintView.setVisibility(View.GONE);
-                mHintContainerView.setVisibility(View.GONE);
-                mQuestionModel = questionModel;
-                showQuestionProgress();
-            }
+                @Override
+                public void nextQuestion(QuestionModel questionModel) {
+                    mHint = null;
+                    mHintContainerView.setVisibility(View.GONE);
+                    mQuestionModel = questionModel;
+                    showQuestionProgress();
+                }
 
                 @Override
                 public void gameCompleted() {
                     questionDetailDialogFragment.dismiss();
-                    Toast.makeText(QRScanActivity.this, "You're Winner", Toast.LENGTH_LONG)
-                            .show();
+                    Intent intent = new Intent(HomeFragment.WINNER_ACTION);
+                    LocalBroadcastManager.getInstance(QRScanActivity.this).sendBroadcast(intent);
+
+                    finish();
                 }
 
                 @Override
@@ -140,7 +142,7 @@ public class QRScanActivity extends AppCompatActivity
 
                 @Override
                 public void timeLapse(long timeRemainingInSeconds) {
-                    donutProgress.setDonut_progress(String.valueOf((int)(GameEngine.GAME_TIME / 1000) - timeRemainingInSeconds));
+                    donutProgress.setDonut_progress(String.valueOf((int) (GameEngine.GAME_TIME / 1000) - timeRemainingInSeconds));
                     donutProgress.setText(getFormattedTimerText((int) timeRemainingInSeconds));
                 }
             });

@@ -1,11 +1,15 @@
 package org.ekstep.devcon.ui;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,16 +34,26 @@ import nl.dionsegijn.konfetti.models.Size;
  */
 
 public class HomeFragment extends Fragment {
-    //    String[] floorArray = new String[]{"FIRST FLOOR",
-//            "SECOND FLOOR", "FOURTH FLOOR", "TREASURE HUNT"};
     String[] floorArray = new String[]{"FLOOR PLAN", "TREASURE HUNT"};
     String[] subtitles = new String[]{"Find your way!!", "Solve the puzzle and find the hidden treasure!!"};
     int[] icons = {R.drawable.map, R.drawable.treasure};
-    //    String[] subtitles = new String[]{"Adoption, Reliability, Mobility, Quality",
-//            "Agility, Scalability", "Innovation", "Play the game!!"};
-    RecyclerView.LayoutManager layoutManager;
+
+    public static final String WINNER_ACTION = "org.ekstep.WINNER";
+
     private RecyclerView recyclerView;
     private KonfettiView mConfetti;
+
+    private BroadcastReceiver mWinner = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals(WINNER_ACTION)) {
+                floorArray[1] = "WINNER";
+                subtitles[1] = "Congratzzz you won the game....!";
+                recyclerView.getAdapter().notifyDataSetChanged();
+                showConfetti();
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -50,10 +64,18 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mWinner,
+                new IntentFilter(WINNER_ACTION));
+    }
+
     private void initViews(View view) {
         recyclerView = view.findViewById(R.id.rv_floor);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         FloorAdapter floorAdapter = new FloorAdapter(floorArray, subtitles, icons);
@@ -70,7 +92,6 @@ public class HomeFragment extends Fragment {
         });
 
         mConfetti = view.findViewById(R.id.viewKonfetti);
-        showConfetti();
     }
 
     private void showConfetti() {

@@ -72,16 +72,30 @@ public class GameEngine {
     }
 
     public boolean isCorrect(String answer) {
-        if (currentQuestion.getAnswer().toLowerCase().trim().contains(answer.toLowerCase())) {
+        String[] answerArray;
+
+        if (currentQuestion.getAnswer().contains("/")) {
+            answerArray = currentQuestion.getAnswer().split("/");
+        } else {
+            answerArray = new String[1];
+            answerArray[0] = currentQuestion.getAnswer();
+        }
+
+        boolean isCorrect = false;
+
+        for (String ans : answerArray) {
+            if (ans.trim().equalsIgnoreCase(answer.trim())) {
+                isCorrect = true;
+                break;
+            }
+        }
+
+        if (isCorrect) {
             currentQuestion = questionList.poll();
 
             if (currentQuestion == null) {
                 mCallback.gameCompleted();
             } else {
-                if (BuildConfig.DEBUG) {
-                    Log.i(TAG, "isCorrect: " + currentQuestion.hashCode());
-                }
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
