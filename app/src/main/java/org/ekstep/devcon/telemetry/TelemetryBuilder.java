@@ -1,10 +1,17 @@
 package org.ekstep.devcon.telemetry;
 
-import org.ekstep.genieservices.commons.bean.CorrelationData;
+import android.content.Context;
+import android.text.TextUtils;
+
+import org.ekstep.devcon.customview.Utils;
+import org.ekstep.genieservices.GenieService;
+import org.ekstep.genieservices.commons.ILocationInfo;
 import org.ekstep.genieservices.commons.bean.enums.InteractionType;
+import org.ekstep.genieservices.commons.bean.telemetry.DeviceSpecification;
+import org.ekstep.genieservices.commons.bean.telemetry.End;
 import org.ekstep.genieservices.commons.bean.telemetry.Impression;
 import org.ekstep.genieservices.commons.bean.telemetry.Interact;
-import org.ekstep.genieservices.commons.bean.telemetry.Log;
+import org.ekstep.genieservices.commons.bean.telemetry.Start;
 import org.ekstep.genieservices.commons.bean.telemetry.Telemetry;
 import org.ekstep.genieservices.commons.bean.telemetry.Visit;
 
@@ -18,12 +25,77 @@ import java.util.Map;
 
 public class TelemetryBuilder {
 
-    public static Log buildLogEvent(String pageId, String type, String message, Map<String, Object> params) {
-        Log.Builder log = new Log.Builder();
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            log.addParam(entry.getKey(), entry.getValue()).pageId(pageId).type(type).level(Log.Level.INFO).message(message);
+    /**
+     * Start event
+     *
+     * @param context
+     * @return
+     */
+    public static Start buildStartEvent(Context context) {
+
+        DeviceSpecification deviceSpec = new DeviceSpecification();
+        deviceSpec.setOs("Android " + org.ekstep.genieservices.utils.DeviceSpec.getOSVersion());
+        deviceSpec.setMake(org.ekstep.genieservices.utils.DeviceSpec.getDeviceName());
+        deviceSpec.setId(org.ekstep.genieservices.utils.DeviceSpec.getAndroidId(context));
+
+        String internalMemory = Utils.bytesToHuman(org.ekstep.genieservices.utils.DeviceSpec.getTotalInternalMemorySize());
+        if (!TextUtils.isEmpty(internalMemory)) {
+            deviceSpec.setIdisk(Double.valueOf(internalMemory));
         }
-        return log.build();
+
+        String externalMemory = Utils.bytesToHuman(org.ekstep.genieservices.utils.DeviceSpec.getTotalExternalMemorySize());
+        if (!TextUtils.isEmpty(externalMemory)) {
+            deviceSpec.setEdisk(Double.valueOf(externalMemory));
+        }
+
+        String screenSize = org.ekstep.genieservices.utils.DeviceSpec.getScreenInfoinInch(context);
+        if (!TextUtils.isEmpty(screenSize)) {
+            deviceSpec.setScrn(Double.valueOf(screenSize));
+        }
+
+        String[] cameraInfo = org.ekstep.genieservices.utils.DeviceSpec.getCameraInfo(context);
+        String camera = "";
+        if (cameraInfo != null) {
+            camera = TextUtils.join(",", cameraInfo);
+        }
+        deviceSpec.setCamera(camera);
+
+        deviceSpec.setCpu(org.ekstep.genieservices.utils.DeviceSpec.getCpuInfo());
+        deviceSpec.setSims(-1);
+
+        ILocationInfo locationInfo = GenieService.getService().getLocationInfo();
+
+        Start start = new Start.Builder()
+                .deviceSpec(deviceSpec)
+                .loc(locationInfo.getLocation())
+                .pageid("Splash")
+                .type("app")
+                .build();
+
+        return start;
+    }
+
+    /**
+     * End event.
+     *
+     * @return
+     */
+    public static End buildEndEvent() {
+        long timeInSeconds = 0;
+        String genieStartTime = "" + System.currentTimeMillis();
+
+        if (!TextUtils.isEmpty(genieStartTime)) {
+            long timeDifference = System.currentTimeMillis() - Long.valueOf(genieStartTime);
+            timeInSeconds = (timeDifference / 1000);
+        }
+
+        End end = new End.Builder()
+                .duration(timeInSeconds)
+                .pageid("Genie-Home")
+                .type("app")
+                .build();
+
+        return end;
     }
 
     public static Interact buildInteractEvent(InteractionType type, String subType, String pageId, String resourceId) {
