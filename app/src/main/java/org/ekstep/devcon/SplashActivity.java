@@ -28,8 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceUtil.setGameFirstLaunchTime(System.currentTimeMillis());
-        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildStartEvent(getApplicationContext()));
+
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
