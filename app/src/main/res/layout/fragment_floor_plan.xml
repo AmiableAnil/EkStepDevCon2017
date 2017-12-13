@@ -4,21 +4,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/header"
-        android:layout_width="match_parent"
+
+    <!--<android.support.v7.widget.AppCompatImageView-->
+        <!--android:id="@+id/splash"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/splash_height"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:scaleType="fitXY"-->
+        <!--app:srcCompat="@drawable/splash" />-->
+
+    <RelativeLayout
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:adjustViewBounds="true"
-        android:scaleType="fitStart"
-        app:srcCompat="@drawable/header" />
+        android:layout_marginTop="110dp"
+        android:visibility="visible"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/img_ekstep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/holo_red_light"
+            android:padding="5dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:text="EkStep"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"/>
+
+        <ImageView
+            android:id="@+id/img_devcon"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/img_ekstep"
+            android:src="@drawable/devcon"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_floor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="130dp" />
+        android:visibility="visible"
+        android:layout_marginTop="180dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/scan_qr_code"
@@ -38,5 +71,15 @@
     <!--android:rotation="180"-->
     <!--android:scaleType="fitStart"-->
     <!--app:srcCompat="@drawable/footer" />-->
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/splash_height"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/splash"
+        android:layout_marginTop="@dimen/header_margin_top"/>
 
 </RelativeLayout>
