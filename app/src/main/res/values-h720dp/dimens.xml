@@ -2,4 +2,6 @@
 <resources>
     <dimen name="splash_height">720dp</dimen>
     <dimen name="header_margin_top">-540dp</dimen>
+    <dimen name="marging_first">110dp</dimen>
+    <dimen name="margin_second">180dp</dimen>
 </resources>
