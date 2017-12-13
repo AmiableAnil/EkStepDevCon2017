@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import org.ekstep.devcon.customview.Utils;
+import org.ekstep.devcon.util.PreferenceUtil;
 import org.ekstep.genieservices.GenieService;
 import org.ekstep.genieservices.commons.ILocationInfo;
 import org.ekstep.genieservices.commons.bean.enums.InteractionType;
@@ -31,7 +32,7 @@ public class TelemetryBuilder {
      * @param context
      * @return
      */
-    public static Start buildStartEvent(Context context) {
+    public static Start buildStartEvent(Context context,String type,String pageid) {
 
         DeviceSpecification deviceSpec = new DeviceSpecification();
         deviceSpec.setOs("Android " + org.ekstep.genieservices.utils.DeviceSpec.getOSVersion());
@@ -68,8 +69,8 @@ public class TelemetryBuilder {
         Start start = new Start.Builder()
                 .deviceSpec(deviceSpec)
                 .loc(locationInfo.getLocation())
-                .pageid("Splash")
-                .type("app")
+                .pageid(pageid)
+                .type(type)
                 .build();
 
         return start;
@@ -80,19 +81,18 @@ public class TelemetryBuilder {
      *
      * @return
      */
-    public static End buildEndEvent() {
+    public static End buildEndEvent(String type,String pageid,long starttime) {
         long timeInSeconds = 0;
-        String genieStartTime = "" + System.currentTimeMillis();
 
-        if (!TextUtils.isEmpty(genieStartTime)) {
-            long timeDifference = System.currentTimeMillis() - Long.valueOf(genieStartTime);
+        if (starttime > 0) {
+            long timeDifference = System.currentTimeMillis() - starttime;
             timeInSeconds = (timeDifference / 1000);
         }
 
         End end = new End.Builder()
                 .duration(timeInSeconds)
-                .pageid("Home")
-                .type("app")
+                .pageid(pageid)
+                .type(type)
                 .build();
 
         return end;

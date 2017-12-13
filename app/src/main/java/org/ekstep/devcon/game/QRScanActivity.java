@@ -120,7 +120,8 @@ public class QRScanActivity extends AppCompatActivity
             GameEngine.initGame(this, new OnGameInitiatedListener() {
                 @Override
                 public void onGameInitiated() {
-
+                    PreferenceUtil.setTreasureFirstLaunchTime(System.currentTimeMillis());
+                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildStartEvent(QRScanActivity.this, "assessment", "TreasureHunt"));
                 }
 
                 @Override
@@ -147,6 +148,7 @@ public class QRScanActivity extends AppCompatActivity
 
                     TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("GameCompleted-Winner",
                             ImpressionType.VIEW, null));
+                    TelemetryHandler.saveTelemetry(TelemetryBuilder.buildEndEvent("assessment","TreasureHunt",PreferenceUtil.getTreasureFirstLaunchTime()));
 
                     finish();
                 }

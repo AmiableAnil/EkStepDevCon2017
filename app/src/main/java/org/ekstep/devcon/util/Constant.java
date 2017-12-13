@@ -13,6 +13,7 @@ public interface Constant {
 
     //telemetry constants
     String GAME_FIRST_LAUNCH_TIME = "game_first_launch_time";
+    String TREASURE_FIRST_LAUNCH_TIME = "treasure_first_launch_time";
     String FILE_SIZE = "SizeOfFileInKB";
     String SYNC_INTERVAL = "syncInterval";
     String SYNC_MODE = "mode";
