@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="splash_height">854dp</dimen>
-    <dimen name="header_margin_top">-674dp</dimen>
+    <dimen name="header_margin_top">-704dp</dimen>
+    <dimen name="marging_first">120dp</dimen>
+    <dimen name="margin_second">190dp</dimen>
 </resources>
