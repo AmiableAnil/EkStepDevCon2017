@@ -24,6 +24,10 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.ekstep.devcon.R;
 import org.ekstep.devcon.game.QRScanActivity;
+import org.ekstep.devcon.telemetry.ImpressionType;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
 
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
@@ -60,6 +64,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_floor_plan, container, false);
         initViews(rootView);
+
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildImpressionEvent("Home", ImpressionType.VIEW, null));
+
         ((LandingActivity) getActivity()).setTitle("WELCOME");
         return rootView;
     }
@@ -85,6 +92,7 @@ public class HomeFragment extends Fragment {
         scanQRCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "QRCode"));
                 IntentIntegrator intentIntegrator = IntentIntegrator
                         .forSupportFragment(HomeFragment.this);
                 intentIntegrator.initiateScan();
@@ -175,9 +183,11 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (position == 1) {
+                        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "TreasureHunt"));
                         Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
                         holder.cv.getContext().startActivity(intent);
                     } else {
+                        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "FloorPlan"));
                         ((LandingActivity) getActivity()).setFloorFragment();
                     }
                 }

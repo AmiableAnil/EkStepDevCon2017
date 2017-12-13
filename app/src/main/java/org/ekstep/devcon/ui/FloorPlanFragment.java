@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.ekstep.devcon.R;
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
 import org.ekstep.devcon.util.Constant;
+import org.ekstep.genieservices.commons.bean.enums.InteractionType;
 
 /**
  * Created by Sneha on 12/12/2017.
@@ -20,21 +23,8 @@ import org.ekstep.devcon.util.Constant;
 public class FloorPlanFragment extends Fragment {
 
     private static final String TAG = "FloorPlanFragment";
-
-    public enum Stall {
-        RELIABILITY,
-        MOBILITY,
-        QUALITY,
-        ADOPTION,
-        SCALABILITY,
-        AGILITY,
-        INNOVATION
-    }
-
     private int mScreen = 0;
     private Stall mStall = null;
-
-//    private CategoryFragmentInteractionListener mListener;
 
     public FloorPlanFragment() {
     }
@@ -73,27 +63,6 @@ public class FloorPlanFragment extends Fragment {
         }
 
         return null;
-    }
-
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
-    public static FloorPlanFragment newInstance(int sectionNumber) {
-        FloorPlanFragment fragment = new FloorPlanFragment();
-        Bundle args = new Bundle();
-        args.putInt(Constant.BUNDLE_KEY_SCREEN_NUM, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static FloorPlanFragment newInstance(int sectionNumber, String stall) {
-        FloorPlanFragment fragment = new FloorPlanFragment();
-        Bundle args = new Bundle();
-        args.putInt(Constant.BUNDLE_KEY_SCREEN_NUM, sectionNumber);
-        args.putString(Constant.BUNDLE_KEY_STALL_NAME, stall);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     private int layoutId(int floor) {
@@ -148,8 +117,23 @@ public class FloorPlanFragment extends Fragment {
                 public void onClick(View v) {
                     showDetailDialog(button, stall, ResourcesCompat.getColor(getResources(), colorResId,
                             getActivity().getTheme()));
+
+                    sendTelemetryData(stall);
                 }
             });
+        }
+    }
+
+    public void sendTelemetryData(Stall stall) {
+        if (mScreen == 1) {
+            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH,
+                    null, "floor-" + String.valueOf(mScreen), stall.toString()));
+        } else if (mScreen == 2) {
+            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH,
+                    null, "floor-" + String.valueOf(mScreen), stall.toString()));
+        } else {
+            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH,
+                    null, "floor-" + String.valueOf(mScreen), stall.toString()));
         }
     }
 
@@ -212,5 +196,15 @@ public class FloorPlanFragment extends Fragment {
                 break;
         }
         return url;
+    }
+
+    public enum Stall {
+        RELIABILITY,
+        MOBILITY,
+        QUALITY,
+        ADOPTION,
+        SCALABILITY,
+        AGILITY,
+        INNOVATION
     }
 }

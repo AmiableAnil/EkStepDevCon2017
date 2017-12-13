@@ -18,5 +18,5 @@ public interface Constant {
     String SYNC_MODE = "mode";
     String SYNC_MODE_FORCED = "forced";
     String SYNC_TYPE_DEFAULT = "default";
-    String DEFAULT_SYNC_TYPE_AND_INTERVAL = "{\"default\":{\"syncInterval\":60, \"mode\":\"auto\"},\"0\":{\"syncInterval\":30, \"mode\":\"forced\"}}";
+    String DEFAULT_SYNC_TYPE_AND_INTERVAL = "{\"default\":{\"syncInterval\":5, \"mode\":\"auto\"},\"0\":{\"syncInterval\":5, \"mode\":\"forced\"}}";
 }

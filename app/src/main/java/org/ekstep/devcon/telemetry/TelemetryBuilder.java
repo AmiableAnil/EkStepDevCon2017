@@ -6,7 +6,6 @@ import org.ekstep.genieservices.commons.bean.telemetry.Impression;
 import org.ekstep.genieservices.commons.bean.telemetry.Interact;
 import org.ekstep.genieservices.commons.bean.telemetry.Log;
 import org.ekstep.genieservices.commons.bean.telemetry.Telemetry;
-import org.ekstep.genieservices.commons.bean.telemetry.Visit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +17,6 @@ import java.util.Map;
 
 public class TelemetryBuilder {
 
-    public static Impression buildImpressionEvent(String pageId, String type, String subType, String id, String objType, String objVersion, List<CorrelationData> cdata) {
-        Visit visit = new Visit(id, objType);
-        visit.setObjver(objVersion);
-        Impression impression = new Impression.Builder().pageId(pageId).type(type).subType(subType).addVisit(visit).correlationData(cdata).build();
-        return impression;
-    }
-
     public static Log buildLogEvent(String pageId, String type, String message, Map<String, Object> params) {
         Log.Builder log = new Log.Builder();
         for (Map.Entry<String, Object> entry : params.entrySet()) {
@@ -33,8 +25,8 @@ public class TelemetryBuilder {
         return log.build();
     }
 
-    public static Interact buildInteractEvent(InteractionType type, String subType, String pageId) {
-        Interact interact = new Interact.Builder().interactionType(type).subType(subType).pageId(pageId).build();
+    public static Interact buildInteractEvent(InteractionType type, String subType, String pageId, String resourceId) {
+        Interact interact = new Interact.Builder().interactionType(type).subType(subType).pageId(pageId).resourceId(resourceId).build();
         return interact;
     }
 
@@ -50,5 +42,10 @@ public class TelemetryBuilder {
         valuesList.add(value);
         Interact interact = new Interact.Builder().interactionType(type).subType(subType).pageId(pageId).values(valuesList).build();
         return interact;
+    }
+
+    public static Telemetry buildImpressionEvent(String pageId, String type, String subType) {
+        Impression impression = new Impression.Builder().pageId(pageId).type(type).subType(subType).build();
+        return impression;
     }
 }
