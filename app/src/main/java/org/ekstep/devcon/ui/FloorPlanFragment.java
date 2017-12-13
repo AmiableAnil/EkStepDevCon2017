@@ -124,6 +124,27 @@ public class FloorPlanFragment extends Fragment {
         }
     }
 
+    /**
+     * Returns a new instance of this fragment for the given section
+     * number.
+     */
+    public static FloorPlanFragment newInstance(int sectionNumber) {
+        FloorPlanFragment fragment = new FloorPlanFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constant.BUNDLE_KEY_SCREEN_NUM, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static FloorPlanFragment newInstance(int sectionNumber, String stall) {
+        FloorPlanFragment fragment = new FloorPlanFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constant.BUNDLE_KEY_SCREEN_NUM, sectionNumber);
+        args.putString(Constant.BUNDLE_KEY_STALL_NAME, stall);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public void sendTelemetryData(Stall stall) {
         if (mScreen == 1) {
             TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH,
