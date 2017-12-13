@@ -142,7 +142,7 @@ public class QuestionDetailDialogFragment extends DialogFragment {
                 Toast.makeText(getActivity(), "Wrong Answer", Toast.LENGTH_SHORT).show();
             } else {
                 hideKeyBoard();
-                mQuestionView.setVisibility(View.GONE);
+                mQuestionView.setVisibility(View.INVISIBLE);
                 mDoneAnimationView.playAnimation();
             }
         } else {

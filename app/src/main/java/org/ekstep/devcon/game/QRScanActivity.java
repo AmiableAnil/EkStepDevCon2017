@@ -40,7 +40,8 @@ public class QRScanActivity extends AppCompatActivity
 
     private DecoratedBarcodeView mBarcodeView;
     private ImageView mSwitchFlashLightButton;
-    private ImageView mHintView;
+
+    private View mHintContainerView;
 
     private BeepManager mBeepManager;
 
@@ -96,7 +97,8 @@ public class QRScanActivity extends AppCompatActivity
         donutProgress.setMax((int) (GameEngine.GAME_TIME / 1000));
 
         mBarcodeView = findViewById(R.id.barcode_scanner);
-        mHintView = findViewById(R.id.show_hint);
+
+        mHintContainerView = findViewById(R.id.hint_view);
         mBarcodeView.setTorchListener(this);
 
         try {
@@ -115,7 +117,8 @@ public class QRScanActivity extends AppCompatActivity
             @Override
             public void nextQuestion(QuestionModel questionModel) {
                 mHint = null;
-                mHintView.setVisibility(View.GONE);
+//                mHintView.setVisibility(View.GONE);
+                mHintContainerView.setVisibility(View.GONE);
                 mQuestionModel = questionModel;
                 showQuestionProgress();
             }
@@ -220,7 +223,7 @@ public class QRScanActivity extends AppCompatActivity
 
     private void showHint(String hintText) {
         mHint = hintText;
-        mHintView.setVisibility(View.VISIBLE);
+//        mHintView.setVisibility(View.VISIBLE);
         displayHint();
     }
 
@@ -260,22 +263,10 @@ public class QRScanActivity extends AppCompatActivity
             return;
         }
 
-        final Dialog dialog = new Dialog(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_hint, null);
+        mHintContainerView.setVisibility(View.VISIBLE);
 
-        TextView questionText = view.findViewById(R.id.hint_text);
-        View button = view.findViewById(R.id.scan_qr_code);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
+        TextView questionText = mHintContainerView.findViewById(R.id.hint_text);
         questionText.setText(mHint);
-
-        dialog.setContentView(view);
-        dialog.show();
     }
 
 

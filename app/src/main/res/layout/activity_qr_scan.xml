@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <com.journeyapps.barcodescanner.DecoratedBarcodeView
         android:id="@+id/barcode_scanner"
@@ -15,6 +15,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="#88000000"
         android:onClick="switchFlashlight"
@@ -22,31 +23,51 @@
         android:text="@string/turn_on_flashlight"
         app:srcCompat="@drawable/ic_flash_on_white_24dp" />
 
-    <ImageView
-        android:id="@+id/show_hint"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_below="@id/switch_flashlight"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:background="#88000000"
-        android:onClick="showHint"
-        android:padding="8dp"
-        app:srcCompat="@drawable/ic_info_white_24dp" />
-
-
     <org.ekstep.devcon.customview.DonutProgress
         android:id="@+id/donut_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        app:donut_text_color="#FF3D00"
-        app:donut_finished_color="#FF3D00"
-        app:donut_unfinished_color="@color/colorAccent"
         app:donut_circle_starting_degree="-90"
-        />
+        app:donut_finished_color="#FF3D00"
+        app:donut_text_color="#FF3D00"
+        app:donut_unfinished_color="@color/colorAccent" />
+
+    <LinearLayout
+        android:id="@+id/hint_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="visible">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Hint"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hint_text"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:text="Hint of question 2 of set1Hint of question 2 of set1Hint of question 2 of set1Hint of question 2 of set1Hint of question 2 of set1Hint of question 2 of set1" />
+    </LinearLayout>
 
 
 </RelativeLayout>
