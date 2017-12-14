@@ -16,7 +16,6 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -301,7 +300,7 @@ public class HomeFragment extends Fragment {
                 public void onClick(View view) {
                     if (position == 1) {
                         if (!mIsGameOver) {
-                            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "DevCon"));
+                            TelemetryHandler.saveTelemetry(TelemetryBuilder.buildInteractEvent(InteractionType.TOUCH, null, "Home", "TreasureHunt"));
 
                             Intent intent = new Intent(holder.cv.getContext(), QRScanActivity.class);
                             holder.cv.getContext().startActivity(intent);
