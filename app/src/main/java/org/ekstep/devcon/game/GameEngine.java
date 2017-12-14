@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class GameEngine {
 
-    public static final long GAME_TIME = 15 * 60 * 1000; // 10 minutes
+    public static final long GAME_TIME = 60 * 60 * 1000; // 10 minutes
 
     private static final String TAG = "GameEngine";
 
