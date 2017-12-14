@@ -38,7 +38,7 @@
         android:layout_alignParentLeft="true"
         android:layout_margin="5dp"
         android:layout_alignParentTop="true"
-        android:rotation="90"
+        android:rotation="270"
         app:srcCompat="@drawable/toilet"
         tools:ignore="RtlHardcoded" />
 
