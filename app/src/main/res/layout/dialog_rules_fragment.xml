@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimary">
+
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Rules"
+        android:textAllCaps="true"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/rules_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Play as Individual or Group"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Find all the treasure within 30 minutes"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Solve each riddle to get the next hint."
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Take a look on the floor map to find hints"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="If you go out of the Game screen or exit the app. Game will start from the beginning"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.ButtonBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rules_list"
+        android:layout_marginTop="8dp"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@android:string/cancel"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <Button
+            android:id="@+id/ok_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@android:string/ok"
+            android:textColor="@color/colorPrimary" />
+
+    </android.support.v7.widget.ButtonBarLayout>
+
+</RelativeLayout>

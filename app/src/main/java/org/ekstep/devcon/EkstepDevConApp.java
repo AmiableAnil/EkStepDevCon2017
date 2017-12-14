@@ -2,6 +2,8 @@ package org.ekstep.devcon;
 
 import android.app.Application;
 
+import org.ekstep.devcon.telemetry.TelemetryBuilder;
+import org.ekstep.devcon.telemetry.TelemetryHandler;
 import org.ekstep.devcon.telemetry.TelemetryOperation;
 import org.ekstep.devcon.util.Constant;
 import org.ekstep.devcon.util.PreferenceUtil;
@@ -35,5 +37,7 @@ public class EkstepDevConApp extends Application {
         GenieService.init(this, "org.ekstep.devcon");
         PreferenceUtil.init(this, Constant.PREFS_EKSTEP_DEVCONAPP );
         TelemetryOperation.startSyncingTelemetry();
+        PreferenceUtil.setGameFirstLaunchTime(System.currentTimeMillis());
+        TelemetryHandler.saveTelemetry(TelemetryBuilder.buildStartEvent(this,"app","Landing"));
     }
 }

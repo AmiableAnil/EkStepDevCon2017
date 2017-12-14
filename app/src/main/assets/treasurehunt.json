@@ -17,7 +17,7 @@
     },
     {
       "question": "The more I am present, the less you can see. Who am I?",
-      "answer": "Darkness",
+      "answer": "Darkness/Dark",
       "hint": "Get me from the team, who freely distributes to the community of coders"
     },
     {
@@ -37,13 +37,13 @@
     },
     {
       "question": "I am a fruit. I am tasty and provide lots of energy. You can find also me in a calendar. Who am I?",
-      "answer": "Dates",
+      "answer": "Dates / Date",
       "hint": "Search me with the people, who ensure that you are building the product right"
     },
     {
       "question": "There are three houses. One is red, one is blue, and one is white. If the red house is to the left of the house in the middle, and the blue house is to the right to the house in the middle, where is the white house?",
-      "answer": "America/ USA / Washington",
-      "hint": ""
+      "answer": "America/ USA / Washington / US",
+      "hint": "Visit us at 1st Floor Mobility Booth"
     }
   ],
   "set2": [
@@ -54,7 +54,7 @@
     },
     {
       "question": "What can you hold in your left hand but not in your right hand?",
-      "answer": "Your right hand/right",
+      "answer": "Your right hand/right hand/right",
       "hint": "1st floor Genie Booth"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "question": "What goes up and down without moving?",
-      "answer": "Stairs",
+      "answer": "Stairs/Stair/Steps/staircase",
       "hint": "Search me with the people, who ensure that you are building the product right"
     },
     {
@@ -111,7 +111,7 @@
     },
     {
       "question": "The more I am present, the less you can see. Who am I?",
-      "answer": "Darkness",
+      "answer": "Darkness/Dark",
       "hint": "Search me with people, who can accomodate and handle growing amount of work"
     },
     {
@@ -131,7 +131,7 @@
     },
     {
       "question": "I’m light as a feather, yet the strongest man can’t hold me for more than 5 minutes. What am I?",
-      "answer": "Breath",
+      "answer": "Breath/Breathe",
       "hint": "Get me from the team, who freely distributes to the community of coders"
     },
     {
@@ -158,7 +158,7 @@
     },
     {
       "question": "The more I am present, the less you can see. Who am I?",
-      "answer": "Darkness",
+      "answer": "Darkness/Dark",
       "hint": "Get me from the team, who freely distributes to the community of coders"
     },
     {
@@ -178,7 +178,7 @@
     },
     {
       "question": "You answer me, although I never ask you questions. What am I?",
-      "answer": "Telephone/Mobile",
+      "answer": "Telephone/Mobile/phone/cellphone",
       "hint": "Find me in the stall, who has a property of water and fit in any shape and space in an effective manner"
     },
     {
@@ -190,7 +190,7 @@
   "set5": [
     {
       "question": "What goes up and down without moving?",
-      "answer": "Stairs",
+      "answer": "Stairs/Stair/Steps/staircase",
       "hint": ""
     },
     {
@@ -200,12 +200,12 @@
     },
     {
       "question": "What can you hold in your left hand but not in tour right hand",
-      "answer": "Right hand",
+      "answer": "Right hand/right",
       "hint": "Find me in the stall, who has a property of water and fit in any shape and space in an effective manner"
     },
     {
       "question": "The more I am present, the less you can see. Who am I?",
-      "answer": "Darkness",
+      "answer": "Darkness/dark",
       "hint": "Get me from the team, who freely distributes to the community of coders"
     },
     {

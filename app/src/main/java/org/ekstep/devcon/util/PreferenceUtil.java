@@ -74,6 +74,14 @@ public class PreferenceUtil {
         getInstance().setLongValue(Constant.GAME_FIRST_LAUNCH_TIME, gameFirstLaunchTime);
     }
 
+    public static void setTreasureFirstLaunchTime(long gameFirstLaunchTime) {
+        getInstance().setLongValue(Constant.TREASURE_FIRST_LAUNCH_TIME, gameFirstLaunchTime);
+    }
+
+    public static long getTreasureFirstLaunchTime() {
+        return getInstance().getLongValue(Constant.TREASURE_FIRST_LAUNCH_TIME, -1);
+    }
+
 
     /**
      * clear all the data from preferences..
