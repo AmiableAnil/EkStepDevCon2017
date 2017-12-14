@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Play as Individual or Group"
+            android:text="Play as Individual or Group."
             android:textColor="@color/white" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Find all the treasure within 30 minutes"
+            android:text="Find all the treasure within 1 hour."
             android:textColor="@color/white" />
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Take a look on the floor map to find hints"
+            android:text="Take a look on the floor map to find hints."
             android:textColor="@color/white" />
 
         <TextView
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="4dp"
-            android:text="If you go out of the Game screen or exit the app. Game will start from the beginning"
+            android:text="If you go out of the Game screen or exit the app. Game will start from the beginning."
             android:textColor="@color/white" />
 
     </LinearLayout>
