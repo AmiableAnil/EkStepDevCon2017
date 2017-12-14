@@ -215,6 +215,24 @@ public class FloorPlanFragment extends Fragment {
             case MOBILITY:
                 url = "file:///android_asset/mobility/index.html";
                 break;
+            case AGILITY:
+                url = "file:///android_asset/agility/index.html";
+                break;
+            case ADOPTION:
+                url = "file:///android_asset/adoption/index.html";
+                break;
+            case INNOVATION:
+                url = "file:///android_asset/innovation/index.html";
+                break;
+            case QUALITY:
+                url = "file:///android_asset/quality/index.html";
+                break;
+            case RELIABILITY:
+                url = "file:///android_asset/reliability/index.html";
+                break;
+            case SCALABILITY:
+                url = "file:///android_asset/scalability/index.html";
+                break;
         }
         return url;
     }
