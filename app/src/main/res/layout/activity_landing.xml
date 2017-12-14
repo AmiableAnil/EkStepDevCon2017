@@ -50,8 +50,13 @@
             android:layout_height="wrap_content"
             android:text="Powered by: "
             android:textSize="10sp"
+            android:layout_gravity="center_vertical"
             android:textStyle="bold" />
 
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/batman"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,6 +64,7 @@
             android:layout_marginLeft="5dp"
             android:text="EkStep Mobility"
             android:textSize="10sp"
+            android:layout_gravity="center_vertical"
             android:textStyle="bold" />
 
     </LinearLayout>
